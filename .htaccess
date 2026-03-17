@@ -1,0 +1,29 @@
+# Защита .env от веб-доступа
+<Files ".env">
+    Require all denied
+</Files>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^storage/ - [F,L]
+</IfModule>
+
+# WebP: serve .webp when browser supports it
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_ACCEPT} image/webp
+  RewriteCond %{REQUEST_URI} ^(.+)\.(jpe?g|png)$ [NC]
+  RewriteCond %{DOCUMENT_ROOT}%1.webp -f
+  RewriteRule .* %1.webp [T=image/webp,L]
+</IfModule>
+<IfModule mod_headers.c>
+  Header append Vary Accept env=REDIRECT_accept
+</IfModule>
+AddType image/webp .webp
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php82” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php82 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

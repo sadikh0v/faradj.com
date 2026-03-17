@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS visitors (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  ip_address VARCHAR(45) NOT NULL,
+  page VARCHAR(255) NOT NULL,
+  user_agent TEXT,
+  visited_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_date (visited_at),
+  INDEX idx_page (page)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -1,0 +1,26 @@
+{
+  "name": "Faradj MMC",
+  "short_name": "Faradj",
+  "description": "Biznes və Yaradıcılıq üçün İlham Mənbəyiniz",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e8e0ff",
+  "theme_color": "#6c63ff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/img/logo/icon-192.php",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/img/logo/icon-512.php",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "shopping"],
+  "lang": "az"
+}

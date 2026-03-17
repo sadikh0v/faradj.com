@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS b2b_requests (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  company VARCHAR(255) NOT NULL,
+  contact VARCHAR(255) NOT NULL,
+  phone VARCHAR(50) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  activity VARCHAR(50),
+  volume VARCHAR(50),
+  budget VARCHAR(100),
+  products TEXT,
+  note TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -1,0 +1,124 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const revealSkeleton = (skeletonId, contentId) => {
+    const skeleton = document.getElementById(skeletonId);
+    const content = document.getElementById(contentId);
+    if (!skeleton || !content) return;
+    setTimeout(() => {
+      skeleton.style.opacity = "0";
+      skeleton.style.transition = "opacity 0.3s ease";
+      setTimeout(() => {
+        skeleton.style.display = "none";
+        content.style.display = "";
+        content.style.opacity = "0";
+        content.style.transition = "opacity 0.4s ease";
+        setTimeout(() => (content.style.opacity = "1"), 50);
+      }, 300);
+    }, 600);
+  };
+  revealSkeleton("skeletonBrands", "brandsGrid");
+  revealSkeleton("skeletonClients", "clientsGrid");
+
+  // 3D brand cards (enhanced)
+  document.querySelectorAll(".brand-card").forEach((card) => {
+    card.style.transformStyle = "preserve-3d";
+    card.style.transition = "transform 0.1s ease, box-shadow 0.3s ease";
+
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+
+      const rotateX = (y - 0.5) * -24;
+      const rotateY = (x - 0.5) * 24;
+
+      card.style.transform = `
+        perspective(600px)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        scale3d(1.06, 1.06, 1.06)
+      `;
+      card.style.boxShadow = `
+        ${-rotateY / 2}px ${rotateX / 2}px 30px rgba(108,99,255,0.3)
+      `;
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "perspective(600px) rotateX(0) rotateY(0) scale3d(1,1,1)";
+      card.style.boxShadow = "";
+    });
+  });
+
+  const modal = document.getElementById("clientModal");
+  const modalClose = modal?.querySelector(".modal-close");
+  const btnCloseModal = modal?.querySelector(".btn-close-modal");
+  const readMoreBtns = document.querySelectorAll(".client-read-more");
+
+  const clientData = window.clientData || {};
+
+  function openClientModal(clientId) {
+    const data = clientData[clientId];
+    if (!modal || !data) return;
+
+    const logoEl = modal.querySelector(".modal-client-logo");
+    logoEl.innerHTML = `<img src="${data.logo}" alt="${data.name}" />`;
+
+    modal.querySelector(".modal-client-name").textContent = data.name;
+
+    const i18n = window.i18nPartners || {};
+    const productsLabel = i18n.products || "Hansı məhsulları alır";
+    const problemsLabel = i18n.problems || "Hansı problemləri həll edirik";
+    const requestsLabel = i18n.requests || "Hansı sorğuları qarşılayırıq";
+    const ratingLabel = i18n.rating || "Əməkdaşlıq reytinqi";
+    const sinceLabel = i18n.since || "Əməkdaşlıq tarixi";
+
+    const sectionsEl = modal.querySelector(".modal-client-sections");
+    sectionsEl.innerHTML = `
+      <div class="modal-client-section">
+        <h4><i class="fas fa-box"></i> ${productsLabel}</h4>
+        <p>${data.alir}</p>
+      </div>
+      <div class="modal-client-section">
+        <h4><i class="fas fa-check-circle"></i> ${problemsLabel}</h4>
+        <p>${data.hell}</p>
+      </div>
+      <div class="modal-client-section">
+        <h4><i class="fas fa-bullseye"></i> ${requestsLabel}</h4>
+        <p>${data.sorğu}</p>
+      </div>
+    `;
+
+    modal.querySelector(".modal-client-date").innerHTML = '<i class="fas fa-calendar"></i> ' + sinceLabel + ': ' + data.date;
+
+    modal.classList.remove("hidden");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeClientModal() {
+    if (!modal) return;
+    modal.classList.add("hidden");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  readMoreBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".client-card");
+      const clientId = card?.dataset.client;
+      if (clientId) openClientModal(clientId);
+    });
+  });
+
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) closeClientModal();
+  });
+
+  modalClose?.addEventListener("click", closeClientModal);
+  btnCloseModal?.addEventListener("click", closeClientModal);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && !modal.classList.contains("hidden")) {
+      closeClientModal();
+    }
+  });
+});
