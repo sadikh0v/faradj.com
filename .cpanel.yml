@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/u5755083/faradj.com/
+    - /bin/cp -rf $TRAVIS_BUILD_DIR/. $DEPLOYPATH
