@@ -207,32 +207,6 @@ $metaImg = $metaImage ?? "{$baseHost}/og-image.php?title={$ogTitleEnc}&sub={$ogS
                     <span class="lang-sep">|</span>
                     <button type="button" class="lang-btn <?= currentLang() === 'en' ? 'active' : '' ?>" data-lang="en">EN</button>
                 </div>
-                <!-- Radio в навбаре -->
-                <div class="nav-radio" id="navRadio">
-                    <button class="nav-radio-btn" id="navRadioBtn" title="Faradj Radio">
-                        <i class="fas fa-headphones" id="navRadioIcon"></i>
-                        <span class="nav-radio-waves" id="navRadioWaves"><span></span><span></span><span></span></span>
-                    </button>
-                    <div class="nav-radio-dropdown" id="navRadioDropdown">
-                        <div class="nrd-header">
-                            <span><i class="fas fa-broadcast-tower"></i> Faradj Radio</span>
-                            <div class="nrd-now" id="nrdNow">Lo-fi Beats</div>
-                        </div>
-                        <div class="nrd-visualizer" id="nrdVisualizer">
-                            <?php for ($i = 0; $i < 16; $i++): ?><div class="nrd-bar"></div><?php endfor; ?>
-                        </div>
-                        <div class="nrd-controls">
-                            <button class="nrd-btn" id="nrdPrev"><i class="fas fa-backward-step"></i></button>
-                            <button class="nrd-btn nrd-play" id="nrdPlay"><i class="fas fa-play" id="nrdPlayIcon"></i></button>
-                            <button class="nrd-btn" id="nrdNext"><i class="fas fa-forward-step"></i></button>
-                            <div class="nrd-vol">
-                                <i class="fas fa-volume-low"></i>
-                                <input type="range" id="nrdVol" min="0" max="100" value="60">
-                            </div>
-                        </div>
-                        <div class="nrd-tracklist" id="nrdTracklist"></div>
-                    </div>
-                </div>
                 <a href="/b2b.php" class="btn-b2b"><?= t('nav.request') ?></a>
             </div>
 

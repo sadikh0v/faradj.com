@@ -458,15 +458,6 @@
     bottom: 80px;
     right: 20px;
   }
-  .ai-chat {
-    bottom: 150px;
-    right: 20px;
-    left: auto;
-  }
-  .ai-window {
-    right: 0;
-    left: auto;
-  }
 }
 
 /* Фикс для очень маленьких экранов (iPhone 5/SE) */

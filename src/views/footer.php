@@ -98,56 +98,8 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- AI Помощник -->
-    <div id="aiChat" class="ai-chat">
-        <button class="ai-toggle-btn" id="aiToggle">
-            <span class="ai-icon-closed">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z" fill="white"/>
-                    <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5" fill="none"/>
-                    <path d="M8 10h8M8 12h6M8 14h7" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-            </span>
-            <span class="ai-icon-open" style="display:none"><i class="fas fa-times"></i></span>
-            <span class="ai-badge" id="aiBadge">AI</span>
-        </button>
-        <div class="ai-window" id="aiWindow">
-            <div class="ai-header">
-                <div class="ai-avatar">
-                    <img src="/assets/img/logo/faradj_logo.png" alt="Faradj AI">
-                </div>
-                <div class="ai-header-info">
-                    <div class="ai-name">Faradj Assistant</div>
-                    <div class="ai-status"><span class="ai-dot"></span> Online</div>
-                </div>
-                <button class="ai-close" id="aiClose"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="ai-messages" id="aiMessages">
-                <div class="ai-msg ai-msg-bot">
-                    <div class="ai-msg-bubble">
-                        👋 Salam! Mən Faradj MMC-nin AI köməkçisiyəm.<br><br>
-                        Məhsullar, qiymətlər, çatdırılma və ya korporativ əməkdaşlıq barədə suallarınıza cavab verə bilərəm.
-                    </div>
-                    <div class="ai-msg-time"><?= date('H:i') ?></div>
-                </div>
-                <div class="ai-quick-btns">
-                    <button class="ai-quick-btn" data-msg="Hansı məhsullarınız var?">📦 Məhsullar</button>
-                    <button class="ai-quick-btn" data-msg="Çatdırılma necə işləyir?">🚚 Çatdırılma</button>
-                    <button class="ai-quick-btn" data-msg="Korporativ müştəri olmaq istəyirəm">💼 Korporativ</button>
-                    <button class="ai-quick-btn" data-msg="DOMS brendini haradan ala bilərəm?">✏️ DOMS</button>
-                </div>
-            </div>
-            <div class="ai-input-area">
-                <input type="text" id="aiInput" class="ai-input" placeholder="Sualınızı yazın..." maxlength="500">
-                <button class="ai-send" id="aiSend"><i class="fas fa-paper-plane"></i></button>
-            </div>
-            <div class="ai-footer-note">Powered by Claude AI · Faradj MMC</div>
-        </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <script src="/assets/js/script<?= $assetSuffix ?? '' ?>.js"></script>
-    <script src="/assets/js/ai-chat.js"></script>
     <script src="/assets/js/app<?= $assetSuffix ?? '' ?>.js"></script>
     <script src="/assets/js/forms<?= $assetSuffix ?? '' ?>.js"></script>
     <?php if (!empty($extraJs)): ?>
