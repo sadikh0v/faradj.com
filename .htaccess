@@ -3,29 +3,32 @@
     Require all denied
 </Files>
 
+# PHP handler
+<IfModule mime_module>
+  AddHandler application/x-httpd-alt-php82 .php .php8 .phtml
+</IfModule>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # HTTP → HTTPS редирект
+  # HTTPS redirect
   RewriteCond %{HTTPS} off
+  RewriteCond %{HTTP_HOST} !^localhost
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+  # Защита storage
   RewriteRule ^storage/ - [F,L]
 
-  # Статические файлы — искать в public/
+  # Статические файлы из public/
   RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
   RewriteRule ^(assets/.+)$ public/$1 [L]
 
+  # Существующие файлы отдавать напрямую
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
+  # Всё остальное → public/index.php
   RewriteRule ^(.*)$ public/index.php [QSA,L]
 </IfModule>
-
-# php -- BEGIN cPanel-generated handler, do not edit
-<IfModule mime_module>
-  AddHandler application/x-httpd-alt-php82 .php .php8 .phtml
-</IfModule>
-# php -- END cPanel-generated handler, do not edit
