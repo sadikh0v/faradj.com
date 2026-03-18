@@ -1,6 +1,7 @@
 .env
 vendor/
 public/deploy.php
+public/.htaccess
 node_modules/
 *.log
 .DS_Store
