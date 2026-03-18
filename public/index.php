@@ -31,6 +31,12 @@ require_once __DIR__ . '/../src/helpers/i18n.php';
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $path = rtrim($path, '/') ?: '/';
 
+// Deploy
+if ($path === '/deploy.php') {
+    require __DIR__ . '/deploy.php';
+    exit;
+}
+
 // /admin/* → admin/index.php (без проверки авторизации здесь)
 if (str_starts_with($path, '/admin')) {
     $_GET['path'] = ltrim(substr($path, 6), '/') ?: '';
@@ -62,12 +68,6 @@ if ($path === '/lang') {
         exit;
     }
     header('Location: /', true, 302);
-    exit;
-}
-
-// Deploy webhook
-if ($path === '/deploy.php') {
-    require __DIR__ . '/deploy.php';
     exit;
 }
 
