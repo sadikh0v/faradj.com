@@ -698,9 +698,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* Suppliers Map (partners page) */
 if (document.getElementById('suppliersMap') && typeof L !== 'undefined') {
+    const isMobile = window.innerWidth <= 768;
     const map = L.map('suppliersMap', {
-        center: [40, 60],
-        zoom: 3,
+        center: isMobile ? [35, 65] : [40, 60],
+        zoom: isMobile ? 2 : 3,
         zoomControl: false,
         scrollWheelZoom: false,
         attributionControl: false,

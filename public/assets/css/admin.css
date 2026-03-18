@@ -1127,16 +1127,22 @@ body.admin-body {
     left: -240px;
     top: 0;
     z-index: 1000;
-    transition: left 0.3s;
+    transition: left 0.3s ease;
     height: 100vh;
     overflow-y: auto;
   }
   .admin-sidebar.open {
     left: 0;
   }
-  .admin-main {
-    margin-left: 0;
-    padding: 16px;
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+  }
+  .sidebar-overlay.open {
+    display: block;
   }
   .admin-mobile-header {
     display: flex !important;
@@ -1152,30 +1158,66 @@ body.admin-body {
   .admin-mobile-header .logo-text {
     color: #fff;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 15px;
   }
   .burger-admin {
     background: none;
     border: none;
     color: #fff;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
+    padding: 4px;
   }
-  .sidebar-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 999;
+  .admin-main {
+    margin-left: 0 !important;
+    padding: 16px;
   }
-  .sidebar-overlay.open {
-    display: block;
+  .admin-page {
+    padding: 0;
+  }
+  .admin-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .admin-topbar h1 {
+    font-size: 18px;
   }
   .stats-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
   .stats-bottom-grid {
     grid-template-columns: 1fr;
+  }
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+  .admin-table {
+    font-size: 12px;
+  }
+  .admin-table th,
+  .admin-table td {
+    padding: 8px 10px;
+  }
+  .modal-content,
+  .modal-box {
+    padding: 20px 16px;
+    width: 95% !important;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .stat-card {
+    padding: 16px;
+  }
+  .stat-value {
+    font-size: 24px;
+  }
+  [style*="grid-template-columns: 1fr 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+  [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
   }
   .sidebar-toggle { display: block; }
   .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }

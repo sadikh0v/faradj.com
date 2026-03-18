@@ -71,7 +71,9 @@
   </aside>
 
   <div class="admin-mobile-header" style="display:none;">
-    <span class="logo-text">Faradj Admin</span>
+    <span class="logo-text">
+      <img src="/assets/img/logo/faradj_logo.png" style="height:24px;filter:brightness(10);" alt="Faradj">
+    </span>
     <button class="burger-admin" id="adminBurger" type="button">
       <i class="fas fa-bars"></i>
     </button>

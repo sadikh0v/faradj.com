@@ -12,7 +12,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   /* 1. Общие настройки */
   :root {
     --header-height: 70px; /* Немного ниже для мобильных */
@@ -23,7 +23,7 @@
   }
 
   .container {
-    padding: 0 15px;
+    padding: 0 16px;
   }
 
   /* 2. Шапка и навигация */
@@ -278,8 +278,7 @@
 
   /* 3. Hero секция */
   .hero-section {
-    padding-top: 100px;
-    padding-bottom: 40px;
+    padding: 40px 0 20px;
     text-align: center;
   }
 
@@ -288,22 +287,27 @@
   }
 
   .hero-title {
-    font-size: 2.2rem;
+    font-size: 28px;
+    line-height: 1.3;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 14px;
     margin-bottom: 30px;
   }
 
-  .hero-btns {
+  .hero-btns,
+  .hero-buttons {
     flex-direction: column;
     width: 100%;
+    gap: 12px;
   }
 
-  .hero-btns .btn {
+  .hero-btns .btn,
+  .hero-buttons .btn {
     width: 100%;
     justify-content: center;
+    text-align: center;
   }
 
   /* 4. Секция DOMS */
@@ -383,9 +387,14 @@
     font-size: 12px;
   }
 
-  .brands-grid,
+  .brands-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
   .clients-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
   }
 
   .partners-divider {
@@ -450,19 +459,39 @@
   }
 
   #suppliersMap {
-    height: 280px !important;
+    height: 260px !important;
   }
 
   .suppliers-map-wrap {
     padding: 4px;
   }
 
-  .contacts-top-grid {
+  .contacts-top-grid,
+  .contact-grid {
     grid-template-columns: 1fr;
   }
 
   .why-us-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .why-us-card {
+    padding: 20px 14px;
+  }
+
+  .why-us-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+
+  .why-us-card h3 {
+    font-size: 13px;
+  }
+
+  .why-us-card p {
+    font-size: 12px;
   }
 
   .testimonials-track-wrap {
@@ -471,24 +500,85 @@
 
   .testimonials-track .testimonial-card {
     flex-shrink: 0;
+    min-width: 280px;
+    max-width: 280px;
   }
 
   .b2b-form .form-field {
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 14px;
   }
 
   .b2b-form .field-icon-wrap {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
     font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
-  .hero-title {
-    font-size: 28px;
+  .b2b-form .field-input-wrap input,
+  .b2b-form .field-input-wrap select,
+  .b2b-form .field-input-wrap textarea {
+    font-size: 16px;
+    padding: 10px 12px;
+  }
+
+  .b2b-form.glass-card {
+    padding: 24px 16px;
+    margin: 0 0 24px;
   }
 
   .section-header h2 {
     font-size: 22px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .lang-switcher {
+    font-size: 12px;
+  }
+
+  .btn-primary-header {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .faq-section {
+    padding: 40px 0;
+  }
+
+  .footer-content,
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .floating-buttons {
+    bottom: 16px;
+    right: 16px;
+    gap: 10px;
+  }
+
+  .floating-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
   }
 
   /* 9. Футер */
@@ -532,30 +622,20 @@
     grid-template-columns: 1fr;
   }
 
-  .suppliers-map-wrap {
-    padding: 4px;
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  #suppliersMap {
-    height: 280px !important;
-  }
-
-  .b2b-form .form-field {
-    flex-direction: column;
-  }
-
-  .b2b-form .field-icon-wrap {
-    width: 36px;
-    height: 36px;
-    font-size: 14px;
+  .clients-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .hero-title {
-    font-size: 28px;
+    font-size: 24px;
   }
 
   .section-header h2 {
-    font-size: 22px;
+    font-size: 20px;
   }
 }
 
