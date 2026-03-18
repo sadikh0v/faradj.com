@@ -21,7 +21,9 @@ try {
     exit;
 }
 
-function db(): PDO {
-    global $pdo;
-    return $pdo;
+if (!function_exists('db')) {
+    function db(): PDO {
+        global $pdo;
+        return $pdo;
+    }
 }

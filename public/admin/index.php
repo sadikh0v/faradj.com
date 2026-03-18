@@ -35,6 +35,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         AdminController::editEvent();
         exit;
     }
+    if ($path === 'faqs/save') {
+        AdminController::saveFaq();
+    }
+    if ($path === 'faqs/delete') {
+        AdminController::deleteFaq();
+    }
+    if ($path === 'testimonials/save') {
+        AdminController::saveTestimonial();
+    }
+    if ($path === 'testimonials/delete') {
+        AdminController::deleteTestimonial();
+    }
     if ($path === 'brands/save') {
         AdminController::saveBrand();
     }
@@ -46,6 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if ($path === 'clients/delete') {
         AdminController::deleteClient();
+    }
+    if ($path === 'suppliers/save') {
+        AdminController::saveSupplier();
+    }
+    if ($path === 'suppliers/delete') {
+        AdminController::deleteSupplier();
     }
     if ($path === 'settings') {
         AdminController::settings();
@@ -82,6 +100,15 @@ switch ($path) {
     case 'clients':
         AdminController::clients();
         break;
+    case 'suppliers':
+        AdminController::suppliers();
+        break;
+    case 'suppliers/save':
+        AdminController::saveSupplier();
+        break;
+    case 'suppliers/delete':
+        AdminController::deleteSupplier();
+        break;
     case 'stats':
         AdminController::stats();
         break;
@@ -96,6 +123,33 @@ switch ($path) {
         break;
     case 'events/edit':
         AdminController::editEvent();
+        break;
+    case 'faqs':
+        AdminController::faqs();
+        break;
+    case 'faqs/save':
+        AdminController::saveFaq();
+        break;
+    case 'faqs/delete':
+        AdminController::deleteFaq();
+        break;
+    case 'testimonials':
+        AdminController::testimonials();
+        break;
+    case 'testimonials/save':
+        AdminController::saveTestimonial();
+        break;
+    case 'testimonials/delete':
+        AdminController::deleteTestimonial();
+        break;
+    case 'users':
+        AdminController::users();
+        break;
+    case 'users/export':
+        AdminController::exportUser();
+        break;
+    case 'users/delete':
+        AdminController::deleteUser();
         break;
     default:
         header('Location: /admin');

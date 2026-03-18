@@ -5,6 +5,7 @@
             <p class="b2b-subtitle"><?= t('request.subtitle') ?></p>
 
             <form id="b2bForm" novalidate>
+                <?= csrf_field() ?>
                 <div class="form-field">
                     <div class="field-icon-wrap">
                         <i class="fas fa-building"></i>

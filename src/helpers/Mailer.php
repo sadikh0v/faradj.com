@@ -140,6 +140,68 @@ class Mailer
         </div>';
     }
 
+    /** Admin notification for new requests — sends to ADMIN_EMAIL */
+    public static function sendAdminNotification(array $data): bool
+    {
+        $adminEmail = env('ADMIN_EMAIL', env('MAIL_TO_CONTACT', 'info@faradj.com'));
+        if (!$adminEmail) {
+            return false;
+        }
+        try {
+            $mail = self::create();
+            $mail->addAddress($adminEmail, 'Faradj Admin');
+            $type = $data['type'] ?? 'contact';
+            $labels = ['contact' => 'Əlaqə formu', 'b2b' => 'B2B müraciəti', 'callback' => 'Zəng sorğusu'];
+            $mail->Subject = '🆕 Yeni müraciət: ' . ($labels[$type] ?? $type) . ' — Faradj MMC';
+            $mail->isHTML(true);
+            $mail->Body = self::templateAdminNotification($data);
+            $mail->AltBody = strip_tags($mail->Body);
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            error_log('[Mailer] Admin notification error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    private static function templateAdminNotification(array $d): string
+    {
+        $type = $d['type'] ?? 'contact';
+        $adminUrl = $d['admin_url'] ?? 'https://faradj.com/admin/contacts';
+        if ($type === 'b2b') {
+            $adminUrl = 'https://faradj.com/admin/b2b';
+        } elseif ($type === 'callback') {
+            $adminUrl = 'https://faradj.com/admin/callbacks';
+        }
+        $labels = [
+            'name' => 'Ad', 'email' => 'E-mail', 'phone' => 'Telefon', 'message' => 'Mesaj',
+            'company' => 'Şirkət', 'contact' => 'Əlaqə şəxsi', 'activity' => 'Fəaliyyət', 'volume' => 'Aylıq həcm',
+            'budget' => 'Büdcə', 'products' => 'Məhsullar', 'note' => 'Qeyd', 'subject' => 'Mövzu',
+            'time' => 'Uyğun vaxt',
+        ];
+        $rows = '';
+        foreach ($d as $k => $val) {
+            if (in_array($k, ['type', 'admin_url']) || $val === '' || $val === null) {
+                continue;
+            }
+            $label = $labels[$k] ?? $k;
+            $rows .= "<tr><td style='padding:8px;font-weight:bold;color:#555;width:120px;'>{$label}:</td><td style='padding:8px;'>" . nl2br(htmlspecialchars((string)$val)) . "</td></tr>";
+        }
+        return "
+        <div style='font-family:Arial,sans-serif;max-width:600px;margin:0 auto;'>
+          <div style='background:linear-gradient(135deg,#6c63ff,#ff6584);padding:24px;border-radius:12px 12px 0 0;text-align:center;'>
+            <h2 style='color:white;margin:0;font-size:18px;'>🆕 Yeni müraciət</h2>
+          </div>
+          <div style='background:#f9f9f9;padding:24px;border-radius:0 0 12px 12px;'>
+            <table style='width:100%;border-collapse:collapse;'>{$rows}</table>
+            <div style='margin-top:20px;text-align:center;'>
+              <a href='{$adminUrl}' style='display:inline-block;background:#6c63ff;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;'>Admin paneldə bax</a>
+            </div>
+            <p style='font-size:12px;color:#999;margin-top:16px;'>" . date('d.m.Y H:i') . " — faradj.com</p>
+          </div>
+        </div>";
+    }
+
     private static function templateContact(array $d): string
     {
         return '

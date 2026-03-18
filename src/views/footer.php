@@ -1,11 +1,85 @@
-    <div id="cookieBanner" class="cookie-banner glass-card">
-        <div class="cookie-content">
-            <i class="fas fa-cookie-bite cookie-icon"></i>
-            <p><?= t('cookie.text') ?></p>
-        </div>
-        <div class="cookie-btns">
-            <button id="cookieAccept" class="btn-cookie-accept"><?= t('cookie.accept') ?></button>
-            <button id="cookieDecline" class="btn-cookie-decline"><?= t('cookie.decline') ?></button>
+    <!-- Cookie Consent Banner -->
+    <div id="cookieConsent" class="cookie-consent hidden">
+        <div class="cookie-consent-inner">
+            <div class="cookie-consent-header">
+                <div class="cookie-consent-icon">🍪</div>
+                <h3>Məlumatların Qorunması və Cookie Siyasəti</h3>
+            </div>
+            <p class="cookie-consent-text">
+                Azərbaycan Respublikasının "Fərdi məlumatlar haqqında" Qanunu və 
+                Avropa İttifaqının GDPR (2016/679) tələblərinə uyğun olaraq, 
+                saytımızın düzgün fəaliyyəti, istifadəçi təcrübəsinin 
+                təkmilləşdirilməsi və statistik təhlil məqsədilə cookie fayllarından 
+                istifadə edirik. Seçimlərinizi aşağıda idarə edə bilərsiniz.
+            </p>
+            
+            <div class="cookie-categories">
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <div>
+                            <strong>Zəruri Cookie-lər</strong>
+                            <p>Saytın texniki fəaliyyəti üçün vacibdir. Deaktiv edilə bilməz.</p>
+                        </div>
+                        <div class="cookie-toggle disabled">
+                            <div class="toggle-track active">
+                                <div class="toggle-thumb"></div>
+                            </div>
+                            <span>Həmişə aktiv</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <div>
+                            <strong>Analitika Cookie-ləri</strong>
+                            <p>Google Analytics və Yandex.Metrica vasitəsilə anonim statistika toplanır. Şəxsi məlumatlar emal edilmir.</p>
+                        </div>
+                        <div class="cookie-toggle">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="analyticsConsent" checked>
+                                <div class="toggle-track">
+                                    <div class="toggle-thumb"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cookie-category">
+                    <div class="cookie-category-header">
+                        <div>
+                            <strong>Marketinq Cookie-ləri</strong>
+                            <p>Hədəflənmiş reklamlar və təkrar marketinq kampaniyaları üçün istifadə olunur.</p>
+                        </div>
+                        <div class="cookie-toggle">
+                            <label class="toggle-label">
+                                <input type="checkbox" id="marketingConsent">
+                                <div class="toggle-track">
+                                    <div class="toggle-thumb"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="cookie-legal">
+                Ətraflı məlumat üçün <a href="/privacy">Məxfilik Siyasəti</a>mizi 
+                oxuyun. Razılığınızı istənilən vaxt geri götürmək hüququnuz vardır.
+            </p>
+
+            <div class="cookie-consent-actions">
+                <button id="cookieReject" class="cookie-btn-reject">
+                    Yalnız zəruri
+                </button>
+                <button id="cookieSavePrefs" class="cookie-btn-prefs">
+                    Seçimi saxla
+                </button>
+                <button id="cookieAcceptAll" class="cookie-btn-accept">
+                    Hamısını qəbul et
+                </button>
+            </div>
         </div>
     </div>
 
@@ -68,6 +142,7 @@
                 <p><?= t('callback.subtitle') ?></p>
             </div>
             <form class="callback-form" id="callbackForm">
+                <?= csrf_field() ?>
                 <div class="form-field">
                     <input type="text" name="name" placeholder="<?= t('callback.name') ?>" required />
                     <span class="field-icon"></span>
@@ -99,6 +174,9 @@
     </a>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <?php if (($currentPage ?? '') === 'partners'): ?>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <?php endif; ?>
     <script src="/assets/js/script<?= $assetSuffix ?? '' ?>.js"></script>
     <script src="/assets/js/app<?= $assetSuffix ?? '' ?>.js"></script>
     <script src="/assets/js/forms<?= $assetSuffix ?? '' ?>.js"></script>
@@ -126,36 +204,53 @@
     }
     </script>
 
+    <!-- Schema.org LocalBusiness -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": "LocalBusiness",
+      "@id": "https://faradj.com",
       "name": "Faradj MMC",
+      "description": "Azərbaycanın aparıcı dəftərxana ləvazimatları idxalçısı və DOMS brendinin rəsmi distribyutoru",
       "url": "https://faradj.com",
       "logo": "https://faradj.com/assets/img/logo/faradj_logo.png",
-      "description": "Azərbaycanın aparıcı dəftərxana və ofis ləvazimatları təchizatçısı",
+      "image": "https://faradj.com/assets/img/og-image.php",
+      "telephone": "+994558591211",
+      "email": "info@faradj.com",
       "foundingDate": "2011",
-      "address": [
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "İnşaatçılar prospekti, 106",
+        "addressLocality": "Bakı",
+        "addressCountry": "AZ"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "40.4093",
+        "longitude": "49.8671"
+      },
+      "openingHoursSpecification": [
         {
-          "@type": "PostalAddress",
-          "streetAddress": <?= json_encode(setting('address_main', 'Bakı, İnşaatçılar pr. 106')) ?>,
-          "addressLocality": "Bakı",
-          "addressCountry": "AZ"
-        }
-      ],
-      "contactPoint": [
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+          "opens": "09:00",
+          "closes": "18:00"
+        },
         {
-          "@type": "ContactPoint",
-          "telephone": <?= json_encode(setting('phone_main', '+994-55-859-12-11')) ?>,
-          "contactType": "customer service",
-          "availableLanguage": ["Azerbaijani", "Russian"]
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "10:00",
+          "closes": "15:00"
         }
       ],
       "sameAs": [
-        <?= json_encode(setting('instagram', 'https://www.instagram.com/qelemstationery')) ?>,
-        <?= json_encode(setting('tiktok', 'https://www.tiktok.com/@qelemstationery')) ?>,
-        <?= json_encode(setting('linkedin', 'https://www.linkedin.com/in/faradjmmc')) ?>
-      ]
+        "https://www.instagram.com/qelemstationery",
+        "https://www.tiktok.com/@qelemstationery",
+        "https://www.linkedin.com/in/faradjmmc"
+      ],
+      "priceRange": "₼₼",
+      "currenciesAccepted": "AZN",
+      "paymentAccepted": "Cash, Bank Transfer, Credit Card"
     }
     </script>
 </body>

@@ -7,6 +7,10 @@
   RewriteEngine On
   RewriteBase /
 
+  # HTTP → HTTPS редирект
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
   RewriteRule ^storage/ - [F,L]
 
   # Статические файлы — искать в public/

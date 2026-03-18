@@ -20,8 +20,8 @@
                     <div class="info-item">
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
-                            <p><?= t('contacts.address') ?></p>
-                            <p><?= t('contacts.store_addr') ?></p>
+                            <p><?= htmlspecialchars(setting('address_main') ?: t('contacts.address')) ?></p>
+                            <p><?= htmlspecialchars(setting('address_store') ?: t('contacts.store_addr')) ?></p>
                         </div>
                     </div>
                     <div class="social-links-block">
@@ -37,6 +37,7 @@
                 <div class="contact-form-wrapper glass-card">
                     <h3><?= t('contacts.form_title') ?></h3>
                     <form class="contact-form" id="contactForm">
+                        <?= csrf_field() ?>
                         <div class="form-row">
                             <div class="form-field input-group">
                                 <label for="contactName"><?= t('contacts.name') ?></label>
@@ -72,14 +73,14 @@
             <div class="maps-wrapper">
                 <div class="map-card glass-card">
                     <h4><i class="fas fa-map-marker-alt"></i> <?= t('contacts.office') ?></h4>
-                    <p><?= t('contacts.address_street') ?></p>
+                    <p><?= htmlspecialchars(setting('address_main') ?: t('contacts.address_street')) ?></p>
                     <div class="map-frame">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.2396380311548!2d49.81967027681036!3d40.381381171445355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d00077f71f7%3A0x2f12378035dcbd24!2sFaradj%20LLC!5e0!3m2!1sru!2saz!4v1767786877376!5m2!1sru!2saz" width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
                 <div class="map-card glass-card">
                     <h4><i class="fas fa-store"></i> <?= t('contacts.store') ?></h4>
-                    <p><?= t('contacts.store_addr_street') ?></p>
+                    <p><?= htmlspecialchars(setting('address_store') ?: t('contacts.store_addr_street')) ?></p>
                     <div class="map-frame">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.153336051888!2d49.824619576810356!3d40.38329407144506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d00554e3d7f%3A0xa5ae3826352b2fdd!2sQelem%20stationery!5e0!3m2!1sru!2saz!4v1767786908149!5m2!1sru!2saz" width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
@@ -89,30 +90,12 @@
             <div class="faq-section">
                 <h2 class="section-title text-center"><?= t('contacts.faq_title') ?></h2>
                 <div class="faq-list">
+                    <?php foreach (faq_items() as $item): ?>
                     <div class="faq-item">
-                        <div class="faq-question"><span><?= t('faq.q1') ?></span><i class="fas fa-chevron-down faq-arrow"></i></div>
-                        <div class="faq-answer"><p><?= t('faq.a1') ?></p></div>
+                        <div class="faq-question"><span><?= htmlspecialchars($item['q'] ?? '', ENT_QUOTES, 'UTF-8') ?></span><i class="fas fa-chevron-down faq-arrow"></i></div>
+                        <div class="faq-answer"><p><?= htmlspecialchars($item['a'] ?? '', ENT_QUOTES, 'UTF-8') ?></p></div>
                     </div>
-                    <div class="faq-item">
-                        <div class="faq-question"><span><?= t('faq.q2') ?></span><i class="fas fa-chevron-down faq-arrow"></i></div>
-                        <div class="faq-answer"><p><?= t('faq.a2') ?></p></div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question"><span><?= t('faq.q3') ?></span><i class="fas fa-chevron-down faq-arrow"></i></div>
-                        <div class="faq-answer"><p><?= t('faq.a3') ?></p></div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question"><span><?= t('faq.q4') ?></span><i class="fas fa-chevron-down faq-arrow"></i></div>
-                        <div class="faq-answer"><p><?= t('faq.a4') ?></p></div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question"><span><?= t('faq.q5') ?></span><i class="fas fa-chevron-down faq-arrow"></i></div>
-                        <div class="faq-answer"><p><?= t('faq.a5') ?></p></div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-question"><span><?= t('faq.q6') ?></span><i class="fas fa-chevron-down faq-arrow"></i></div>
-                        <div class="faq-answer"><p><?= t('faq.a6') ?></p></div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>

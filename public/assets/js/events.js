@@ -17,7 +17,7 @@
         ${e.author ? `<span><strong>${escapeHtml(i18n.author || 'Müəllif')}:</strong> ${escapeHtml(e.author)}</span>` : ''}
       </div>
       ${e.image_url ? `<img src="${escapeHtml(e.image_url)}" alt="" class="modal-img" />` : ''}
-      <div class="modal-body">${escapeHtml(e.full_text || e.excerpt || '').replace(/\n/g, '<br>')}</div>
+      <div class="modal-body"><div class="event-content">${e.full_text || escapeHtml(e.excerpt || '').replace(/\n/g, '<br>')}</div></div>
     `;
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';

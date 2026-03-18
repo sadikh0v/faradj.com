@@ -27,14 +27,26 @@
       <a href="/admin/contacts" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/contacts') ? 'active' : '' ?>">
         <i class="fas fa-envelope"></i> Müraciətlər
       </a>
+      <a href="/admin/faqs" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/faqs') ? 'active' : '' ?>">
+        <i class="fas fa-question-circle"></i> FAQ
+      </a>
+      <a href="/admin/testimonials" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/testimonials') ? 'active' : '' ?>">
+        <i class="fas fa-quote-right"></i> Rəylər
+      </a>
       <a href="/admin/b2b" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/b2b') ? 'active' : '' ?>">
         <i class="fas fa-briefcase"></i> B2B Sorğular
       </a>
       <a href="/admin/callbacks" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/callbacks') ? 'active' : '' ?>">
         <i class="fas fa-phone"></i> Zəng sorğuları
       </a>
+      <a href="/admin/users" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/users') ? 'active' : '' ?>">
+        <i class="fas fa-user-shield"></i> İstifadəçilər
+      </a>
       <a href="/admin/brands" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/brands') ? 'active' : '' ?>">
         <i class="fas fa-tags"></i> Brendlər
+      </a>
+      <a href="/admin/suppliers" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/suppliers') ? 'active' : '' ?>">
+        <i class="fas fa-globe"></i> Xəritə
       </a>
       <a href="/admin/clients" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/clients') ? 'active' : '' ?>">
         <i class="fas fa-handshake"></i> Müştərilər

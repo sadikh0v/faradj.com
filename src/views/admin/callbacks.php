@@ -27,7 +27,7 @@
               <i class="fas fa-copy" style="font-size:11px;color:#aaa;margin-left:4px;"></i>
             </span>
           </td>
-          <td><?= htmlspecialchars($row['time_slot'] ?? '—') ?></td>
+          <td><?= htmlspecialchars($row['time_pref'] ?? $row['time_slot'] ?? '—') ?></td>
           <td><?= htmlspecialchars($row['created_at'] ?? '—') ?></td>
         </tr>
         <?php endforeach; ?>

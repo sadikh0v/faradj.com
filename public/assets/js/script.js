@@ -512,7 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
       e.target.closest(
         "input, textarea, select, form, " +
-          ".admin-body, #cookieBanner, " +
+          ".admin-body, #cookieConsent, " +
           ".modal-overlay"
       )
     )
@@ -604,4 +604,294 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+/* Cookie Consent */
+(function() {
+  const consent = localStorage.getItem('cookieConsent');
+  if (!consent) {
+    document.getElementById('cookieConsent')?.classList.remove('hidden');
+  }
+
+  function saveConsent(analytics, marketing) {
+    localStorage.setItem('cookieConsent', JSON.stringify({
+      necessary: true,
+      analytics: analytics,
+      marketing: marketing,
+      date: new Date().toISOString()
+    }));
+    document.getElementById('cookieConsent')?.classList.add('hidden');
+    document.dispatchEvent(new Event('cookieConsentSaved'));
+  }
+
+  document.getElementById('cookieAcceptAll')?.addEventListener('click', () => {
+    saveConsent(true, true);
+  });
+
+  document.getElementById('cookieReject')?.addEventListener('click', () => {
+    saveConsent(false, false);
+  });
+
+  document.getElementById('cookieSavePrefs')?.addEventListener('click', () => {
+    const analytics = document.getElementById('analyticsConsent')?.checked;
+    const marketing = document.getElementById('marketingConsent')?.checked;
+    saveConsent(analytics, marketing);
+  });
+})();
+
+/* Analytics — load only after consent */
+(function() {
+  const cfg = window._faradjAnalytics || {};
+  let analyticsLoaded = false;
+  function loadAnalytics() {
+    if (analyticsLoaded) return;
+    let consent = {};
+    try {
+      consent = JSON.parse(localStorage.getItem('cookieConsent') || '{}');
+    } catch (e) {}
+    if (!consent.analytics) return;
+
+    if (cfg.gaId) {
+      const gaScript = document.createElement('script');
+      gaScript.async = true;
+      gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + cfg.gaId;
+      document.head.appendChild(gaScript);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', cfg.gaId, { anonymize_ip: true, cookie_flags: 'SameSite=None;Secure' });
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('b2bForm')?.addEventListener('submit', function() {
+          gtag('event', 'form_submit', { event_category: 'Müraciət', event_label: 'Müraciət' });
+        });
+        document.getElementById('contactForm')?.addEventListener('submit', function() {
+          gtag('event', 'form_submit', { event_category: 'Contact', event_label: 'Əlaqə formu' });
+        });
+        document.querySelector('.whatsapp-float')?.addEventListener('click', function() {
+          gtag('event', 'click', { event_category: 'WhatsApp', event_label: 'WhatsApp button' });
+        });
+      });
+    }
+
+    if (cfg.ymId) {
+      (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        k=e.createElement(t);a=e.getElementsByTagName(t)[0];
+        k.async=1;k.src=r;a.parentNode.insertBefore(k,a);
+      })(window,document,'script','https://mc.yandex.ru/metrika/tag.js','ym');
+      ym(cfg.ymId,'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true});
+    }
+
+    if (cfg.hjId) {
+      const hjScript = document.createElement('script');
+      hjScript.async = true;
+      hjScript.src = 'https://t.contentsquare.net/uxa/' + cfg.hjId + '.js';
+      document.head.appendChild(hjScript);
+    }
+    analyticsLoaded = true;
+  }
+
+  loadAnalytics();
+  document.addEventListener('cookieConsentSaved', loadAnalytics);
+})();
+
+/* Suppliers Map (partners page) */
+if (document.getElementById('suppliersMap') && typeof L !== 'undefined') {
+    const map = L.map('suppliersMap', {
+        center: [40, 60],
+        zoom: 3,
+        zoomControl: false,
+        scrollWheelZoom: false,
+        attributionControl: false,
+        dragging: false,
+        touchZoom: true,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: false,
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    const baku = [40.4093, 49.8671];
+
+    const suppliers = (typeof window.suppliersFromDB !== 'undefined' && Array.isArray(window.suppliersFromDB) && window.suppliersFromDB.length > 0)
+        ? window.suppliersFromDB
+        : [
+            { coords: [20.5937, 78.9629], name: 'Hindistan', brands: 'DOMS', type: 'distributor' },
+            { coords: [40.4168, -3.7038], name: 'İspaniya', brands: 'Milan', type: 'partner' },
+            { coords: [51.1657, 10.4515], name: 'Almaniya', brands: 'Faber-Castell', type: 'partner' },
+            { coords: [36.2048, 138.2529], name: 'Yaponiya', brands: 'Citizen, Uni-ball', type: 'partner' },
+            { coords: [35.8617, 104.1954], name: 'Çin', brands: 'Kangaro, Trix, Cello, Dolphin', type: 'partner' },
+            { coords: [38.9637, 35.2433], name: 'Türkiyə', brands: 'Brons, Scriks', type: 'partner' },
+            { coords: [23.4241, 53.8478], name: 'BƏƏ', brands: 'Qamma', type: 'partner' },
+            { coords: [59.9139, 10.7522], name: 'Norveç', brands: 'Centropen', type: 'partner' },
+            { coords: [55.7558, 37.6173], name: 'Rusiya', brands: 'Qamma, Nevskaya palitra, Multi-pulti', type: 'partner' },
+        ];
+
+    const PARTNER_COLOR = '#6c63ff';
+    const DISTRIBUTOR_COLOR = '#e91e8c';
+    const LINE_COLOR = '#6c63ff';
+
+    const countryToISO = {
+        'Hindistan': 'in', 'India': 'in', 'Индия': 'in',
+        'İspaniya': 'es', 'Spain': 'es', 'Испания': 'es',
+        'Almaniya': 'de', 'Germany': 'de', 'Германия': 'de',
+        'Yaponiya': 'jp', 'Japan': 'jp', 'Япония': 'jp',
+        'Çin': 'cn', 'China': 'cn', 'Китай': 'cn',
+        'Türkiyə': 'tr', 'Turkey': 'tr', 'Турция': 'tr',
+        'BƏƏ': 'ae', 'UAE': 'ae', 'ОАЭ': 'ae',
+        'Rusiya': 'ru', 'Russia': 'ru', 'Россия': 'ru',
+        'Norveç': 'no', 'Norway': 'no', 'Норвегия': 'no',
+    };
+
+    function getFlagUrl(countryName) {
+        const iso = countryToISO[countryName];
+        if (!iso) return '';
+        return `https://flagcdn.com/24x18/${iso}.png`;
+    }
+
+    // Полукруглые кривые линии
+    suppliers.forEach(s => {
+        const color = s.type === 'distributor' ? DISTRIBUTOR_COLOR : LINE_COLOR;
+
+        // Вычислить контрольную точку для кривой Безье
+        const lat1 = s.coords[0], lon1 = s.coords[1];
+        const lat2 = baku[0], lon2 = baku[1];
+
+        // Середина + смещение вверх для дуги
+        const midLat = (lat1 + lat2) / 2 + Math.abs(lon2 - lon1) * 0.15;
+        const midLon = (lon1 + lon2) / 2;
+
+        // Создать кривую через промежуточные точки
+        const curvePoints = [];
+        for (let t = 0; t <= 1; t += 0.05) {
+            const lat = (1-t)*(1-t)*lat1 + 2*(1-t)*t*midLat + t*t*lat2;
+            const lon = (1-t)*(1-t)*lon1 + 2*(1-t)*t*midLon + t*t*lon2;
+            curvePoints.push([lat, lon]);
+        }
+
+        L.polyline(curvePoints, {
+            color: color,
+            weight: 1.5,
+            opacity: 0.6,
+            dashArray: '6, 8',
+        }).addTo(map);
+    });
+
+    // Анимированная точка вдоль кривой
+    function animateDot(curvePoints, color, delay) {
+        const dot = L.circleMarker(curvePoints[0], {
+            radius: 4,
+            fillColor: color,
+            color: 'transparent',
+            fillOpacity: 0.9,
+            weight: 0
+        }).addTo(map);
+
+        let i = 0;
+        setTimeout(() => {
+            const interval = setInterval(() => {
+                if (i >= curvePoints.length) {
+                    i = 0;
+                }
+                dot.setLatLng(curvePoints[i]);
+                i++;
+            }, 50);
+        }, delay);
+
+        return dot;
+    }
+
+    // Запустить анимацию для каждой линии
+    suppliers.forEach((s, idx) => {
+        const color = s.type === 'distributor' ? DISTRIBUTOR_COLOR : LINE_COLOR;
+
+        const lat1 = s.coords[0], lon1 = s.coords[1];
+        const lat2 = baku[0], lon2 = baku[1];
+        const midLat = (lat1 + lat2) / 2 + Math.abs(lon2 - lon1) * 0.15;
+        const midLon = (lon1 + lon2) / 2;
+
+        const curvePoints = [];
+        for (let t = 0; t <= 1; t += 0.02) {
+            const lat = (1-t)*(1-t)*lat1 + 2*(1-t)*t*midLat + t*t*lat2;
+            const lon = (1-t)*(1-t)*lon1 + 2*(1-t)*t*midLon + t*t*lon2;
+            curvePoints.push([lat, lon]);
+        }
+
+        animateDot(curvePoints, color, idx * 600);
+    });
+
+    // Маркеры поставщиков
+    suppliers.forEach(s => {
+        const color = s.type === 'distributor' ? DISTRIBUTOR_COLOR : PARTNER_COLOR;
+
+        const marker = L.circleMarker(s.coords, {
+            radius: s.type === 'distributor' ? 9 : 7,
+            fillColor: color,
+            color: '#fff',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.9
+        }).addTo(map);
+
+        const flagUrl = s.iso_code
+            ? `https://flagcdn.com/24x18/${s.iso_code}.png`
+            : getFlagUrl(s.name);
+        const flagHtml = flagUrl
+            ? `<img src="${flagUrl}" style="width:24px;height:18px;border-radius:2px;margin-bottom:4px;display:block;margin:0 auto 4px;" onerror="this.style.display='none'">`
+            : '';
+
+        marker.bindPopup(`
+            <div style="text-align:center;padding:4px 8px;min-width:120px;">
+                ${flagHtml}
+                <strong style="color:#1a1a2e;display:block;margin-top:4px;">${s.name}</strong>
+                <small style="color:#888;display:block;">${s.brands}</small>
+                <span style="font-size:10px;font-weight:700;
+                    color:${color};background:${color}20;
+                    padding:2px 8px;border-radius:10px;
+                    display:inline-block;margin-top:4px;">
+                    ${s.type === 'distributor' ? 'DİSTRİBYUTOR' : 'TƏRƏFDAŞ'}
+                </span>
+            </div>
+        `, { closeButton: false });
+
+        marker.on('mouseover', function() { this.openPopup(); });
+        marker.on('mouseout', function() { this.closePopup(); });
+    });
+
+    // Пульсирующий круг вокруг Баку (добавляем до маркера, чтобы был сзади)
+    const pulseIcon = L.divIcon({
+        className: '',
+        html: '<div class="baku-pulse"></div>',
+        iconSize: [40, 40],
+        iconAnchor: [20, 20]
+    });
+    L.marker(baku, { icon: pulseIcon, interactive: false }).addTo(map);
+
+    // Главный маркер Баку
+    const bakuMarker = L.circleMarker(baku, {
+        radius: 12,
+        fillColor: '#1a1a2e',
+        color: '#fff',
+        weight: 3,
+        opacity: 1,
+        fillOpacity: 1
+    }).addTo(map);
+
+    bakuMarker.bindPopup(`
+        <div style="text-align:center;padding:4px 8px;min-width:120px;">
+            <img src="https://flagcdn.com/24x18/az.png"
+                 style="width:24px;height:18px;border-radius:2px;
+                 display:block;margin:0 auto 4px;">
+            <strong style="color:#6c63ff;display:block;margin-top:4px;">
+                Faradj MMC
+            </strong>
+            <small style="color:#888;">Bakı, Azərbaycan</small>
+        </div>
+    `, { closeButton: false });
+
+    bakuMarker.on('mouseover', function() { this.openPopup(); });
+    bakuMarker.on('mouseout', function() { this.closePopup(); });
+}
 

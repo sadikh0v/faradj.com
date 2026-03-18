@@ -45,11 +45,20 @@ class AdminController
         }
         $error = null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_once base_path('src/helpers/RateLimit.php');
+            if (!RateLimit::check('admin_login', 5, 900)) {
+                $error = 'Çox sayda uğursuz cəhd. 15 dəqiqə gözləyin.';
+                include base_path('src/views/admin/login.php');
+                return;
+            }
             $email = trim($_POST['email'] ?? '');
             $pass = $_POST['password'] ?? '';
             $hash = env('ADMIN_PASSWORD_HASH', '');
             if ($email === env('ADMIN_EMAIL', '') && $hash && password_verify($pass, $hash)) {
+                session_regenerate_id(true);
                 $_SESSION['admin'] = true;
+                $_SESSION['admin_email'] = $email;
+                RateLimit::reset('admin_login');
                 header('Location: /admin');
                 exit;
             }
@@ -155,6 +164,200 @@ class AdminController
             $items = db()->query("SELECT * FROM callbacks ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {}
         include base_path('src/views/admin/callbacks.php');
+    }
+
+    public static function users(): void
+    {
+        self::guard();
+        $userData = null;
+
+        if (!empty($_GET['email'])) {
+            $email = trim($_GET['email']);
+            $userData = [];
+            try {
+                $tables = [
+                    'Əlaqə mesajları' => 'contact_messages',
+                    'B2B müraciətlər' => 'b2b_requests',
+                    'Zəng sorğuları'  => 'callbacks',
+                ];
+                foreach ($tables as $label => $table) {
+                    if ($table === 'callbacks') {
+                        $userData[$label] = [];
+                        continue;
+                    }
+                    $stmt = db()->prepare("SELECT * FROM $table WHERE email = ?");
+                    $stmt->execute([$email]);
+                    $userData[$label] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                }
+            } catch (PDOException $e) {}
+        }
+
+        include base_path('src/views/admin/users.php');
+    }
+
+    public static function exportUser(): void
+    {
+        self::guard();
+        $email = trim($_GET['email'] ?? '');
+        if (!$email) {
+            header('Location: /admin/users');
+            exit;
+        }
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="user_data_' . date('Y-m-d') . '.csv"');
+
+        $out = fopen('php://output', 'w');
+        fprintf($out, chr(0xEF) . chr(0xBB) . chr(0xBF)); // UTF-8 BOM
+
+        $tables = ['contact_messages', 'b2b_requests'];
+        foreach ($tables as $table) {
+            try {
+                $stmt = db()->prepare("SELECT * FROM $table WHERE email = ?");
+                $stmt->execute([$email]);
+                $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if (!empty($rows)) {
+                    fputcsv($out, ['=== ' . $table . ' ===']);
+                    fputcsv($out, array_keys($rows[0]));
+                    foreach ($rows as $row) {
+                        fputcsv($out, $row);
+                    }
+                    fputcsv($out, []);
+                }
+            } catch (PDOException $e) {}
+        }
+        fclose($out);
+        exit;
+    }
+
+    public static function deleteUser(): void
+    {
+        self::guard();
+        $email = trim($_GET['email'] ?? '');
+        if (!$email) {
+            header('Location: /admin/users');
+            exit;
+        }
+
+        try {
+            db()->prepare("DELETE FROM contact_messages WHERE email = ?")->execute([$email]);
+            db()->prepare("DELETE FROM b2b_requests WHERE email = ?")->execute([$email]);
+            flash('success', $email . ' — bütün məlumatlar silindi.');
+        } catch (PDOException $e) {
+            flash('error', 'Xəta baş verdi: ' . $e->getMessage());
+        }
+
+        header('Location: /admin/users');
+        exit;
+    }
+
+    public static function faqs(): void
+    {
+        self::guard();
+        $items = [];
+        try {
+            $items = db()->query("SELECT * FROM faqs ORDER BY sort_order ASC")->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {}
+        include base_path('src/views/admin/faqs.php');
+    }
+
+    public static function saveFaq(): void
+    {
+        self::guard();
+        $id = $_POST['id'] ?? null;
+        $data = [
+            trim($_POST['question_az'] ?? ''),
+            trim($_POST['question_ru'] ?? ''),
+            trim($_POST['question_en'] ?? ''),
+            trim($_POST['answer_az'] ?? ''),
+            trim($_POST['answer_ru'] ?? ''),
+            trim($_POST['answer_en'] ?? ''),
+            (int) ($_POST['sort_order'] ?? 0),
+            isset($_POST['is_active']) ? 1 : 0,
+        ];
+        try {
+            if ($id) {
+                $data[] = $id;
+                db()->prepare("UPDATE faqs SET question_az=?,question_ru=?,question_en=?,answer_az=?,answer_ru=?,answer_en=?,sort_order=?,is_active=? WHERE id=?")->execute($data);
+                flash('success', 'FAQ yeniləndi.');
+            } else {
+                db()->prepare("INSERT INTO faqs (question_az,question_ru,question_en,answer_az,answer_ru,answer_en,sort_order,is_active) VALUES (?,?,?,?,?,?,?,?)")->execute($data);
+                flash('success', 'FAQ əlavə edildi.');
+            }
+        } catch (PDOException $e) {
+            flash('error', 'Xəta: ' . $e->getMessage());
+        }
+        header('Location: /admin/faqs');
+        exit;
+    }
+
+    public static function deleteFaq(): void
+    {
+        self::guard();
+        $id = (int) ($_POST['id'] ?? 0);
+        if ($id) {
+            try {
+                db()->prepare("DELETE FROM faqs WHERE id=?")->execute([$id]);
+                flash('success', 'FAQ silindi.');
+            } catch (PDOException $e) {}
+        }
+        header('Location: /admin/faqs');
+        exit;
+    }
+
+    public static function testimonials(): void
+    {
+        self::guard();
+        $items = [];
+        try {
+            $items = db()->query("SELECT * FROM testimonials ORDER BY sort_order ASC")->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {}
+        include base_path('src/views/admin/testimonials.php');
+    }
+
+    public static function saveTestimonial(): void
+    {
+        self::guard();
+        $id = $_POST['id'] ?? null;
+        $data = [
+            trim($_POST['name'] ?? ''),
+            trim($_POST['company'] ?? ''),
+            trim($_POST['text_az'] ?? ''),
+            trim($_POST['text_ru'] ?? ''),
+            trim($_POST['text_en'] ?? ''),
+            min(5, max(1, (int) ($_POST['rating'] ?? 5))),
+            isset($_POST['is_verified']) ? 1 : 0,
+            isset($_POST['is_active']) ? 1 : 0,
+            (int) ($_POST['sort_order'] ?? 0),
+        ];
+        try {
+            if ($id) {
+                $data[] = $id;
+                db()->prepare("UPDATE testimonials SET name=?,company=?,text_az=?,text_ru=?,text_en=?,rating=?,is_verified=?,is_active=?,sort_order=? WHERE id=?")->execute($data);
+                flash('success', 'Rəy yeniləndi.');
+            } else {
+                db()->prepare("INSERT INTO testimonials (name,company,text_az,text_ru,text_en,rating,is_verified,is_active,sort_order) VALUES (?,?,?,?,?,?,?,?,?)")->execute($data);
+                flash('success', 'Rəy əlavə edildi.');
+            }
+        } catch (PDOException $e) {
+            flash('error', 'Xəta: ' . $e->getMessage());
+        }
+        header('Location: /admin/testimonials');
+        exit;
+    }
+
+    public static function deleteTestimonial(): void
+    {
+        self::guard();
+        $id = (int) ($_POST['id'] ?? 0);
+        if ($id) {
+            try {
+                db()->prepare("DELETE FROM testimonials WHERE id=?")->execute([$id]);
+                flash('success', 'Rəy silindi.');
+            } catch (PDOException $e) {}
+        }
+        header('Location: /admin/testimonials');
+        exit;
     }
 
     public static function gallery(): void
@@ -438,11 +641,19 @@ class AdminController
             $items = db()->query("SELECT * FROM settings ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {}
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            foreach ($_POST['settings'] ?? [] as $key => $val) {
-                db()->prepare("UPDATE settings SET value=? WHERE key_name=?")
-                    ->execute([trim($val), $key]);
+            $settings = $_POST['settings'] ?? [];
+            try {
+                $stmt = db()->prepare("UPDATE settings SET value=?, updated_at=NOW() WHERE key_name=?");
+                foreach ($settings as $key => $value) {
+                    $stmt->execute([trim((string) $value), $key]);
+                }
+                if (function_exists('setting_refresh')) {
+                    setting_refresh();
+                }
+                flash('success', 'Parametrlər yadda saxlandı!');
+            } catch (PDOException $e) {
+                flash('error', 'Xəta: ' . $e->getMessage());
             }
-            flash('success', 'Parametrlər yadda saxlandı!');
             header('Location: /admin/settings');
             exit;
         }
@@ -564,6 +775,64 @@ class AdminController
         exit;
     }
 
+    public static function suppliers(): void
+    {
+        self::guard();
+        $suppliers = [];
+        try {
+            $suppliers = db()->query("SELECT * FROM suppliers ORDER BY sort_order ASC, id ASC")->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {}
+        include base_path('src/views/admin/suppliers.php');
+    }
+
+    public static function saveSupplier(): void
+    {
+        self::guard();
+        $id = !empty($_POST['id']) ? (int) $_POST['id'] : null;
+        $data = [
+            trim($_POST['country_az'] ?? ''),
+            trim($_POST['country_ru'] ?? ''),
+            trim($_POST['country_en'] ?? ''),
+            trim($_POST['brands'] ?? ''),
+            (float) ($_POST['latitude'] ?? 0),
+            (float) ($_POST['longitude'] ?? 0),
+            $_POST['type'] ?? 'partner',
+            trim($_POST['flag'] ?? ''),
+            strtolower(trim($_POST['iso_code'] ?? '')),
+            (int) ($_POST['sort_order'] ?? 0),
+            isset($_POST['is_active']) ? 1 : 0,
+        ];
+        try {
+            if ($id) {
+                $data[] = $id;
+                db()->prepare("UPDATE suppliers SET
+                    country_az=?, country_ru=?, country_en=?, brands=?,
+                    latitude=?, longitude=?, type=?, flag=?, iso_code=?,
+                    sort_order=?, is_active=? WHERE id=?")->execute($data);
+            } else {
+                db()->prepare("INSERT INTO suppliers
+                    (country_az, country_ru, country_en, brands,
+                     latitude, longitude, type, flag, iso_code, sort_order, is_active)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?)")->execute($data);
+            }
+            flash('success', 'Təchizatçı yadda saxlandı!');
+        } catch (PDOException $e) {
+            flash('error', 'Xəta: ' . $e->getMessage());
+        }
+        header('Location: /admin/suppliers');
+        exit;
+    }
+
+    public static function deleteSupplier(): void
+    {
+        self::guard();
+        $id = (int) ($_POST['id'] ?? 0);
+        db()->prepare("DELETE FROM suppliers WHERE id=?")->execute([$id]);
+        flash('success', 'Təchizatçı silindi!');
+        header('Location: /admin/suppliers');
+        exit;
+    }
+
     public static function stats(): void
     {
         self::guard();
@@ -649,9 +918,9 @@ class AdminController
             'excerpt' => trim($_POST['excerpt'] ?? ''),
             'excerpt_ru' => trim($_POST['excerpt_ru'] ?? ''),
             'excerpt_en' => trim($_POST['excerpt_en'] ?? ''),
-            'full_text' => trim($_POST['full_text'] ?? ''),
-            'full_text_ru' => trim($_POST['full_text_ru'] ?? ''),
-            'full_text_en' => trim($_POST['full_text_en'] ?? ''),
+            'full_text' => strip_tags(trim($_POST['full_text'] ?? ''), '<p><br><strong><em><ul><ol><li><h2><h3><a><u>'),
+            'full_text_ru' => strip_tags(trim($_POST['full_text_ru'] ?? ''), '<p><br><strong><em><ul><ol><li><h2><h3><a><u>'),
+            'full_text_en' => strip_tags(trim($_POST['full_text_en'] ?? ''), '<p><br><strong><em><ul><ol><li><h2><h3><a><u>'),
             'category' => trim($_POST['category'] ?? 'xebərlər'),
             'author' => trim($_POST['author'] ?? 'Faradj MMC'),
             'event_date' => trim($_POST['event_date'] ?? ''),

@@ -1,9 +1,11 @@
 <?php
 require_once __DIR__ . '/../load_env.php';
+require_once base_path('src/helpers/i18n.php');
 require_once base_path('db.php');
 
 $brands = [];
 $clients = [];
+$suppliers = [];
 
 try {
     $brands = $pdo->query(
@@ -13,9 +15,27 @@ try {
     $clients = $pdo->query(
         "SELECT * FROM clients WHERE is_active=1 ORDER BY sort_order, id"
     )->fetchAll(PDO::FETCH_ASSOC);
+
+    $suppliers = $pdo->query(
+        "SELECT * FROM suppliers WHERE is_active=1 ORDER BY sort_order ASC"
+    )->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {}
+
+$lang = currentLang();
 ?>
 <main class="partners-main">
+    <section class="suppliers-map-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><?= t('partners.suppliers_title') ?></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="suppliers-map-wrap glass-card">
+                <div id="suppliersMap" style="height:420px;border-radius:16px;"></div>
+            </div>
+        </div>
+    </section>
+
     <section class="partners-section brands-section">
         <div class="container">
             <div class="partners-divider section-header">
@@ -101,6 +121,18 @@ try {
     </div>
 </div>
 <script>
+window.suppliersFromDB = <?= json_encode(array_map(function($s) use ($lang) {
+    $nameKey = 'country_' . $lang;
+    $name = !empty($s[$nameKey]) ? $s[$nameKey] : ($s['country_az'] ?? '');
+    return [
+        'coords'   => [(float)$s['latitude'], (float)$s['longitude']],
+        'name'     => $name,
+        'brands'   => $s['brands'] ?? '',
+        'type'     => $s['type'] ?? 'partner',
+        'flag'     => $s['flag'] ?? '',
+        'iso_code' => $s['iso_code'] ?? '',
+    ];
+}, $suppliers), JSON_UNESCAPED_UNICODE) ?>;
 window.i18nPartners = {
   products: <?= json_encode(t('partners.products_label')) ?>,
   problems: <?= json_encode(t('partners.problems_label')) ?>,

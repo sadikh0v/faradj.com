@@ -145,13 +145,57 @@
         </div>
     </section>
 
+    <section class="why-us-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><?= t('home.why_us_title') ?></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="why-us-grid">
+                <?php
+                $reasons = [
+                    ['icon'=>'fas fa-certificate', 'color'=>'#6c63ff', 'key'=>'official'],
+                    ['icon'=>'fas fa-shipping-fast', 'color'=>'#00b894', 'key'=>'delivery'],
+                    ['icon'=>'fas fa-handshake', 'color'=>'#e91e8c', 'key'=>'corporate'],
+                    ['icon'=>'fas fa-globe', 'color'=>'#f39c12', 'key'=>'brands'],
+                    ['icon'=>'fas fa-shield-alt', 'color'=>'#2b5876', 'key'=>'quality'],
+                    ['icon'=>'fas fa-headset', 'color'=>'#e74c3c', 'key'=>'support'],
+                ];
+                foreach ($reasons as $r): ?>
+                <div class="why-us-card glass-card">
+                    <div class="why-us-icon" style="background:<?= $r['color'] ?>20;color:<?= $r['color'] ?>">
+                        <i class="<?= $r['icon'] ?>"></i>
+                    </div>
+                    <h3><?= t('home.why_' . $r['key'] . '_title') ?></h3>
+                    <p><?= t('home.why_' . $r['key'] . '_text') ?></p>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+
     <section class="testimonials-section">
         <div class="container">
             <h2 class="section-title text-center animate-on-scroll"><?= t('testimonials.title') ?></h2>
             <div class="testimonials-track-wrap">
                 <div class="testimonials-track" id="testimonialsTrack">
                     <?php
-                    $testimonials = [
+                    $testimonials = [];
+                    try {
+                        if (function_exists('db')) {
+                            $testimonials = db()->query("SELECT * FROM testimonials WHERE is_active=1 ORDER BY sort_order ASC")->fetchAll(PDO::FETCH_ASSOC);
+                            $lang = currentLang();
+                            $textKey = 'text_' . $lang;
+                            $testimonials = array_map(function ($t) use ($textKey) {
+                                $name = $t['name'] ?? '';
+                                $text = $t[$textKey] ?? $t['text_az'] ?? '';
+                                $init = preg_match('/^([A-Za-zƏəÖöÜüİıÇçĞğŞş])([A-Za-zƏəÖöÜüİıÇçĞğŞş])?/u', $name, $m) ? mb_strtoupper($m[1] . ($m[2] ?? '')) : '?';
+                                return ['name' => $name, 'text' => $text, 'init' => $init, 'rating' => (int)($t['rating'] ?? 5), 'verified' => $t['is_verified'] ?? 1];
+                            }, $testimonials);
+                        }
+                    } catch (Throwable $e) {}
+                    if (empty($testimonials)) {
+                        $testimonials = [
                         ['name' => 'Anar Məmmədov', 'text' => 'Faradj MMC ilə əməkdaşlığımız çox uğurlu oldu. Keyfiyyətli məhsullar, sürətli çatdırılma və peşəkar yanaşma.', 'init' => 'AM'],
                         ['name' => 'Leyla Həsənova', 'text' => 'Korporativ sifarişlərimizi həmişə vaxtında və eksiksiz yerinə yetirirlər. Çox məmnunam.', 'init' => 'LH'],
                         ['name' => 'Rauf Əliyev', 'text' => 'DOMS məhsulları üçün ən yaxşı distribyutor. Qiymətlər əlverişli, xidmət peşəkardır.', 'init' => 'RƏ'],
@@ -174,15 +218,19 @@
                         ['name' => 'İlahə Rəsulova', 'text' => 'Sifariş prosesi çox asandır. Sayt da çox rahatdır.', 'init' => 'İR'],
                         ['name' => 'Orxan Nəsirov', 'text' => 'Uzun illərdir müştəriyəm. Heç vaxt məyus olmamışam.', 'init' => 'ON'],
                         ['name' => 'Türkan Əlizadə', 'text' => 'Məktəb mövsümündə böyük kömək oldu. Sürətli xidmət.', 'init' => 'TƏ'],
-                    ];
-                    foreach ($testimonials as $item): ?>
+                        ];
+                    }
+                    foreach ($testimonials as $item):
+                        $rating = (int)($item['rating'] ?? 5);
+                        $verified = $item['verified'] ?? true;
+                    ?>
                     <div class="testimonial-card glass-card">
                         <span class="testimonial-quote">"</span>
                         <p class="testimonial-text"><?= htmlspecialchars($item['text']) ?></p>
-                        <div class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <div class="testimonial-rating"><?= str_repeat('<i class="fas fa-star"></i>', $rating) ?></div>
                         <div class="testimonial-avatar"><?= htmlspecialchars($item['init']) ?></div>
                         <h4><?= htmlspecialchars($item['name']) ?></h4>
-                        <span class="verified-badge">✓ <?= t('testimonials.verified') ?></span>
+                        <?php if ($verified): ?><span class="verified-badge">✓ <?= t('testimonials.verified') ?></span><?php endif; ?>
                     </div>
                     <?php endforeach; ?>
                 </div>

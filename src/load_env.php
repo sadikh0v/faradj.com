@@ -33,3 +33,4 @@ if (!function_exists('base_path')) {
 }
 
 require_once __DIR__ . '/helpers/settings.php';
+require_once __DIR__ . '/helpers/csrf.php';

@@ -4,7 +4,7 @@ require_once __DIR__ . '/../helpers/i18n.php';
 require_once __DIR__ . '/../helpers/img_webp.php';
 $currentPage = $currentPage ?? 'index';
 $isProduction = (function_exists('env') && env('APP_ENV') === 'production');
-$assetSuffix = $isProduction ? '.min' : '';
+$assetSuffix = '';
 $baseUrl = '/';
 $currentPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $currentPath = rtrim($currentPath, '/') ?: '/';
@@ -20,26 +20,8 @@ if (!str_contains($currentPath, 'admin') && !str_contains($currentPath, 'auth'))
         // Silently ignore
     }
 }
-$baseHost = (!empty($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'localhost') !== false)
-    ? 'http://' . $_SERVER['HTTP_HOST']
-    : 'https://faradj.com';
 $metaTitle = $metaTitle ?? 'Faradj MMC — Biznes və Yaradıcılıq üçün İlham';
 $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis ləvazimatları təchizatçısı. DOMS rəsmi distribyutoru.';
-$metaUrl = $metaUrl ?? $baseHost . ($_SERVER['REQUEST_URI'] ?? '/');
-
-// OG Image — динамическое превью
-$ogTitle = $metaTitle;
-$ogSub   = $metaDesc;
-$ogDate  = date('d.m.Y');
-if (isset($event) && is_array($event)) {
-    $ogTitle = $event['title'] ?? $metaTitle;
-    $ogSub   = $event['excerpt'] ?? $metaDesc;
-    $ogDate  = $event['event_date'] ?? date('d.m.Y');
-}
-$ogTitleEnc = urlencode($ogTitle);
-$ogSubEnc   = urlencode($ogSub);
-$ogDateEnc  = urlencode($ogDate);
-$metaImg = $metaImage ?? "{$baseHost}/og-image.php?title={$ogTitleEnc}&sub={$ogSubEnc}&date={$ogDateEnc}";
 ?>
 <!DOCTYPE html>
 <html lang="<?= currentLang() ?>">
@@ -52,26 +34,28 @@ $metaImg = $metaImage ?? "{$baseHost}/og-image.php?title={$ogTitleEnc}&sub={$ogS
     <meta name="description" content="<?= htmlspecialchars($metaDesc) ?>" />
     <meta name="keywords" content="dəftərxana, ofis ləvazimatları, DOMS, Faradj, Bakı, Azərbaycan" />
     <meta name="author" content="Faradj MMC" />
-    <link rel="canonical" href="<?= htmlspecialchars($metaUrl) ?>" />
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="<?= htmlspecialchars($metaUrl) ?>" />
-    <meta property="og:title" content="<?= htmlspecialchars($metaTitle) ?>" />
-    <meta property="og:description" content="<?= htmlspecialchars($metaDesc) ?>" />
-    <meta property="og:image" content="<?= htmlspecialchars($metaImg) ?>" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:locale" content="az_AZ" />
-    <meta property="og:site_name" content="Faradj MMC" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<?= htmlspecialchars($metaTitle) ?>" />
-    <meta name="twitter:description" content="<?= htmlspecialchars($metaDesc) ?>" />
-    <meta name="twitter:image" content="<?= htmlspecialchars($metaImg) ?>" />
 
     <title><?= htmlspecialchars($metaTitle) ?></title>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Faradj MMC">
+    <meta property="og:title" content="<?= htmlspecialchars($metaTitle ?? 'Faradj MMC') ?>">
+    <meta property="og:description" content="<?= htmlspecialchars($metaDesc ?? 'DOMS rəsmi distribyutoru. Dəftərxana, ofis ləvazimatları, korporativ təchizat.') ?>">
+    <meta property="og:url" content="https://faradj.com<?= htmlspecialchars($_SERVER['REQUEST_URI'] ?? '/') ?>">
+    <meta property="og:image" content="https://faradj.com/assets/img/og-image.php">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="<?= currentLang() === 'ru' ? 'ru_RU' : (currentLang() === 'en' ? 'en_US' : 'az_AZ') ?>">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<?= htmlspecialchars($metaTitle ?? 'Faradj MMC') ?>">
+    <meta name="twitter:description" content="<?= htmlspecialchars($metaDesc ?? 'DOMS rəsmi distribyutoru. Dəftərxana, ofis ləvazimatları, korporativ təchizat.') ?>">
+    <meta name="twitter:image" content="https://faradj.com/assets/img/og-image.php">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://faradj.com<?= htmlspecialchars(strtok($_SERVER['REQUEST_URI'] ?? '/', '?')) ?>">
 
     <?php
     $baseUrlHref = 'https://faradj.com' . parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
@@ -87,6 +71,9 @@ $metaImg = $metaImage ?? "{$baseHost}/og-image.php?title={$ogTitleEnc}&sub={$ogS
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <?php if (($currentPage ?? '') === 'partners'): ?>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <?php endif; ?>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico?v=8" />
@@ -112,41 +99,13 @@ $metaImg = $metaImage ?? "{$baseHost}/og-image.php?title={$ogTitleEnc}&sub={$ogS
     <?php endif; ?>
     <link rel="stylesheet" href="/assets/css/mobile<?= $assetSuffix ?>.css" media="(max-width: 767px)" />
     <?php if ($isProduction): ?>
-    <?php $gaId = env('GA_MEASUREMENT_ID'); if ($gaId): ?>
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<?= htmlspecialchars($gaId) ?>"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '<?= htmlspecialchars($gaId) ?>', { anonymize_ip: true, cookie_flags: 'SameSite=None;Secure' });
-      document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('b2bForm')?.addEventListener('submit', function() {
-          gtag('event', 'form_submit', { event_category: 'Müraciət', event_label: 'Müraciət' });
-        });
-        document.getElementById('contactForm')?.addEventListener('submit', function() {
-          gtag('event', 'form_submit', { event_category: 'Contact', event_label: 'Əlaqə formu' });
-        });
-        document.querySelector('.whatsapp-float')?.addEventListener('click', function() {
-          gtag('event', 'click', { event_category: 'WhatsApp', event_label: 'WhatsApp button' });
-        });
-      });
+    window._faradjAnalytics = {
+      gaId: <?= json_encode(env('GA_MEASUREMENT_ID') ?? '') ?>,
+      ymId: <?= (int)(env('YANDEX_COUNTER_ID') ?? 0) ?>,
+      hjId: <?= json_encode(env('HOTJAR_ID') ?? '') ?>
+    };
     </script>
-    <?php endif; ?>
-    <?php $ymId = env('YANDEX_COUNTER_ID'); if ($ymId): ?>
-    <!-- Yandex Metrica -->
-    <script type="text/javascript">
-      (function(m,e,t,r,i,k,a){ m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}; m[i].l=1*new Date();
-      k=e.createElement(t); a=e.getElementsByTagName(t)[0]; k.async=1; k.src=r; a.parentNode.insertBefore(k,a)
-      })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-      ym(<?= (int)$ymId ?>, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true });
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/<?= (int)$ymId ?>" style="position:absolute;left:-9999px;" alt=""></div></noscript>
-    <?php endif; ?>
-    <?php $hjId = env('HOTJAR_ID'); if ($hjId): ?>
-    <!-- Hotjar / Contentsquare -->
-    <script src="https://t.contentsquare.net/uxa/<?= htmlspecialchars($hjId) ?>.js" async></script>
-    <?php endif; ?>
     <?php endif; ?>
 </head>
 <body>

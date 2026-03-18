@@ -139,6 +139,47 @@ return [
   'common.scroll_top'   => 'Yuxarı',
   'privacy.title'       => 'Məxfilik Siyasəti',
   'privacy.updated'     => 'Son yenilənmə: Mart 2026',
+  'privacy.content'     => '<div class="privacy-doc">
+<h2>1. Ümumi Müddəalar</h2>
+<p>Bu Məxfilik Siyasəti (bundan sonra – "Siyasət") "Faradj" MMC (VÖEN: 1404415751, bundan sonra – "Şirkət", "Biz") tərəfindən idarə olunan <strong>faradj.com</strong> internet saytının (bundan sonra – "Sayt") istifadəçilərinə (bundan sonra – "İstifadəçi", "Siz") şəxsi məlumatların toplanması, işlənməsi, saxlanması və qorunması qaydalarını müəyyən edir.</p>
+<p>Bu Siyasət Azərbaycan Respublikasının "Fərdi məlumatlar haqqında" Qanunu (2010-cu il, № 998-IIIQ), "Elektron ticarət haqqında" Qanunu, habelə Avropa İttifaqının Ümumi Məlumatların Mühafizəsi Qaydanamələrinin (GDPR – 2016/679) müvafiq müddəaları əsasında hazırlanmışdır.</p>
+<p>Saytdan istifadə etməklə Siz bu Siyasətin şərtlərini tam həcmdə qəbul etmiş sayılırsınız.</p>
+<h2>2. Toplanan Məlumatların Tərkibi</h2>
+<h3>2.1. Birbaşa təqdim edilən məlumatlar</h3>
+<p>İstifadəçi tərəfindən könüllü olaraq təqdim edilən məlumatlar aşağıdakılardır:</p>
+<ul><li>Ad, soyad və ata adı;</li><li>Elektron poçt ünvanı;</li><li>Əlaqə telefon nömrəsi;</li><li>Təşkilatın adı və vəzifəsi (B2B müraciətlər üçün);</li><li>Müraciətin mövzusu və məzmunu.</li></ul>
+<h3>2.2. Avtomatik toplanan texniki məlumatlar</h3>
+<ul><li>IP ünvanı və coğrafi məkan (ölkə/şəhər səviyyəsində);</li><li>Brauzer növü, versiyası və əməliyyat sistemi;</li><li>Sayta keçid mənbəyi (referrer URL);</li><li>Ziyarət tarixi, saatı və müddəti;</li><li>Baxılan səhifələr və klik yolları;</li><li>Cihaz növü (masaüstü, mobil, planşet).</li></ul>
+<h2>3. Məlumatların Toplanma Məqsədləri</h2>
+<p>Şirkət şəxsi məlumatları aşağıdakı qanuni əsaslar üzrə emal edir:</p>
+<ul><li><strong>Müqavilənin icrasına hazırlıq:</strong> Korporativ sifarişlər və B2B əməkdaşlıq müraciətlərinin işlənməsi;</li><li><strong>Qanuni maraqların həyata keçirilməsi:</strong> Saytın texniki işlənməsi, təhlükəsizliyin təmin edilməsi, fırıldaqçılığın qarşısının alınması;</li><li><strong>Razılıq əsasında:</strong> Kommersiya təklifləri və xəbər bülletenləri göndərilməsi (yalnız açıq razılıq alındıqda);</li><li><strong>Qanuni öhdəliklərin yerinə yetirilməsi:</strong> Azərbaycan Respublikasının vergi, mühasibat və digər normativ tələblərinin ödənilməsi.</li></ul>
+<h2>4. Məlumatların Saxlanma Müddəti</h2>
+<p>Şəxsi məlumatlar məqsədə nail olunduqdan sonra silinir, lakin aşağıdakı hallarda saxlanma müddəti uzadılır:</p>
+<ul><li>Müqavilə öhdəlikləri üzrə – müqavilənin başa çatmasından <strong>5 il</strong> ərzində;</li><li>Vergi və mühasibat sənədləri – <strong>10 il</strong> ərzində (AR Vergi Məcəlləsi, maddə 76);</li><li>Texniki log məlumatları – <strong>90 gün</strong> ərzində;</li><li>Marketinq razılıqları – razılığın geri götürülməsinə qədər.</li></ul>
+<h2>5. Cookie Faylları və İzləmə Texnologiyaları</h2>
+<p>Sayt aşağıdakı cookie kateqoriyalarından istifadə edir:</p>
+<ul><li><strong>Zəruri cookie-lər:</strong> Saytın texniki funksionallığını təmin edir (sessiya, dil seçimi). Bloklandıqda sayt düzgün işləməyə bilər.</li><li><strong>Analitika cookie-ləri:</strong> Google Analytics (GA4) və Yandex.Metrica vasitəsilə istifadəçi davranışının anonim şəkildə təhlili.</li><li><strong>Marketinq cookie-ləri:</strong> Yalnız açıq razılıq alındıqda aktivləşdirilir.</li></ul>
+<p>Cookie-ləri idarə etmək üçün brauzerinizin parametrlər bölməsinə müraciət edə bilərsiniz.</p>
+<h2>6. Məlumatların Üçüncü Tərəflərlə Paylaşılması</h2>
+<p>Şirkət şəxsi məlumatları üçüncü şəxslərə <strong>satmır, icarəyə vermir və kommersiya məqsədilə ötürmür.</strong> Məlumatlar yalnız aşağıdakı hallarda paylaşıla bilər:</p>
+<ul><li>Xidmət təminatçıları ilə (hosting, email, analitika) – yalnız xidmətin göstərilməsi üçün zəruri həcmdə;</li><li>Dövlət orqanlarının qanuni tələbi əsasında – AR qanunvericiliyinə uyğun olaraq;</li><li>İstifadəçinin açıq yazılı razılığı ilə.</li></ul>
+<h2>7. İstifadəçinin Hüquqları</h2>
+<p>GDPR və AR "Fərdi məlumatlar haqqında" Qanunu çərçivəsində Sizin aşağıdakı hüquqlarınız vardır:</p>
+<ul><li><strong>Məlumata çıxış hüququ:</strong> Haqqınızda saxlanan məlumatların surətini tələb etmək;</li><li><strong>Düzəliş hüququ:</strong> Yanlış məlumatların dəqiqləşdirilməsini tələb etmək;</li><li><strong>Silinmə hüququ ("Unutulmaq hüququ"):</strong> Məlumatlarınızın silinməsini tələb etmək;</li><li><strong>Emalın məhdudlaşdırılması hüququ:</strong> Müəyyən hallarda emalın dayandırılmasını tələb etmək;</li><li><strong>Etiraz hüququ:</strong> Qanuni maraqlar əsasında aparılan emala etiraz etmək;</li><li><strong>Daşınma hüququ:</strong> Məlumatlarınızı maşın tərəfindən oxuna bilən formatda almaq.</li></ul>
+<p>Hüquqlarınızı həyata keçirmək üçün: <strong>info@faradj.com</strong> ünvanına yazın. Müraciətlər <strong>30 iş günü</strong> ərzində cavablandırılır.</p>
+<h2>8. Məlumatların Təhlükəsizliyi</h2>
+<p>Şirkət şəxsi məlumatların qorunması üçün aşağıdakı texniki və təşkilati tədbirləri həyata keçirir:</p>
+<ul><li>SSL/TLS şifrələməsi (HTTPS protokolu);</li><li>Məlumata çıxışın rol əsaslı idarəsi;</li><li>Müntəzəm ehtiyat nüsxələrin yaradılması;</li><li>Serverlərin sertifikatlaşdırılmış data-mərkəzlərdə yerləşdirilməsi.</li></ul>
+<h2>9. Uşaqların Məxfiliyi</h2>
+<p>Sayt 16 yaşından kiçik şəxslərə yönəlməmişdir. Şirkət bu yaş qrupuna aid şəxsi məlumatları bilərəkdən toplamır. Belə məlumatların toplandığı aşkar edildiyi halda dərhal silinir.</p>
+<h2>10. Siyasətdə Dəyişikliklər</h2>
+<p>Şirkət bu Siyasəti istənilən vaxt dəyişdirmək hüququnu özündə saxlayır. Əhəmiyyətli dəyişikliklər haqqında İstifadəçilər saytda elan vasitəsilə məlumatlandırılacaq. Dəyişikliklərin dərc edilməsindən sonra Saytdan istifadənin davam etdirilməsi yeni şərtlərin qəbul edilməsi kimi qiymətləndirilir.</p>
+<h2>11. Tətbiq Hüququ və Mübahisələrin Həlli</h2>
+<p>Bu Siyasət Azərbaycan Respublikasının qanunvericiliyi ilə tənzimlənir. Bu Siyasətlə bağlı yaranan mübahisələr ilk növbədə danışıqlar yolu ilə həll edilir; razılığa gəlinmədikdə Bakı şəhərinin müvafiq məhkəmələrinin səlahiyyətinə verilir.</p>
+<h2>12. Əlaqə Məlumatları</h2>
+<p>Məxfilik məsələləri üzrə məlumat mübadiləsi operatoru:</p>
+<p><strong>Faradj MMC</strong><br>Ünvan: Azərbaycan Respublikası, Bakı şəhəri, İnşaatçılar prospekti, 106<br>Elektron poçt: <a href="mailto:info@faradj.com">info@faradj.com</a><br>Telefon: <a href="tel:+994558591211">+994 55 859 12 11</a><br>Sayt: <a href="https://faradj.com">faradj.com</a></p>
+</div>',
   '404.title'           => 'Səhifə tapılmadı',
   '404.text'            => 'Keçid yanlışdır və ya səhifə artıq mövcud deyil.',
   '404.btn'             => 'Əsas səhifəyə qayıt',
@@ -161,8 +202,23 @@ return [
   'home.about.goal_desc'    => 'Keyfiyyət standartlarını əlçatan qiymətlərlə birləşdirərək müştəri məmnuniyyətini ən yüksək səviyyəyə çatdırmaqdır. Yenilikçi ruhumuz və kreativ yanaşmamızla bazarda fərq yaradır, hər bir müştərimizlə qarşılıqlı etimada əsaslanan loyal münasibətlər qururuq. Gələcəyə fokuslanaraq yeni iş imkanları və innovativ tərəfdaşlıqlar üçün daim açığıq.',
   'home.about.values_title' => 'Dəyərlərimiz',
   'home.about.values_desc'  => 'Dəyərlərimiz bizi fərqləndirən əsas amildir. Biz İnnovasiyaya önəm verərək dəftərxana dünyasındakı trendləri Azərbaycana gətiririk. Müştəri Məmnuniyyəti bizim üçün sadəcə hədəf deyil, hər gün daha da təkmilləşdirdiyimiz bir standartdır. Kreativlik və Çeviklik isə bizə bazarda hər zaman bir addım öndə olmağa imkan verir.',
+  'home.why_us_title' => 'Niyə Faradj MMC?',
+  'home.why_official_title' => 'Rəsmi Distribyutor',
+  'home.why_official_text' => 'DOMS brendinin Azərbaycanda yeganə rəsmi distribyutoru. Bütün məhsullar orijinal və sertifikatlıdır.',
+  'home.why_delivery_title' => 'Sürətli Çatdırılma',
+  'home.why_delivery_text' => 'Bakı daxili 1-2, regionlara 3-5 iş günü. 200 AZN üzərindəki sifarişlərə pulsuz çatdırılma.',
+  'home.why_corporate_title' => 'Korporativ Şərtlər',
+  'home.why_corporate_text' => '30 günədək ödəniş müddəti, fərdi qiymət cədvəli və prioritet xidmət.',
+  'home.why_brands_title' => '13+ Dünya Brendi',
+  'home.why_brands_text' => 'DOMS, Faber-Castell, Milan, Uni-ball və digər premium brendlər — bir çatdırılmada.',
+  'home.why_quality_title' => 'Keyfiyyət Zəmanəti',
+  'home.why_quality_text' => 'Zavod qüsuru halında 7 gün ərzində dəyişdirmə və ya tam geri ödəmə.',
+  'home.why_support_title' => 'Peşəkar Dəstək',
+  'home.why_support_text' => 'Tender sənədləri, brendinq sifarişləri və xüsusi çap xidmətlərini dəstəkləyirik.',
   'testimonials.title' => 'Müştərilərimiz nə deyir',
   'testimonials.verified' => 'Təsdiqlənmiş müştəri',
+  'partners.suppliers_title' => 'Təchizatçılarımız dünya üzrə',
+  'partners.suppliers_subtitle' => '8 ölkədən birbaşa idxal — keyfiyyət və etibarlılıq',
   'partners.brands_section'  => 'Brendlərimiz',
   'partners.clients_section' => 'Müştərilərimiz',
   'partners.permanent'       => 'Daimi müştəri',
@@ -212,18 +268,36 @@ return [
   'contacts.store_addr'  => '"Qələm" mağazası: Bakı şəhəri, Murtuza Muxtarov 179',
   'contacts.address_street' => 'Bakı şəhəri, İnşaatçılar pr. 106',
   'contacts.store_addr_street' => 'Bakı şəhəri, Murtuza Muxtarov 179',
-  'faq.q1' => 'Minimum sifariş həcmi nə qədərdir?',
-  'faq.a1' => 'Pərakəndə sifarişlər üçün minimum hədd yoxdur. Korporativ sifarişlər üçün isə aylıq 500 AZN-dən başlayan həcmlərdə xüsusi qiymətlər təklif edirik.',
-  'faq.q2' => 'Çatdırılma neçə gün çəkir?',
-  'faq.a2' => 'Bakı daxilindəki sifarişlər 1-2 iş günü ərzində çatdırılır. Regionlara göndəriş 3-5 iş günü çəkir.',
-  'faq.q3' => 'Korporativ müqavilə bağlamaq mümkündürmü?',
-  'faq.a3' => 'Bəli, korporativ müştərilər üçün xüsusi müqavilə şərtləri, fərdi qiymətlər və prioritet çatdırılma təklif edirik. Müraciət formasını doldurun.',
-  'faq.q4' => 'Geri qaytarma siyasəti necədir?',
-  'faq.a4' => 'Məhsullar çatdırıldıqdan sonra 7 gün ərzində defekt olması halında geri qaytarılır. Bütün məhsullar keyfiyyət yoxlamasından keçirilir.',
-  'faq.q5' => 'Ödəniş üsulları hansılardır?',
-  'faq.a5' => 'Nağd pul, bank köçürməsi, kart ilə ödəniş qəbul edilir. Korporativ müştərilər üçün 30 günlük ödəniş müddəti mümkündür.',
-  'faq.q6' => 'DOMS brendinin rəsmi distribyutorusunuzmu?',
-  'faq.a6' => 'Bəli, Faradj MMC DOMS brendinin Azərbaycandakı yeganə rəsmi distribyutorudur. Bütün məhsullar orijinal və keyfiyyət sertifikatlıdır.',
+  'faq' => [
+    [
+        'q' => 'Korporativ təchizat müqaviləsi bağlamaq üçün hansı şərtlər tələb olunur?',
+        'a' => 'Korporativ əməkdaşlıq üçün şirkətin VÖEN-i və səlahiyyətli nümayəndənin əlaqə məlumatları kifayətdir. Aylıq dövriyyədən asılı olaraq fərdi qiymət cədvəli, təxirəsalınmaz çatdırılma prioriteti və 30 günədək ödəniş müddəti təklif edilir. B2B müraciət formasını doldurun — menecerlərimiz 24 saat ərzində əlaqə saxlayacaq.'
+    ],
+    [
+        'q' => 'DOMS məhsullarının orijinallığına zəmanət verirsinizmi?',
+        'a' => 'Bəli. Faradj MMC DOMS brendinin Azərbaycanda yeganə rəsmi distribyutorudur. Bütün məhsullar istehsalçının keyfiyyət sertifikatları ilə təchiz edilmiş orijinal mallar olub, birbaşa istehsalçıdan idxal edilir. Saxta məhsul riski tamamilə istisna edilir.'
+    ],
+    [
+        'q' => 'Tender prosedurlarında iştirak edirsinizmi?',
+        'a' => 'Bəli. Dövlət satınalmaları, korporativ tenderlər və beynəlxalq layihələr çərçivəsində rəsmi tender sənədləri, qiymət təklifləri və zəmanət məktubları hazırlayırıq. Tender üzrə müraciətlər üçün birbaşa sales@faradj.org ünvanına yazın.'
+    ],
+    [
+        'q' => 'Çatdırılma şərtləri və sığorta necə tənzimlənir?',
+        'a' => 'Bakı daxili sifarişlər 1-2 iş günü, regionlara 3-5 iş günü ərzində çatdırılır. 200 AZN-i keçən sifarişlər üçün çatdırılma pulsuzdur. 200 AZN-dən az sifarişlər kuryer xidməti ilə çatdırılır. Nəqliyyat zamanı baş verə biləcək zərər halları Şirkət tərəfindən ödənilir — əlavə sığorta tələb olunmur.'
+    ],
+    [
+        'q' => 'Geri qaytarma və dəyişdirmə proseduru necə həyata keçirilir?',
+        'a' => 'Zavod qüsuru aşkar edildikdə məhsul çatdırılma tarixindən etibarən 7 təqvim günü ərzində dəyişdirilir və ya tam məbləğdə geri qaytarılır. Geri qaytarma prosesi üçün aktın tərtib edilməsi və menecerlə əlaqə kifayətdir. İstifadə zamanı deyil, istehsal qüsurundan irəli gələn bütün iddialar tam ödənilir.'
+    ],
+    [
+        'q' => 'Ödəniş şərtləri hansılardır?',
+        'a' => 'Pərakəndə müştərilər üçün nağd, bank kartı və bank köçürməsi qəbul edilir. Korporativ müştərilər üçün aylıq dövriyyədən asılı olaraq 15, 30 və ya 45 günlük ödəniş müddəti razılaşdırılır. Dövlət qurumları üçün büdcə ödənişi qaydaları tam dəstəklənir.'
+    ],
+    [
+        'q' => 'Xüsusi çap, brendinq və fərdi dizayn sifarişləri mümkündürmü?',
+        'a' => 'Bəli. Korporativ hədiyyəlik dəftər, qələm dəsti, logolu kançelyariya məmulatları və xüsusi qablaşdırma xidmətlərini təklif edirik. Minimum sifariş həcmi və çatdırılma müddəti dizaynın mürəkkəbliyindən asılıdır. Fərdi təklif üçün sales@faradj.org ünvanına müraciət edin.'
+    ],
+  ],
   'request.industry_placeholder' => 'Şirkətin fəaliyyət sahəsi',
   'request.volume_placeholder'   => 'Aylıq sifariş həcmi (AZN)',
   'events.modal_close'  => 'Bağla',
@@ -232,16 +306,4 @@ return [
   'events.modal_author' => 'Müəllif',
   'events.modal_cat'    => 'Kateqoriya',
   'events.no_news'      => 'Hələ xəbər yoxdur.',
-  'privacy.section1_title' => 'Ümumi məlumat',
-  'privacy.section1_desc'  => 'Bu məxfilik siyasəti faradj.com saytının istifadəçilərinə aiddir.',
-  'privacy.section2_title' => 'Hansı məlumatlar toplanır?',
-  'privacy.section2_desc'  => 'Əlaqə formaları vasitəsilə: ad, email, telefon. Texniki: IP ünvanı, brauzer növü, ziyarət tarixi.',
-  'privacy.section3_title' => 'Məlumatlar necə istifadə edilir?',
-  'privacy.section3_desc'  => 'Sizinlə əlaqə saxlamaq, sifarişləri yerinə yetirmək və saytı təkmilləşdirmək üçün. Üçüncü tərəflərə satılmır.',
-  'privacy.section4_title' => 'Cookie siyasəti',
-  'privacy.section4_desc'  => 'Saytımız yalnız texniki cookie istifadə edir. Cookie-ləri brauzer ayarlarından silə bilərsiniz.',
-  'privacy.section5_title' => 'Məlumatların qorunması',
-  'privacy.section5_desc'  => 'Bütün məlumatlar SSL şifrələməsi ilə qorunur. Serverlər etibarlı hostinqdə yerləşdirilmişdir.',
-  'privacy.section6_title' => 'Əlaqə',
-  'privacy.section6_desc'  => 'Suallar üçün: info@faradj.com | Bakı, İnşaatçılar pr. 106',
 ];

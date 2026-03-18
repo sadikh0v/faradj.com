@@ -4,6 +4,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false]);
     exit;
 }
+require_once __DIR__ . '/../src/load_env.php';
+require_once __DIR__ . '/../src/helpers/RateLimit.php';
+
+if (!csrf_verify()) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Invalid request']);
+    exit;
+}
+if (!RateLimit::check('b2b', 3, 600)) {
+    http_response_code(429);
+    echo json_encode(['success' => false, 'message' => 'Çox sayda müraciət. 10 dəqiqə sonra yenidən cəhd edin.']);
+    exit;
+}
 $data = [
     'company'  => trim($_POST['company'] ?? ''),
     'contact'  => trim($_POST['contact'] ?? ''),
@@ -47,6 +60,19 @@ try {
     if (!$sent) {
         error_log('[B2B] Mail failed but data saved');
     }
+    Mailer::sendAdminNotification([
+        'type' => 'b2b',
+        'company' => $data['company'],
+        'contact' => $data['contact'],
+        'phone' => $data['phone'],
+        'email' => $data['email'],
+        'activity' => $data['activity'],
+        'volume' => $data['volume'],
+        'budget' => $data['budget'],
+        'products' => $data['products'],
+        'note' => $data['note'],
+        'admin_url' => 'https://faradj.com/admin/b2b',
+    ]);
     echo json_encode(['success' => true]);
 } catch (Throwable $e) {
     echo json_encode(['success' => false, 'message' => 'Xəta baş verdi']);

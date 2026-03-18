@@ -103,6 +103,45 @@
   gap: 24px;
 }
 
+/* Suppliers Map Section */
+.suppliers-map-section {
+  padding: 60px 0;
+}
+.suppliers-map-section .section-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+.suppliers-map-section .section-header h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+}
+.suppliers-map-section .section-divider {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #6c63ff, #ff6584);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+.suppliers-map-wrap {
+  padding: 8px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.suppliers-map-wrap.glass-card:hover {
+  transform: none;
+  box-shadow: var(--glass-shadow);
+}
+.supply-line {
+  animation: dashMove 3s linear infinite;
+}
+@keyframes dashMove {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
 .partners-divider.section-header {
   margin: 0 0 40px;
 }

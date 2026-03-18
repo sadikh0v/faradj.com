@@ -176,21 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   // Callback form handled by forms.js
 
-  // Cookie Banner — show until accepted
-  const cookieBanner = document.getElementById("cookieBanner");
-  if (cookieBanner) {
-    if (!localStorage.getItem("cookiesAccepted")) {
-      cookieBanner.classList.add("visible");
-    }
-    document.getElementById("cookieAccept")?.addEventListener("click", () => {
-      localStorage.setItem("cookiesAccepted", "true");
-      cookieBanner.classList.remove("visible");
-    });
-    document.getElementById("cookieDecline")?.addEventListener("click", () => {
-      cookieBanner.classList.remove("visible");
-    });
-  }
-
   // Language switcher: forms POST to /lang, active class set by PHP
 
   // Testimonials Slider

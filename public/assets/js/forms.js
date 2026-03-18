@@ -316,7 +316,9 @@
       email: [validators.required, validators.email],
       subject: [validators.required],
       message: [validators.required, validators.minLength(10)]
-    }, "/contact-submit.php");
+    }, "/contact-submit.php", function() {
+      window.location.href = "/thank-you?from=contact";
+    });
 
     setupFormValidation("callbackForm", {
       name: [validators.required],

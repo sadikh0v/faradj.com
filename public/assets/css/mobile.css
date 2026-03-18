@@ -423,6 +423,19 @@
     flex-direction: column;
     text-align: center;
   }
+  .cookie-consent-inner {
+    padding: 0 8px;
+  }
+  .cookie-category-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cookie-consent-actions {
+    flex-direction: column;
+  }
+  .cookie-consent-actions button {
+    width: 100%;
+  }
 
   .contact-info {
     padding: 25px;
@@ -434,6 +447,48 @@
 
   .map-frame {
     height: 200px;
+  }
+
+  #suppliersMap {
+    height: 280px !important;
+  }
+
+  .suppliers-map-wrap {
+    padding: 4px;
+  }
+
+  .contacts-top-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .why-us-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonials-track-wrap {
+    overflow: hidden;
+  }
+
+  .testimonials-track .testimonial-card {
+    flex-shrink: 0;
+  }
+
+  .b2b-form .form-field {
+    flex-direction: column;
+  }
+
+  .b2b-form .field-icon-wrap {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .section-header h2 {
+    font-size: 22px;
   }
 
   /* 9. Футер */
@@ -468,6 +523,39 @@
 
   .btn-reg {
     display: none; /* Скрываем регистрацию, оставляем только вход для экономии места */
+  }
+}
+
+/* Дополнительная адаптация для 480px и ниже */
+@media (max-width: 480px) {
+  .why-us-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .suppliers-map-wrap {
+    padding: 4px;
+  }
+
+  #suppliersMap {
+    height: 280px !important;
+  }
+
+  .b2b-form .form-field {
+    flex-direction: column;
+  }
+
+  .b2b-form .field-icon-wrap {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .section-header h2 {
+    font-size: 22px;
   }
 }
 

@@ -139,6 +139,46 @@ return [
   'common.scroll_top'   => 'Back to Top',
   'privacy.title'       => 'Privacy Policy',
   'privacy.updated'     => 'Last updated: March 2026',
+  'privacy.content'     => '<div class="privacy-doc">
+<h2>1. General Provisions</h2>
+<p>This Privacy Policy (hereinafter — the "Policy") governs the collection, processing, storage, and protection of personal data of users (hereinafter — "User", "You") of the website <strong>faradj.com</strong>, operated by Faradj MMC (hereinafter — the "Company", "We").</p>
+<p>This Policy has been developed in accordance with the Law of the Republic of Azerbaijan "On Personal Data" (2010, No. 998-IIIQ), the Law "On Electronic Commerce", and the applicable provisions of the European Union General Data Protection Regulation (GDPR — 2016/679).</p>
+<p>By using the website, You acknowledge and fully accept the terms of this Policy.</p>
+<h2>2. Categories of Data Collected</h2>
+<h3>2.1. Data provided by the User</h3>
+<ul><li>Full name;</li><li>Email address;</li><li>Contact phone number;</li><li>Company name and job title (for B2B inquiries);</li><li>Subject and content of the inquiry.</li></ul>
+<h3>2.2. Automatically collected technical data</h3>
+<ul><li>IP address and geographic location (at country/city level);</li><li>Browser type and version, operating system;</li><li>Referral source (referrer URL);</li><li>Date, time, and duration of visit;</li><li>Pages viewed and navigation paths;</li><li>Device type (desktop, mobile, tablet).</li></ul>
+<h2>3. Purposes of Data Processing</h2>
+<p>The Company processes personal data on the following legal bases:</p>
+<ul><li><strong>Performance of a contract:</strong> Processing of corporate orders and B2B inquiries;</li><li><strong>Legitimate interests:</strong> Technical operation of the website, security assurance, fraud prevention;</li><li><strong>Consent:</strong> Sending commercial offers and newsletters (only upon explicit consent);</li><li><strong>Legal obligations:</strong> Compliance with tax, accounting, and other statutory requirements of the Republic of Azerbaijan.</li></ul>
+<h2>4. Data Retention Periods</h2>
+<p>Personal data is deleted upon achievement of the processing purpose, except in the following cases:</p>
+<ul><li>Contractual obligations — for <strong>5 years</strong> from the date of contract performance;</li><li>Tax and accounting records — for <strong>10 years</strong> (Art. 76 of the Tax Code of the Republic of Azerbaijan);</li><li>Technical log files — for <strong>90 days</strong>;</li><li>Marketing consents — until withdrawn.</li></ul>
+<h2>5. Cookies and Tracking Technologies</h2>
+<p>The website uses the following categories of cookies:</p>
+<ul><li><strong>Essential cookies:</strong> Required for the technical functionality of the website (session management, language preferences). Blocking these may impair website performance.</li><li><strong>Analytics cookies:</strong> Anonymous analysis of user behaviour via Google Analytics (GA4) and Yandex.Metrica.</li><li><strong>Marketing cookies:</strong> Activated exclusively upon the User\'s explicit consent.</li></ul>
+<p>You may manage cookie preferences through your browser settings.</p>
+<h2>6. Sharing Data with Third Parties</h2>
+<p>The Company does <strong>not sell, rent, or transfer</strong> personal data to third parties for commercial purposes. Data may be shared only in the following cases:</p>
+<ul><li>With service providers (hosting, email, analytics) — strictly to the extent necessary for service delivery;</li><li>With government authorities upon lawful request — in compliance with the legislation of the Republic of Azerbaijan;</li><li>With the User\'s explicit written consent.</li></ul>
+<h2>7. User Rights</h2>
+<p>Under the GDPR and the Law of the Republic of Azerbaijan "On Personal Data", You have the following rights:</p>
+<ul><li><strong>Right of access:</strong> Obtain a copy of the data held about You;</li><li><strong>Right to rectification:</strong> Request correction of inaccurate data;</li><li><strong>Right to erasure ("Right to be forgotten"):</strong> Request deletion of Your data;</li><li><strong>Right to restriction of processing:</strong> Request suspension of processing in certain circumstances;</li><li><strong>Right to object:</strong> Object to processing based on legitimate interests;</li><li><strong>Right to data portability:</strong> Receive Your data in a machine-readable format.</li></ul>
+<p>To exercise Your rights, contact: <strong>info@faradj.com</strong>. Requests are processed within <strong>30 business days</strong>.</p>
+<h2>8. Data Security</h2>
+<p>The Company implements the following technical and organisational security measures:</p>
+<ul><li>SSL/TLS encryption (HTTPS protocol);</li><li>Role-based access control;</li><li>Regular data backups;</li><li>Servers hosted in certified data centres.</li></ul>
+<h2>9. Protection of Minors\' Data</h2>
+<p>The website is not directed at persons under the age of 16. The Company does not knowingly collect personal data from this age group. If such data is identified, it is deleted immediately.</p>
+<h2>10. Changes to This Policy</h2>
+<p>The Company reserves the right to amend this Policy at any time. Users will be notified of material changes via an announcement on the website. Continued use of the website following the publication of changes constitutes acceptance of the updated terms.</p>
+<h2>11. Governing Law and Dispute Resolution</h2>
+<p>This Policy is governed by the laws of the Republic of Azerbaijan. Disputes arising in connection with this Policy shall be resolved through negotiation and, if no agreement is reached, shall be submitted to the competent courts of the city of Baku.</p>
+<h2>12. Contact Information</h2>
+<p>Data protection controller:</p>
+<p><strong>Faradj MMC</strong><br>Address: Republic of Azerbaijan, Baku, Inshaatchilar Avenue, 106<br>Email: <a href="mailto:info@faradj.com">info@faradj.com</a><br>Phone: <a href="tel:+994558591211">+994 55 859 12 11</a><br>Website: <a href="https://faradj.com">faradj.com</a></p>
+</div>',
   '404.title'           => 'Page Not Found',
   '404.text'            => 'The link is invalid or the page no longer exists.',
   '404.btn'             => 'Back to Home',
@@ -161,8 +201,23 @@ return [
   'home.about.goal_desc'    => 'To combine quality standards with affordable prices, achieving the highest level of customer satisfaction. Our innovative spirit and creative approach make a difference in the market. We are always open to new business opportunities and innovative partnerships.',
   'home.about.values_title' => 'Our Values',
   'home.about.values_desc'  => 'Our values are what set us apart. We prioritise Innovation by bringing global stationery trends to Azerbaijan. Customer Satisfaction is not just a goal — it is a standard we improve every day. Creativity and Agility allow us to always stay one step ahead in the market.',
+  'home.why_us_title' => 'Why Faradj MMC?',
+  'home.why_official_title' => 'Official Distributor',
+  'home.why_official_text' => 'The sole official distributor of the DOMS brand in Azerbaijan. All products are original and certified.',
+  'home.why_delivery_title' => 'Fast Delivery',
+  'home.why_delivery_text' => '1–2 business days in Baku, 3–5 to regions. Free delivery for orders over 200 AZN.',
+  'home.why_corporate_title' => 'Corporate Terms',
+  'home.why_corporate_text' => 'Payment terms up to 30 days, individual price list and priority service.',
+  'home.why_brands_title' => '13+ World Brands',
+  'home.why_brands_text' => 'DOMS, Faber-Castell, Milan, Uni-ball and other premium brands — in one delivery.',
+  'home.why_quality_title' => 'Quality Guarantee',
+  'home.why_quality_text' => 'Exchange or full refund within 7 days for manufacturing defects.',
+  'home.why_support_title' => 'Professional Support',
+  'home.why_support_text' => 'Support for tender documentation, branded orders and custom printing services.',
   'testimonials.title'    => 'What Our Clients Say',
   'testimonials.verified' => 'Verified client',
+  'partners.suppliers_title' => 'Our Suppliers Worldwide',
+  'partners.suppliers_subtitle' => 'Direct import from 8 countries — quality and reliability',
   'partners.brands_section'  => 'Our Brands',
   'partners.clients_section' => 'Our Clients',
   'partners.permanent'       => 'Regular Client',
@@ -212,18 +267,36 @@ return [
   'contacts.store_addr' => '"Qələm" Store: Baku, Murtuza Mukhtarov 179',
   'contacts.address_street' => 'Baku, Inshaatchilar Ave., 106',
   'contacts.store_addr_street' => 'Baku, Murtuza Mukhtarov 179',
-  'faq.q1' => 'What is the minimum order quantity?',
-  'faq.a1' => 'There is no minimum for retail orders. For corporate clients, we offer special pricing starting from 500 AZN per month.',
-  'faq.q2' => 'How long does delivery take?',
-  'faq.a2' => 'Delivery within Baku takes 1-2 business days. Regional deliveries take 3-5 business days.',
-  'faq.q3' => 'Is it possible to sign a corporate agreement?',
-  'faq.a3' => 'Yes, we offer special contract terms, individual pricing and priority delivery for corporate clients. Fill in the request form.',
-  'faq.q4' => 'What is the return policy?',
-  'faq.a4' => 'Products can be returned within 7 days of delivery if defective. All products go through quality control.',
-  'faq.q5' => 'What payment methods are available?',
-  'faq.a5' => 'We accept cash, bank transfer and card payment. Corporate clients may be eligible for 30-day payment terms.',
-  'faq.q6' => 'Are you the official DOMS distributor?',
-  'faq.a6' => 'Yes, Faradj MMC is the sole official distributor of the DOMS brand in Azerbaijan. All products are original and certified.',
+  'faq' => [
+    [
+        'q' => 'What requirements apply for concluding a corporate supply agreement?',
+        'a' => 'For corporate cooperation, the company\'s tax ID (VÖEN) and contact details of an authorised representative are sufficient. Depending on monthly turnover, we offer an individual price list, priority urgent delivery, and payment terms of up to 30 days. Complete the B2B request form — our managers will contact you within 24 hours.'
+    ],
+    [
+        'q' => 'Do you guarantee the authenticity of DOMS products?',
+        'a' => 'Yes. Faradj MMC is the sole official distributor of the DOMS brand in Azerbaijan. All products are original goods with manufacturer quality certificates, imported directly from the producer. The risk of counterfeit products is completely excluded.'
+    ],
+    [
+        'q' => 'Do you participate in tender procedures?',
+        'a' => 'Yes. Within the framework of public procurement, corporate tenders and international projects, we prepare official tender documents, price quotations and letters of guarantee. For tender enquiries, contact us directly at sales@faradj.org.'
+    ],
+    [
+        'q' => 'How are delivery terms and insurance regulated?',
+        'a' => 'Orders within Baku are delivered within 1–2 business days; regional deliveries take 3–5 business days. Delivery is free for orders exceeding 200 AZN. Orders under 200 AZN are delivered via courier services. Any damage that may occur during transport is covered by the company — additional insurance is not required.'
+    ],
+    [
+        'q' => 'How is the return and exchange procedure carried out?',
+        'a' => 'In the event of a manufacturing defect, the product is exchanged or refunded in full within 7 calendar days of the delivery date. To process a return, an inspection report and contact with a manager are sufficient. All claims arising from production defects, rather than from use, are fully compensated.'
+    ],
+    [
+        'q' => 'What are the payment terms?',
+        'a' => 'For retail customers we accept cash, bank transfer and card payment. For corporate customers, depending on monthly turnover, payment terms of 15, 30 or 45 days can be agreed. Budget payment rules for government institutions are fully supported.'
+    ],
+    [
+        'q' => 'Are custom printing, branding and bespoke design orders available?',
+        'a' => 'Yes. We offer corporate gift notebooks, pen sets, branded stationery and custom packaging services. Minimum order quantity and delivery time depend on design complexity. For a custom quotation, contact sales@faradj.org.'
+    ],
+  ],
   'request.industry_placeholder' => 'Company industry / field of activity',
   'request.volume_placeholder'   => 'Monthly order volume (AZN)',
   'events.modal_close'  => 'Close',
@@ -232,16 +305,4 @@ return [
   'events.modal_author' => 'Author',
   'events.modal_cat'    => 'Category',
   'events.no_news'      => 'No news yet.',
-  'privacy.section1_title' => 'General Information',
-  'privacy.section1_desc'  => 'This privacy policy applies to users of the faradj.com website.',
-  'privacy.section2_title' => 'What data is collected?',
-  'privacy.section2_desc'  => 'Via contact forms: name, email, phone. Technical: IP address, browser type, visit date.',
-  'privacy.section3_title' => 'How is data used?',
-  'privacy.section3_desc'  => 'To contact you, fulfil orders and improve the site. Data is never sold to third parties.',
-  'privacy.section4_title' => 'Cookie Policy',
-  'privacy.section4_desc'  => 'Our site uses only technical cookies. You can delete them in your browser settings.',
-  'privacy.section5_title' => 'Data Protection',
-  'privacy.section5_desc'  => 'All data is protected by SSL encryption. Servers are hosted on a reliable platform.',
-  'privacy.section6_title' => 'Contact',
-  'privacy.section6_desc'  => 'For questions: info@faradj.com | Baku, Inshaatchilar Ave., 106',
 ];
