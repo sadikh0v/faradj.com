@@ -1,3 +1,4 @@
+<?php $unread = AdminController::getUnreadCounts(); ?>
 <!DOCTYPE html>
 <html lang="az">
 <head>
@@ -25,7 +26,11 @@
         <i class="fas fa-newspaper"></i> Xəbərlər
       </a>
       <a href="/admin/contacts" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/contacts') ? 'active' : '' ?>">
-        <i class="fas fa-envelope"></i> Müraciətlər
+        <i class="fas fa-envelope"></i>
+        <span>Müraciətlər</span>
+        <?php if ($unread['contacts'] > 0): ?>
+        <span class="sidebar-badge"><?= $unread['contacts'] ?></span>
+        <?php endif; ?>
       </a>
       <a href="/admin/faqs" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/faqs') ? 'active' : '' ?>">
         <i class="fas fa-question-circle"></i> FAQ
@@ -34,10 +39,18 @@
         <i class="fas fa-quote-right"></i> Rəylər
       </a>
       <a href="/admin/b2b" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/b2b') ? 'active' : '' ?>">
-        <i class="fas fa-briefcase"></i> B2B Sorğular
+        <i class="fas fa-briefcase"></i>
+        <span>B2B Sorğular</span>
+        <?php if ($unread['b2b'] > 0): ?>
+        <span class="sidebar-badge"><?= $unread['b2b'] ?></span>
+        <?php endif; ?>
       </a>
       <a href="/admin/callbacks" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/callbacks') ? 'active' : '' ?>">
-        <i class="fas fa-phone"></i> Zəng sorğuları
+        <i class="fas fa-phone"></i>
+        <span>Zəng sorğuları</span>
+        <?php if ($unread['callbacks'] > 0): ?>
+        <span class="sidebar-badge"><?= $unread['callbacks'] ?></span>
+        <?php endif; ?>
       </a>
       <a href="/admin/users" class="sidebar-link <?= str_contains($_SERVER['REQUEST_URI'] ?? '', '/admin/users') ? 'active' : '' ?>">
         <i class="fas fa-user-shield"></i> İstifadəçilər

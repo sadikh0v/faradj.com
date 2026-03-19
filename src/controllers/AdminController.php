@@ -74,6 +74,23 @@ class AdminController
         exit;
     }
 
+    public static function getUnreadCounts(): array
+    {
+        try {
+            $contacts = db()->query("SELECT COUNT(*) FROM contact_messages WHERE is_read=0")->fetchColumn();
+            $b2b = db()->query("SELECT COUNT(*) FROM b2b_requests WHERE is_read=0")->fetchColumn();
+            $callbacks = db()->query("SELECT COUNT(*) FROM callbacks WHERE is_read=0")->fetchColumn();
+            return [
+                'contacts'  => (int) $contacts,
+                'b2b'       => (int) $b2b,
+                'callbacks' => (int) $callbacks,
+                'total'     => (int) $contacts + (int) $b2b + (int) $callbacks,
+            ];
+        } catch (\Throwable $e) {
+            return ['contacts' => 0, 'b2b' => 0, 'callbacks' => 0, 'total' => 0];
+        }
+    }
+
     public static function dashboard(): void
     {
         self::guard();
@@ -139,6 +156,9 @@ class AdminController
     public static function contacts(): void
     {
         self::guard();
+        try {
+            db()->exec("UPDATE contact_messages SET is_read=1 WHERE is_read=0");
+        } catch (PDOException $e) {}
         $items = [];
         try {
             $items = db()->query("SELECT * FROM contact_messages ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
@@ -149,6 +169,9 @@ class AdminController
     public static function b2b(): void
     {
         self::guard();
+        try {
+            db()->exec("UPDATE b2b_requests SET is_read=1 WHERE is_read=0");
+        } catch (PDOException $e) {}
         $items = [];
         try {
             $items = db()->query("SELECT * FROM b2b_requests ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);
@@ -159,6 +182,9 @@ class AdminController
     public static function callbacks(): void
     {
         self::guard();
+        try {
+            db()->exec("UPDATE callbacks SET is_read=1 WHERE is_read=0");
+        } catch (PDOException $e) {}
         $items = [];
         try {
             $items = db()->query("SELECT * FROM callbacks ORDER BY created_at DESC")->fetchAll(PDO::FETCH_ASSOC);

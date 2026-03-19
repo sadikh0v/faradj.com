@@ -2388,3 +2388,57 @@ ul {
   100% { transform: scale(2); opacity: 0; }
 }
 
+/* Кастомный скроллбар — Линейка */
+::-webkit-scrollbar {
+  width: 16px;
+}
+::-webkit-scrollbar-track {
+  background: #f0ede8;
+  border-left: 1px solid #d4c9b0;
+  position: relative;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    to bottom,
+    #f5c842 0%,
+    #f5c842 100%
+  );
+  border: 1px solid #c8a800;
+  border-radius: 2px;
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    to bottom,
+    #f0b800 0%,
+    #f0b800 100%
+  );
+}
+
+/* Деления линейки на треке */
+::-webkit-scrollbar-track-piece {
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 9px,
+      #b0a080 9px,
+      #b0a080 10px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 4px,
+      #c8b890 4px,
+      #c8b890 5px
+    ),
+    #f0ede8;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #f5c842 #f0ede8;
+}
+

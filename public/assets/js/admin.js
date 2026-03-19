@@ -61,6 +61,67 @@ document.addEventListener("click", function(e) {
   });
 });
 
+// Галерея — массовое удаление
+(function() {
+  var toolbar = document.getElementById("galleryToolbar");
+  if (!toolbar) return;
+
+  var selectAll = document.getElementById("selectAll");
+  var selectedCount = document.getElementById("selectedCount");
+  var deleteBtn = document.getElementById("deleteSelectedBtn");
+
+  function updateToolbar() {
+    var checked = document.querySelectorAll(".gallery-checkbox:checked");
+    var count = checked.length;
+    selectedCount.textContent = count + " seçilib";
+    if (count > 0) {
+      toolbar.style.display = "flex";
+    } else {
+      toolbar.style.display = "none";
+    }
+  }
+
+  document.addEventListener("change", function(e) {
+    if (e.target.classList.contains("gallery-checkbox")) {
+      updateToolbar();
+    }
+    if (e.target.id === "selectAll") {
+      document.querySelectorAll(".gallery-checkbox").forEach(function(cb) {
+        cb.checked = e.target.checked;
+      });
+      updateToolbar();
+    }
+  });
+
+  if (deleteBtn) {
+    deleteBtn.addEventListener("click", function() {
+      var checked = document.querySelectorAll(".gallery-checkbox:checked");
+      if (!checked.length) return;
+
+      customConfirm(
+        checked.length + " şəkli silmək istəyirsiniz?",
+        "Bu əməliyyat geri qaytarıla bilməz.",
+        function() {
+          var promises = Array.from(checked).map(function(cb) {
+            return fetch("/admin/gallery/delete", {
+              method: "POST",
+              headers: {"Content-Type": "application/x-www-form-urlencoded"},
+              body: "file=" + encodeURIComponent(cb.value) + "&dir=" + encodeURIComponent(cb.dataset.dir)
+            }).then(function(r) { return r.json(); }).then(function(data) {
+              if (data.success) {
+                cb.closest(".gallery-item").remove();
+              }
+            });
+          });
+          Promise.all(promises).then(function() {
+            updateToolbar();
+          });
+        }
+      );
+    });
+  }
+})();
+
 document.addEventListener("DOMContentLoaded", function() {
   var sidebar = document.querySelector(".admin-sidebar");
   var overlay = document.getElementById("sidebarOverlay");
