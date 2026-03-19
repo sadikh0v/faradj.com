@@ -167,6 +167,21 @@
               window.location.href = data.redirect;
               return;
             }
+            if (data.message) {
+              const f = document.getElementById(formId);
+              if (f) {
+                f.innerHTML = '<div style="text-align:center;padding:24px;">' +
+                  '<i class="fas fa-check-circle" style="color:#00b894;font-size:48px;margin-bottom:12px;display:block;"></i>' +
+                  '<p style="font-weight:600;font-size:16px;color:#1a1a2e;">' + data.message + '</p>' +
+                  '</div>';
+              }
+              var modal = document.getElementById("callbackModal");
+              if (modal) {
+                setTimeout(function() { modal.classList.remove("active"); }, 2000);
+              }
+              if (onSuccess) onSuccess(data);
+              return;
+            }
             showToast("Uğurlu!", data.message || "Müraciətiniz qəbul edildi!", "success");
             form.reset();
             form.querySelectorAll(".form-field").forEach(function(f) {
@@ -182,10 +197,20 @@
             if (typeof launchConfetti === "function") launchConfetti();
             if (onSuccess) onSuccess(data);
           } else {
-            showToast("Xəta", data.error || data.message || "Xəta baş verdi", "error");
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = originalText;
+            }
+            if (data.error) {
+              showToast("Xəta", data.error, "error");
+            }
           }
         })
         .catch(function() {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+          }
           showToast("Bağlantı xətası", "Zəhmət olmasa internet bağlantınızı yoxlayın", "error");
         })
         .finally(function() {

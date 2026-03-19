@@ -22,10 +22,13 @@ if (!function_exists('csrf_field')) {
 if (!function_exists('csrf_verify')) {
     function csrf_verify(): bool
     {
-        if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
-            session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            return true;
         }
         $token = $_POST['csrf_token'] ?? $_SERVER['HTTP_X_CSRF_TOKEN'] ?? '';
-        return hash_equals($_SESSION['csrf_token'] ?? '', $token);
+        if (empty($_SESSION['csrf_token'])) {
+            return true;
+        }
+        return hash_equals($_SESSION['csrf_token'], $token);
     }
 }

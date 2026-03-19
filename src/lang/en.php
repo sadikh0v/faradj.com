@@ -196,7 +196,7 @@ return [
   'home.doms.badge' => 'Official Distributor',
   'home.doms.desc'  => 'A world leader in stationery manufacturing. We proudly represent this brand in Azerbaijan, offering the highest quality products for artists and professionals.',
   'home.about.title'        => 'About Us',
-  'home.about.desc'         => 'FARADJ MMC — since 2011, we have proven our expertise in stationery and office supplies. The innovative solutions and creative strategy implemented since 2020 have elevated us to the forefront of the sector.',
+  'home.about.desc'         => 'FARADJ MMC — since 2018, we have proven our expertise in stationery and office supplies. The innovative solutions and creative strategy implemented since 2020 have elevated us to the forefront of the sector.',
   'home.about.goal_title'   => 'Our Goal',
   'home.about.goal_desc'    => 'To combine quality standards with affordable prices, achieving the highest level of customer satisfaction. Our innovative spirit and creative approach make a difference in the market. We are always open to new business opportunities and innovative partnerships.',
   'home.about.values_title' => 'Our Values',

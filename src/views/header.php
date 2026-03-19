@@ -43,7 +43,7 @@ $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis 
     <meta property="og:title" content="<?= htmlspecialchars($metaTitle ?? 'Faradj MMC') ?>">
     <meta property="og:description" content="<?= htmlspecialchars($metaDesc ?? 'DOMS rəsmi distribyutoru. Dəftərxana, ofis ləvazimatları, korporativ təchizat.') ?>">
     <meta property="og:url" content="https://faradj.com<?= htmlspecialchars($_SERVER['REQUEST_URI'] ?? '/') ?>">
-    <meta property="og:image" content="https://faradj.com/assets/img/og-image.php">
+    <meta property="og:image" content="https://faradj.com/assets/img/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="<?= currentLang() === 'ru' ? 'ru_RU' : (currentLang() === 'en' ? 'en_US' : 'az_AZ') ?>">
@@ -52,7 +52,7 @@ $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= htmlspecialchars($metaTitle ?? 'Faradj MMC') ?>">
     <meta name="twitter:description" content="<?= htmlspecialchars($metaDesc ?? 'DOMS rəsmi distribyutoru. Dəftərxana, ofis ləvazimatları, korporativ təchizat.') ?>">
-    <meta name="twitter:image" content="https://faradj.com/assets/img/og-image.php">
+    <meta name="twitter:image" content="https://faradj.com/assets/img/og-image.png">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://faradj.com<?= htmlspecialchars(strtok($_SERVER['REQUEST_URI'] ?? '/', '?')) ?>">

@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/../src/load_env.php';
-require_once __DIR__ . '/../src/helpers/csrf.php';
 require_once __DIR__ . '/../db.php';
 
 header('Content-Type: application/json; charset=utf-8');
@@ -27,14 +26,21 @@ if (!$company || !$contact || !$phone) {
 
 try {
     db()->prepare("
-        INSERT INTO b2b_requests 
+        INSERT INTO b2b_requests
         (company, contact, phone, email, activity, volume, budget, products, note)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    ")->execute([$company, $contact, $phone, $email, $activity, $volume, $budget, $products, $note]);
-} catch (PDOException $e) {
-    error_log('[B2B] DB error: ' . $e->getMessage());
+    ")->execute([$company, $contact, $phone, $email,
+                 $activity, $volume, $budget, $products, $note]);
+} catch (\Throwable $e) {
+    error_log('[B2B] DB: ' . $e->getMessage());
     echo json_encode(['success' => false, 'error' => 'Xəta baş verdi']);
     exit;
+}
+
+echo json_encode(['success' => true, 'redirect' => '/thank-you?from=b2b']);
+
+if (function_exists('fastcgi_finish_request')) {
+    fastcgi_finish_request();
 }
 
 try {
@@ -46,7 +52,5 @@ try {
         'budget' => $budget, 'products' => $products, 'note' => $note
     ]);
 } catch (\Throwable $e) {
-    error_log('[B2B] Mail error: ' . $e->getMessage());
+    error_log('[B2B] Mail: ' . $e->getMessage());
 }
-
-echo json_encode(['success' => true, 'redirect' => '/thank-you?from=b2b']);

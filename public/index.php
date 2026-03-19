@@ -1,6 +1,12 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+require_once __DIR__ . '/../src/load_env.php';
+if (env('APP_ENV') === 'development') {
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+} else {
+    ini_set('display_errors', 0);
+    error_reporting(0);
+}
 
 if (php_sapi_name() === 'cli-server') {
     $file = __DIR__ . $_SERVER['REQUEST_URI'];
@@ -25,7 +31,6 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
     header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
 }
 
-require_once __DIR__ . '/../src/load_env.php';
 require_once __DIR__ . '/../src/helpers/i18n.php';
 require_once __DIR__ . '/../db.php';
 
@@ -77,18 +82,6 @@ switch ($path) {
         $currentPage = 'index';
         $metaTitle = setting('seo_home_title') ?: 'Faradj MMC — Biznes və Yaradıcılıq üçün İlham';
         $metaDescription = setting('seo_home_desc') ?: 'DOMS rəsmi distribyutoru. Dəftərxana, ofis ləvazimatları, korporativ təchizat.';
-
-        $marquee_brands = [];
-        $marquee_clients = [];
-        try {
-            $marquee_brands = db()->query(
-                "SELECT name, logo FROM brands WHERE is_active=1 AND logo IS NOT NULL AND logo != '' ORDER BY sort_order"
-            )->fetchAll(PDO::FETCH_ASSOC);
-            $marquee_clients = db()->query(
-                "SELECT name, logo FROM clients WHERE is_active=1 AND logo IS NOT NULL AND logo != '' ORDER BY sort_order"
-            )->fetchAll(PDO::FETCH_ASSOC);
-        } catch (\Throwable $e) {}
-
         require __DIR__ . '/../src/views/header.php';
         require __DIR__ . '/../src/views/home.php';
         require __DIR__ . '/../src/views/footer.php';

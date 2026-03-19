@@ -197,7 +197,7 @@ return [
   'home.doms.badge'    => 'Rəsmi Distribyutor',
   'home.doms.desc'     => 'Dəftərxana ləvazimatları istehsalında dünya lideri. Biz rəssamlar və peşəkarlar üçün ən yüksək keyfiyyətli məhsulları təqdim edərək, bu brendi Azərbaycanda təmsil etməkdən qürur duyuruq.',
   'home.about.title'   => 'Haqqımızda',
-  'home.about.desc'    => 'FARADJ MMC — 2011-ci ildən başlayan uğur yolumuzda dəftərxana və ofis ləvazimatları sahəsində peşəkarlığımızı sübut etmişik. 2020-ci ildən tətbiq etdiyimiz innovativ həllər və kreativ strategiya bizi sektorun ön sıralarına yüksəldərək bazarda aparıcı mərkəzlərdən birinə çevirdi.',
+  'home.about.desc'    => 'FARADJ MMC — 2018-ci ildən başlayan uğur yolumuzda dəftərxana və ofis ləvazimatları sahəsində peşəkarlığımızı sübut etmişik. 2020-ci ildən tətbiq etdiyimiz innovativ həllər və kreativ strategiya bizi sektorun ön sıralarına yüksəldərək bazarda aparıcı mərkəzlərdən birinə çevirdi.',
   'home.about.goal_title'   => 'Hədəfimiz',
   'home.about.goal_desc'    => 'Keyfiyyət standartlarını əlçatan qiymətlərlə birləşdirərək müştəri məmnuniyyətini ən yüksək səviyyəyə çatdırmaqdır. Yenilikçi ruhumuz və kreativ yanaşmamızla bazarda fərq yaradır, hər bir müştərimizlə qarşılıqlı etimada əsaslanan loyal münasibətlər qururuq. Gələcəyə fokuslanaraq yeni iş imkanları və innovativ tərəfdaşlıqlar üçün daim açığıq.',
   'home.about.values_title' => 'Dəyərlərimiz',

@@ -673,8 +673,8 @@ class AdminController
                 foreach ($settings as $key => $value) {
                     $stmt->execute([trim((string) $value), $key]);
                 }
-                if (function_exists('setting_refresh')) {
-                    setting_refresh();
+                if (function_exists('setting_clear_cache')) {
+                    setting_clear_cache();
                 }
                 flash('success', 'Parametrlər yadda saxlandı!');
             } catch (PDOException $e) {

@@ -46,54 +46,75 @@
         </div>
     </section>
 
-    <!-- Marquee брендов -->
-    <section class="marquee-section" id="brandsMarquee" data-marquee="css">
-        <h3 class="marquee-title text-center"><?= t('home.brands_title') ?></h3>
-        <div class="marquee-track">
-            <?php
-            $marqueeItems = !empty($marquee_brands) ? $marquee_brands : [];
-            $usePlaceholder = empty($marqueeItems);
-            $items = $usePlaceholder
-                ? array_fill(0, 8, ['name' => 'Faradj MMC', 'logo' => '/assets/img/logo/faradj_logo.png', 'placeholder' => true])
-                : array_merge($marqueeItems, $marqueeItems);
-            ?>
-            <?php foreach ($items as $item): ?>
-            <div class="marquee-item <?= !empty($item['placeholder']) ? 'marquee-placeholder' : '' ?>">
-                <?php if (!empty($item['logo'])): ?>
-                <img src="<?= htmlspecialchars($item['logo']) ?>"
-                     alt="<?= htmlspecialchars($item['name']) ?>"
-                     loading="lazy">
-                <?php else: ?>
-                <span><?= htmlspecialchars($item['name']) ?></span>
-                <?php endif; ?>
+<?php
+if (!isset($marquee_brands)) {
+    $marquee_brands = [];
+    $marquee_clients = [];
+    try {
+        $marquee_brands = db()->query(
+            "SELECT name, logo FROM brands WHERE is_active=1 ORDER BY sort_order"
+        )->fetchAll(PDO::FETCH_ASSOC);
+        $marquee_clients = db()->query(
+            "SELECT name, logo FROM clients WHERE is_active=1 ORDER BY sort_order"
+        )->fetchAll(PDO::FETCH_ASSOC);
+    } catch (\Throwable $e) {}
+}
+$marquee_brands = $marquee_brands ?? [];
+$marquee_clients = $marquee_clients ?? [];
+$placeholderLogo = '/assets/img/logo/faradj_logo.png';
+if (!function_exists('renderMarqueeItems')) {
+    function renderMarqueeItems(array $items, string $placeholder, int $minCount = 10): string {
+        $html = '';
+        if (empty($items)) {
+            for ($i = 0; $i < $minCount; $i++) {
+                $html .= '<div class="marquee-item marquee-placeholder">';
+                $html .= '<img src="' . htmlspecialchars($placeholder) . '" alt="Faradj">';
+                $html .= '</div>';
+            }
+            return $html;
+        }
+        $repeated = $items;
+        while (count($repeated) < $minCount) {
+            $repeated = array_merge($repeated, $items);
+        }
+        $repeated = array_merge($repeated, $repeated);
+        foreach ($repeated as $item) {
+            $html .= '<div class="marquee-item">';
+            if (!empty($item['logo'])) {
+                $html .= '<img src="' . htmlspecialchars($item['logo']) . '" alt="' . htmlspecialchars($item['name']) . '" loading="lazy">';
+            } else {
+                $html .= '<span class="marquee-name">' . htmlspecialchars($item['name']) . '</span>';
+            }
+            $html .= '</div>';
+        }
+        return $html;
+    }
+}
+?>
+
+    <!-- Бренды marquee -->
+    <section class="marquee-section">
+        <div class="marquee-header">
+            <h3><?= t('home.brands_title') ?></h3>
+        </div>
+        <div class="marquee-wrapper">
+            <div class="marquee-track" id="brandsMarquee" data-marquee="css">
+                <?= renderMarqueeItems($marquee_brands, $placeholderLogo) ?>
             </div>
-            <?php endforeach; ?>
         </div>
     </section>
 
-    <!-- Marquee клиентов (обратное направление) -->
-    <?php if (!empty($marquee_clients) || $usePlaceholder): ?>
-    <section id="partners" class="marquee-section marquee-reverse alt-bg" data-marquee="css">
-        <h3 class="marquee-title text-center"><?= t('home.clients_title') ?></h3>
-        <div class="marquee-track">
-            <?php
-            $clientItems = !empty($marquee_clients) ? $marquee_clients : [];
-            $clientItems = !empty($clientItems)
-                ? array_merge($clientItems, $clientItems)
-                : array_fill(0, 8, ['name' => 'Faradj MMC', 'logo' => '/assets/img/logo/faradj_logo.png', 'placeholder' => true]);
-            ?>
-            <?php foreach ($clientItems as $item): ?>
-            <div class="marquee-item <?= !empty($item['placeholder']) ? 'marquee-placeholder' : '' ?>">
-                <?php if (!empty($item['logo'])): ?>
-                <img src="<?= htmlspecialchars($item['logo']) ?>"
-                     alt="<?= htmlspecialchars($item['name']) ?>"
-                     loading="lazy">
-                <?php endif; ?>
+    <!-- Клиенты marquee (обратное направление) -->
+    <section id="partners" class="marquee-section">
+        <div class="marquee-header">
+            <h3><?= t('home.clients_title') ?></h3>
+        </div>
+        <div class="marquee-wrapper">
+            <div class="marquee-track marquee-reverse" id="clientsMarquee" data-marquee="css">
+                <?= renderMarqueeItems($marquee_clients, $placeholderLogo) ?>
             </div>
-            <?php endforeach; ?>
         </div>
     </section>
-    <?php endif; ?>
 
     <section id="products" class="products-section">
         <div class="container">
