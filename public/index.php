@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 // Отдавать статические файлы напрямую (для php -S)
 if (php_sapi_name() === 'cli-server') {
     $file = __DIR__ . $_SERVER['REQUEST_URI'];
@@ -116,7 +118,6 @@ switch ($path) {
         $metaDescription = setting('seo_partners_desc') ?: 'Faradj MMC-nin brendləri və korporativ müştəriləri.';
         $extraCss = ['/assets/css/partners.css'];
         $extraJs = ['/assets/js/partners.js'];
-        require __DIR__ . '/../db.php';
         require __DIR__ . '/../src/views/header.php';
         require __DIR__ . '/../src/views/partners.php';
         require __DIR__ . '/../src/views/footer.php';
