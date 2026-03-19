@@ -1,7 +1,6 @@
 <?php
-require_once __DIR__ . '/../load_env.php';
-require_once base_path('src/helpers/i18n.php');
-require_once base_path('db.php');
+// load_env, i18n и db уже подключены в index.php
+// Дополнительные данные для страницы партнёров
 
 $brands = [];
 $clients = [];
