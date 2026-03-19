@@ -14,6 +14,7 @@
           <th>Əlaqə şəxsi</th>
           <th>Telefon</th>
           <th>E-mail</th>
+          <th>Məhsullar</th>
           <th>Fəaliyyət</th>
           <th>Həcm</th>
           <th>Büdcə</th>
@@ -37,6 +38,15 @@
               <?= htmlspecialchars($row['email'] ?? '—') ?>
               <i class="fas fa-copy" style="font-size:11px;color:#aaa;margin-left:4px;"></i>
             </span>
+          </td>
+          <td style="max-width:200px;">
+            <?php if (!empty($row['products'])): ?>
+            <div class="products-value" style="max-height:60px;overflow:hidden;font-size:12px;color:#444;line-height:1.4;cursor:pointer;" onclick="this.style.maxHeight = this.style.maxHeight === 'none' ? '60px' : 'none'">
+              <?= htmlspecialchars($row['products']) ?>
+            </div>
+            <?php else: ?>
+            <span style="color:#aaa;font-size:12px;">—</span>
+            <?php endif; ?>
           </td>
           <td><?= htmlspecialchars($row['activity'] ?? '—') ?></td>
           <td><?= htmlspecialchars($row['volume'] ?? '—') ?></td>

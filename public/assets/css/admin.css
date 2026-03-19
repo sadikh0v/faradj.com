@@ -1251,3 +1251,14 @@ body.admin-body {
   .sidebar-toggle { display: block; }
   .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+.products-value {
+  background: #f8f7ff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #444;
+  white-space: pre-wrap;
+  max-width: 400px;
+}
