@@ -2,10 +2,9 @@
 vendor/
 node_modules/
 
-# Server-specific files - do not overwrite on deploy
+# Server-specific files
 .htaccess
 public/.htaccess
 public/deploy.php
-index.php
 *.log
 .DS_Store
