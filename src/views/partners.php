@@ -7,17 +7,17 @@ $clients = [];
 $suppliers = [];
 
 try {
-    $brands = $pdo->query(
-        "SELECT * FROM brands WHERE is_active=1 ORDER BY sort_order, id"
-    )->fetchAll(PDO::FETCH_ASSOC);
+$brands = db()->query(
+    "SELECT * FROM brands WHERE is_active=1 ORDER BY sort_order, id"
+)->fetchAll(PDO::FETCH_ASSOC);
 
-    $clients = $pdo->query(
-        "SELECT * FROM clients WHERE is_active=1 ORDER BY sort_order, id"
-    )->fetchAll(PDO::FETCH_ASSOC);
+$clients = db()->query(
+    "SELECT * FROM clients WHERE is_active=1 ORDER BY sort_order, id"
+)->fetchAll(PDO::FETCH_ASSOC);
 
-    $suppliers = $pdo->query(
-        "SELECT * FROM suppliers WHERE is_active=1 ORDER BY sort_order ASC"
-    )->fetchAll(PDO::FETCH_ASSOC);
+$suppliers = db()->query(
+    "SELECT * FROM suppliers WHERE is_active=1 ORDER BY sort_order ASC"
+)->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {}
 
 $lang = currentLang();

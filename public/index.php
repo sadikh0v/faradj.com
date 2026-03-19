@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-// Отдавать статические файлы напрямую (для php -S)
+
 if (php_sapi_name() === 'cli-server') {
     $file = __DIR__ . $_SERVER['REQUEST_URI'];
     $file = strtok($file, '?');
@@ -16,8 +16,6 @@ if (session_status() === PHP_SESSION_NONE) {
 header('Cache-Control: no-store, no-cache, must-revalidate');
 header('Pragma: no-cache');
 header('Expires: 0');
-
-// Security Headers
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: SAMEORIGIN');
 header('X-XSS-Protection: 1; mode=block');
@@ -29,24 +27,22 @@ if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
 
 require_once __DIR__ . '/../src/load_env.php';
 require_once __DIR__ . '/../src/helpers/i18n.php';
+require_once __DIR__ . '/../db.php';
 
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 $path = rtrim($path, '/') ?: '/';
 
-// Deploy
 if ($path === '/deploy.php') {
     require __DIR__ . '/deploy.php';
     exit;
 }
 
-// /admin/* → admin/index.php (без проверки авторизации здесь)
 if (str_starts_with($path, '/admin')) {
     $_GET['path'] = ltrim(substr($path, 6), '/') ?: '';
     require __DIR__ . '/admin/index.php';
     exit;
 }
 
-// Роут /lang
 if ($path === '/lang') {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $lang = $_POST['lang'] ?? 'az';
@@ -59,13 +55,11 @@ if ($path === '/lang') {
             'httponly' => false,
             'samesite' => 'Lax',
         ]);
-
         $back = $_SERVER['HTTP_REFERER'] ?? '/';
         $back = preg_replace('/[?&]nc=\d+/', '', $back);
         $back = preg_replace('#^([^?]*)\&#', '$1?', $back);
         $sep = str_contains($back, '?') ? '&' : '?';
         $back = $back . $sep . 'nc=' . time();
-
         header('Location: ' . $back, true, 302);
         exit;
     }
@@ -73,13 +67,11 @@ if ($path === '/lang') {
     exit;
 }
 
-// Миграция (только для разработки)
 if ($path === '/tools/migrate.php') {
     require __DIR__ . '/../tools/migrate.php';
     exit;
 }
 
-// Роутер
 switch ($path) {
     case '/':
         $currentPage = 'index';
@@ -97,8 +89,7 @@ switch ($path) {
         $metaDescription = setting('seo_events_desc') ?: 'Faradj MMC-nin son xəbərləri, tədbirləri və yeniliklərə baxın.';
         $extraCss = ['/assets/css/events.css'];
         $extraJs = ['/assets/js/events.js'];
-        require __DIR__ . '/../db.php';
-        require __DIR__ . '/../src/models/EventModel.php';
+        require_once __DIR__ . '/../src/models/EventModel.php';
         $events = [];
         try {
             $eventModel = new EventModel($pdo);
@@ -169,6 +160,11 @@ switch ($path) {
         require __DIR__ . '/../src/views/thank-you.php';
         require __DIR__ . '/../src/views/footer.php';
         break;
+
+    case '/manifest.json':
+        header('Content-Type: application/manifest+json');
+        readfile(__DIR__ . '/manifest.json');
+        exit;
 
     case '/sitemap.xml':
         require __DIR__ . '/sitemap.php';

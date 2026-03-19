@@ -163,6 +163,10 @@
         .then(function(r) { return r.json(); })
         .then(function(data) {
           if (data.success) {
+            if (data.redirect) {
+              window.location.href = data.redirect;
+              return;
+            }
             showToast("Uğurlu!", data.message || "Müraciətiniz qəbul edildi!", "success");
             form.reset();
             form.querySelectorAll(".form-field").forEach(function(f) {
@@ -178,7 +182,7 @@
             if (typeof launchConfetti === "function") launchConfetti();
             if (onSuccess) onSuccess(data);
           } else {
-            showToast("Xəta", data.message || "Xəta baş verdi", "error");
+            showToast("Xəta", data.error || data.message || "Xəta baş verdi", "error");
           }
         })
         .catch(function() {
@@ -294,7 +298,7 @@
           .then(function (r) { return r.json(); })
           .then(function (res) {
             if (res.success) {
-              window.location.href = "/thank-you?from=b2b";
+              window.location.href = res.redirect || "/thank-you?from=b2b";
             } else {
               btn.disabled = false;
               btn.innerHTML = origText;
@@ -323,9 +327,14 @@
     setupFormValidation("callbackForm", {
       name: [validators.required],
       phone: [validators.required, validators.phone]
-    }, "/callback.php", function() {
-      const modal = document.getElementById("callbackModal");
-      if (modal) modal.classList.remove("active");
+    }, "/callback.php", function(data) {
+      const form = document.getElementById("callbackForm");
+      if (form && data.message) {
+        form.innerHTML = '<div style="text-align:center;padding:20px;">' +
+          '<i class="fas fa-check-circle" style="color:#00b894;font-size:48px;"></i>' +
+          '<p style="margin-top:12px;font-weight:600;">' + data.message + '</p>' +
+          '</div>';
+      }
     });
   });
 })();
