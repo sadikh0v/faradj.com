@@ -1,7 +1,11 @@
 .env
 vendor/
-public/deploy.php
-public/.htaccess
 node_modules/
+
+# Server-specific files - do not overwrite on deploy
+.htaccess
+public/.htaccess
+public/deploy.php
+index.php
 *.log
 .DS_Store
