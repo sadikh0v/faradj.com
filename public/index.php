@@ -77,6 +77,18 @@ switch ($path) {
         $currentPage = 'index';
         $metaTitle = setting('seo_home_title') ?: 'Faradj MMC — Biznes və Yaradıcılıq üçün İlham';
         $metaDescription = setting('seo_home_desc') ?: 'DOMS rəsmi distribyutoru. Dəftərxana, ofis ləvazimatları, korporativ təchizat.';
+
+        $marquee_brands = [];
+        $marquee_clients = [];
+        try {
+            $marquee_brands = db()->query(
+                "SELECT name, logo FROM brands WHERE is_active=1 AND logo IS NOT NULL AND logo != '' ORDER BY sort_order"
+            )->fetchAll(PDO::FETCH_ASSOC);
+            $marquee_clients = db()->query(
+                "SELECT name, logo FROM clients WHERE is_active=1 AND logo IS NOT NULL AND logo != '' ORDER BY sort_order"
+            )->fetchAll(PDO::FETCH_ASSOC);
+        } catch (\Throwable $e) {}
+
         require __DIR__ . '/../src/views/header.php';
         require __DIR__ . '/../src/views/home.php';
         require __DIR__ . '/../src/views/footer.php';

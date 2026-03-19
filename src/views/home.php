@@ -46,46 +46,54 @@
         </div>
     </section>
 
-    <section class="marquee-section">
+    <!-- Marquee брендов -->
+    <section class="marquee-section" id="brandsMarquee" data-marquee="css">
         <h3 class="marquee-title text-center"><?= t('home.brands_title') ?></h3>
-        <div class="marquee-container" id="brandsMarquee">
-            <div class="marquee-track">
-                <?php img_webp('/assets/img/logo/citizen.svg', 'citizen', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/uniball.svg', 'uni-ball', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/fabercastell.svg', 'faber castell', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/milan.jpeg', 'milan', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/brons.jpeg', 'brons', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/cello.png', 'cello', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/trix.svg', 'trix', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/centropen.png', 'centropen', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/qamma.jpeg', 'qamma', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/dolphin.png', 'dolphin', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/kangaro.jpg', 'kangaro', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/Scriks.png', 'scricks', ['class' => 'brand-item']); ?>
-                <?php img_webp('/assets/img/logo/doms2.png', 'doms', ['class' => 'brand-item']); ?>
+        <div class="marquee-track">
+            <?php
+            $marqueeItems = !empty($marquee_brands) ? $marquee_brands : [];
+            $usePlaceholder = empty($marqueeItems);
+            $items = $usePlaceholder
+                ? array_fill(0, 8, ['name' => 'Faradj MMC', 'logo' => '/assets/img/logo/faradj_logo.png', 'placeholder' => true])
+                : array_merge($marqueeItems, $marqueeItems);
+            ?>
+            <?php foreach ($items as $item): ?>
+            <div class="marquee-item <?= !empty($item['placeholder']) ? 'marquee-placeholder' : '' ?>">
+                <?php if (!empty($item['logo'])): ?>
+                <img src="<?= htmlspecialchars($item['logo']) ?>"
+                     alt="<?= htmlspecialchars($item['name']) ?>"
+                     loading="lazy">
+                <?php else: ?>
+                <span><?= htmlspecialchars($item['name']) ?></span>
+                <?php endif; ?>
             </div>
+            <?php endforeach; ?>
         </div>
     </section>
 
-    <section id="partners" class="marquee-section alt-bg">
+    <!-- Marquee клиентов (обратное направление) -->
+    <?php if (!empty($marquee_clients) || $usePlaceholder): ?>
+    <section id="partners" class="marquee-section marquee-reverse alt-bg" data-marquee="css">
         <h3 class="marquee-title text-center"><?= t('home.clients_title') ?></h3>
-        <div class="marquee-container" id="clientsMarquee">
-            <div class="marquee-track reverse-direction">
-                <?php img_webp('/assets/img/clients/21 esr.png', 'XXI', ['class' => 'client-item']); ?>
-                <?php img_webp('/assets/img/clients/AGRI.png', 'agri', ['class' => 'client-item']); ?>
-                <?php img_webp('/assets/img/clients/KTV.jpg', 'katv', ['class' => 'client-item']); ?>
-                <?php img_webp('/assets/img/clients/Cotton.png', 'cotton', ['class' => 'client-item']); ?>
-                <?php img_webp('/assets/img/clients/shams.png', 'shams', ['class' => 'client-item']); ?>
-                <?php img_webp('/assets/img/clients/ZE.png', 'Zerife Aliyev', ['class' => 'client-item']); ?>
-                <?php img_webp('/assets/img/clients/AGRS.png', 'arg', ['class' => 'client-item']); ?>
-                <?php img_webp('/assets/img/clients/BSM.png', 'baki saglamlig', ['class' => 'client-item']); ?>
-                <?php img_webp('/assets/img/clients/EDG.jpg', 'eurodesign', ['class' => 'client-item']); ?>
-                <?php img_webp('/assets/img/clients/fze.png', 'fze', ['class' => 'client-item']); ?>
-                <?php img_webp('/assets/img/clients/azf.jpg', 'azerfloat', ['class' => 'client-item']); ?>
-                <?php img_webp('/assets/img/clients/Ovcular.png', 'ovcular', ['class' => 'client-item']); ?>
+        <div class="marquee-track">
+            <?php
+            $clientItems = !empty($marquee_clients) ? $marquee_clients : [];
+            $clientItems = !empty($clientItems)
+                ? array_merge($clientItems, $clientItems)
+                : array_fill(0, 8, ['name' => 'Faradj MMC', 'logo' => '/assets/img/logo/faradj_logo.png', 'placeholder' => true]);
+            ?>
+            <?php foreach ($clientItems as $item): ?>
+            <div class="marquee-item <?= !empty($item['placeholder']) ? 'marquee-placeholder' : '' ?>">
+                <?php if (!empty($item['logo'])): ?>
+                <img src="<?= htmlspecialchars($item['logo']) ?>"
+                     alt="<?= htmlspecialchars($item['name']) ?>"
+                     loading="lazy">
+                <?php endif; ?>
             </div>
+            <?php endforeach; ?>
         </div>
     </section>
+    <?php endif; ?>
 
     <section id="products" class="products-section">
         <div class="container">

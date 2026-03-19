@@ -321,9 +321,15 @@ function initMarquee(containerSelector, trackSelector, speedValue) {
   });
 }
 
-// Запуск
-initMarquee("#brandsMarquee", "#brandsMarquee .marquee-track", 0.8);
-initMarquee("#clientsMarquee", "#clientsMarquee .marquee-track", -0.8);
+// Запуск (пропускаем, если marquee на CSS — data-marquee="css")
+const brandsEl = document.querySelector("#brandsMarquee");
+const clientsEl = document.querySelector("#clientsMarquee");
+if (brandsEl && brandsEl.dataset.marquee !== "css") {
+  initMarquee("#brandsMarquee", "#brandsMarquee .marquee-track", 0.8);
+}
+if (clientsEl && clientsEl.dataset.marquee !== "css") {
+  initMarquee("#clientsMarquee", "#clientsMarquee .marquee-track", -0.8);
+}
 
 /* =========================================
    ИСПРАВЛЕННАЯ РАКЕТА (JS)
