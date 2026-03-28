@@ -26,7 +26,16 @@ $includeQuill = true;
     </div>
   <?php endif; ?>
 
+  <?php if (!empty($errors['form'])): ?>
+    <div class="flash error" style="margin-bottom:16px;">
+      <i class="fas fa-exclamation-circle"></i> <?= htmlspecialchars($errors['form']) ?>
+    </div>
+  <?php endif; ?>
+
   <form method="POST" action="<?= $action ?>" enctype="multipart/form-data" class="event-form">
+    <?php if ($isEdit && !empty($event['id'])): ?>
+    <input type="hidden" name="id" value="<?= (int)$event['id'] ?>">
+    <?php endif; ?>
     <div class="form-grid">
       <div class="form-main">
         <div class="lang-tabs">

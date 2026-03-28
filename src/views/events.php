@@ -28,7 +28,7 @@ $catKey = function($c) {
                 <?php foreach ($events as $e):
                     $date = $e['event_date'] ?? $e['created_at'] ?? '';
                     $cat = $e['category'] ?? 'xebərlər';
-                    $img = $e['image'] ?? null;
+                    $img = $e['image_url'] ?? $e['image'] ?? null;
                     $eTitle = eventLang($e, 'title');
                     $eExcerpt = eventLang($e, 'excerpt');
                 ?>
@@ -93,7 +93,7 @@ window.__eventsData = <?= json_encode(array_map(function($e) use ($catLabels, $c
         'category_label' => $catLabel,
         'author' => $e['author'] ?? '',
         'event_date' => $e['event_date'] ?? $e['created_at'] ?? '',
-        'image_url' => $e['image'] ?? null,
+        'image_url' => $e['image_url'] ?? $e['image'] ?? null,
     ];
 }, $events)) ?>;
 </script>

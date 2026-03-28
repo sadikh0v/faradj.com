@@ -21,6 +21,7 @@
           <th width="60">ID</th>
           <th>Logo</th>
           <th>Ad</th>
+          <th>Tip</th>
           <th>Website</th>
           <th>Sıra</th>
           <th>Status</th>
@@ -33,11 +34,15 @@
           <td class="td-id">#<?= (int)($row['id'] ?? 0) ?></td>
           <td><?php if (!empty($row['logo'])): ?><img src="<?= htmlspecialchars($row['logo']) ?>" alt="" style="height:32px;"><?php else: ?>—<?php endif; ?></td>
           <td><?= htmlspecialchars($row['name'] ?? '—') ?></td>
+          <td>
+            <?php $bdg = ($row['badge'] ?? 'partner') === 'distributor' ? 'Distribyutor' : 'Tərəfdaş'; ?>
+            <span class="brand-badge-label brand-badge-<?= htmlspecialchars($row['badge'] ?? 'partner') ?>"><?= htmlspecialchars($bdg) ?></span>
+          </td>
           <td><?= htmlspecialchars($row['website'] ?? '—') ?></td>
           <td><?= (int)($row['sort_order'] ?? 0) ?></td>
           <td><?= ($row['is_active'] ?? 1) ? 'Aktiv' : 'Deaktiv' ?></td>
           <td class="td-actions">
-            <button type="button" class="action-btn edit" onclick="editBrand(<?= (int)$row['id'] ?>, '<?= htmlspecialchars(addslashes($row['name'] ?? '')) ?>', '<?= htmlspecialchars(addslashes($row['website'] ?? '')) ?>', <?= (int)($row['sort_order'] ?? 0) ?>, <?= ($row['is_active'] ?? 1) ?>)" title="Redaktə">
+            <button type="button" class="action-btn edit" onclick="editBrand(<?= (int)$row['id'] ?>, '<?= htmlspecialchars(addslashes($row['name'] ?? '')) ?>', '<?= htmlspecialchars(addslashes($row['website'] ?? '')) ?>', <?= (int)($row['sort_order'] ?? 0) ?>, <?= ($row['is_active'] ?? 1) ?>, '<?= htmlspecialchars($row['badge'] ?? 'partner') ?>')" title="Redaktə">
               <i class="fas fa-edit"></i>
             </button>
             <form method="POST" action="/admin/brands/delete" style="display:inline;">
@@ -63,6 +68,13 @@
       <div class="form-group">
         <label>Ad</label>
         <input type="text" name="name" id="brandName" required>
+      </div>
+      <div class="form-group">
+        <label>Tip</label>
+        <select name="badge" id="brandBadge" class="form-select">
+          <option value="distributor">Distribyutor</option>
+          <option value="partner">Tərəfdaş</option>
+        </select>
       </div>
       <div class="form-group">
         <label>Website</label>
@@ -93,15 +105,17 @@ function openBrandModal() {
   document.getElementById('brandId').value = '0';
   document.getElementById('brandName').value = '';
   document.getElementById('brandWebsite').value = '';
+  document.getElementById('brandBadge').value = 'partner';
   document.getElementById('brandSort').value = '0';
   document.getElementById('brandActive').checked = true;
   document.getElementById('brandModal').style.display = 'flex';
 }
-function editBrand(id, name, website, sort, active) {
+function editBrand(id, name, website, sort, active, badge) {
   document.getElementById('brandModalTitle').textContent = 'Brendi redaktə et';
   document.getElementById('brandId').value = id;
   document.getElementById('brandName').value = name;
   document.getElementById('brandWebsite').value = website;
+  document.getElementById('brandBadge').value = (badge === 'distributor') ? 'distributor' : 'partner';
   document.getElementById('brandSort').value = sort;
   document.getElementById('brandActive').checked = !!active;
   document.getElementById('brandModal').style.display = 'flex';

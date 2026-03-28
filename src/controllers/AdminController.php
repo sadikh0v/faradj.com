@@ -392,7 +392,7 @@ class AdminController
 
         $usedFiles = [];
         try {
-            $events  = db()->query("SELECT image FROM events WHERE image IS NOT NULL AND image != ''")->fetchAll(PDO::FETCH_COLUMN);
+            $events  = db()->query("SELECT image_url FROM events WHERE image_url IS NOT NULL AND image_url != ''")->fetchAll(PDO::FETCH_COLUMN);
             $brands  = db()->query("SELECT logo FROM brands WHERE logo IS NOT NULL AND logo != ''")->fetchAll(PDO::FETCH_COLUMN);
             $clients = db()->query("SELECT logo FROM clients WHERE logo IS NOT NULL AND logo != ''")->fetchAll(PDO::FETCH_COLUMN);
             $usedFiles = array_merge($events, $brands, $clients);
@@ -432,7 +432,7 @@ class AdminController
 
         $webPath = $dirKey . $file;
         try {
-            db()->prepare("UPDATE events  SET image = NULL WHERE image = ?")->execute([$webPath]);
+            db()->prepare("UPDATE events  SET image_url = NULL WHERE image_url = ?")->execute([$webPath]);
             db()->prepare("UPDATE brands  SET logo  = NULL WHERE logo  = ?")->execute([$webPath]);
             db()->prepare("UPDATE clients SET logo  = NULL WHERE logo  = ?")->execute([$webPath]);
         } catch (PDOException $e) {}
@@ -512,7 +512,7 @@ class AdminController
                 try {
                     db()->prepare("
                         INSERT INTO events 
-                        (title, title_ru, title_en, excerpt, excerpt_ru, excerpt_en, full_text, full_text_ru, full_text_en, category, image, author, event_date, is_published)
+                        (title, title_ru, title_en, excerpt, excerpt_ru, excerpt_en, full_text, full_text_ru, full_text_en, category, image_url, author, event_date, is_published)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ")->execute([
                         $data['title'],
@@ -535,7 +535,8 @@ class AdminController
                     header('Location: /admin/events');
                     exit;
                 } catch (PDOException $e) {
-                    $errors['form'] = 'DB Xətası: ' . $e->getMessage();
+                    error_log('[Admin] createEvent: ' . $e->getMessage());
+                    $data['errors']['form'] = 'DB Xətası: ' . $e->getMessage();
                 }
             }
 
@@ -549,7 +550,7 @@ class AdminController
     public static function editEvent(): void
     {
         self::guard();
-        $id = (int) ($_GET['id'] ?? 0);
+        $id = (int) ($_GET['id'] ?? $_POST['id'] ?? 0);
         $event = null;
         try {
             $stmt = db()->prepare("SELECT * FROM events WHERE id = ?");
@@ -570,7 +571,7 @@ class AdminController
             $data = self::validateEventForm();
 
             if (empty($data['errors'])) {
-                $image = self::uploadImage() ?? ($event['image'] ?? '');
+                $image = self::uploadImage() ?? ($event['image_url'] ?? $event['image'] ?? '');
 
                 try {
                     db()->prepare("
@@ -578,7 +579,7 @@ class AdminController
                         title = ?, title_ru = ?, title_en = ?,
                         excerpt = ?, excerpt_ru = ?, excerpt_en = ?,
                         full_text = ?, full_text_ru = ?, full_text_en = ?,
-                        category = ?, image = ?, author = ?,
+                        category = ?, image_url = ?, author = ?,
                         event_date = ?, is_published = ?
                         WHERE id = ?
                     ")->execute([
@@ -603,7 +604,8 @@ class AdminController
                     header('Location: /admin/events');
                     exit;
                 } catch (PDOException $e) {
-                    $errors['form'] = 'DB Xətası: ' . $e->getMessage();
+                    error_log('[Admin] editEvent: ' . $e->getMessage());
+                    $data['errors']['form'] = 'DB Xətası: ' . $e->getMessage();
                 }
             }
 
@@ -620,12 +622,12 @@ class AdminController
         $id = (int) ($_POST['id'] ?? 0);
 
         try {
-            $stmt = db()->prepare("SELECT image FROM events WHERE id = ?");
+            $stmt = db()->prepare("SELECT image_url FROM events WHERE id = ?");
             $stmt->execute([$id]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($row && !empty($row['image'])) {
-                $imgPath = base_path('public' . $row['image']);
+            if ($row && !empty($row['image_url'])) {
+                $imgPath = base_path('public' . $row['image_url']);
                 if (file_exists($imgPath)) {
                     unlink($imgPath);
                 }
@@ -702,6 +704,7 @@ class AdminController
         $id = (int) ($_POST['id'] ?? 0);
         $name = trim($_POST['name'] ?? '');
         $web = trim($_POST['website'] ?? '');
+        $badge = ($_POST['badge'] ?? '') === 'distributor' ? 'distributor' : 'partner';
         $sort = (int) ($_POST['sort_order'] ?? 0);
         $active = isset($_POST['is_active']) ? 1 : 0;
 
@@ -720,13 +723,13 @@ class AdminController
 
         if ($id) {
             $sql = $logo
-                ? "UPDATE brands SET name=?,website=?,sort_order=?,is_active=?,logo=? WHERE id=?"
-                : "UPDATE brands SET name=?,website=?,sort_order=?,is_active=? WHERE id=?";
-            $params = $logo ? [$name, $web, $sort, $active, $logo, $id] : [$name, $web, $sort, $active, $id];
+                ? "UPDATE brands SET name=?,website=?,badge=?,sort_order=?,is_active=?,logo=? WHERE id=?"
+                : "UPDATE brands SET name=?,website=?,badge=?,sort_order=?,is_active=? WHERE id=?";
+            $params = $logo ? [$name, $web, $badge, $sort, $active, $logo, $id] : [$name, $web, $badge, $sort, $active, $id];
             db()->prepare($sql)->execute($params);
         } else {
-            db()->prepare("INSERT INTO brands (name,website,sort_order,is_active,logo) VALUES (?,?,?,?,?)")
-                ->execute([$name, $web, $sort, $active, $logo]);
+            db()->prepare("INSERT INTO brands (name,website,badge,sort_order,is_active,logo) VALUES (?,?,?,?,?,?)")
+                ->execute([$name, $web, $badge, $sort, $active, $logo]);
         }
         flash('success', 'Brand yadda saxlandı!');
         header('Location: /admin/brands');
