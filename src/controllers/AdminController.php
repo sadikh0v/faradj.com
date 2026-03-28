@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../load_env.php';
+require_once __DIR__ . '/../helpers/events_schema.php';
 
 if (!function_exists('db')) {
     function db(): PDO
@@ -108,7 +109,8 @@ class AdminController
 
         try {
             $stats['events_total'] = (int) $pdo->query("SELECT COUNT(*) FROM events")->fetchColumn();
-            $stats['events_published'] = (int) $pdo->query("SELECT COUNT(*) FROM events WHERE is_published=1")->fetchColumn();
+            $pub = events_published_column_name();
+            $stats['events_published'] = (int) $pdo->query("SELECT COUNT(*) FROM events WHERE `{$pub}`=1")->fetchColumn();
         } catch (PDOException $e) {}
 
         try {
@@ -132,6 +134,7 @@ class AdminController
         $recentCallbacks = [];
         try {
             $recentEvents = $pdo->query("SELECT * FROM events ORDER BY created_at DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+            $recentEvents = array_map('normalize_event_row', $recentEvents);
         } catch (PDOException $e) {}
         try {
             $recentContacts = $pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
@@ -392,7 +395,8 @@ class AdminController
 
         $usedFiles = [];
         try {
-            $events  = db()->query("SELECT image_url FROM events WHERE image_url IS NOT NULL AND image_url != ''")->fetchAll(PDO::FETCH_COLUMN);
+            $imgCol = events_image_column_name();
+            $events  = db()->query("SELECT `$imgCol` FROM events WHERE `$imgCol` IS NOT NULL AND `$imgCol` != ''")->fetchAll(PDO::FETCH_COLUMN);
             $brands  = db()->query("SELECT logo FROM brands WHERE logo IS NOT NULL AND logo != ''")->fetchAll(PDO::FETCH_COLUMN);
             $clients = db()->query("SELECT logo FROM clients WHERE logo IS NOT NULL AND logo != ''")->fetchAll(PDO::FETCH_COLUMN);
             $usedFiles = array_merge($events, $brands, $clients);
@@ -432,7 +436,8 @@ class AdminController
 
         $webPath = $dirKey . $file;
         try {
-            db()->prepare("UPDATE events  SET image_url = NULL WHERE image_url = ?")->execute([$webPath]);
+            $imgCol = events_image_column_name();
+            db()->prepare("UPDATE events SET `$imgCol` = NULL WHERE `$imgCol` = ?")->execute([$webPath]);
             db()->prepare("UPDATE brands  SET logo  = NULL WHERE logo  = ?")->execute([$webPath]);
             db()->prepare("UPDATE clients SET logo  = NULL WHERE logo  = ?")->execute([$webPath]);
         } catch (PDOException $e) {}
@@ -456,7 +461,9 @@ class AdminController
         $params = [];
 
         if ($search) {
-            $where[] = '(title LIKE ? OR excerpt LIKE ?)';
+            $ec = events_excerpt_column_names();
+            $ex = $ec['excerpt'];
+            $where[] = "(title LIKE ? OR `$ex` LIKE ?)";
             $params[] = "%$search%";
             $params[] = "%$search%";
         }
@@ -464,10 +471,11 @@ class AdminController
             $where[] = 'category = ?';
             $params[] = $category;
         }
+        $pubCol = events_published_column_name();
         if ($status === 'published') {
-            $where[] = 'is_published = 1';
+            $where[] = "`$pubCol` = 1";
         } elseif ($status === 'draft') {
-            $where[] = 'is_published = 0';
+            $where[] = "`$pubCol` = 0";
         }
 
         $whereStr = implode(' AND ', $where);
@@ -491,6 +499,7 @@ class AdminController
             ");
             $stmt->execute($params);
             $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $events = array_map('normalize_event_row', $events);
         } catch (PDOException $e) {}
 
         include base_path('src/views/admin/events.php');
@@ -510,11 +519,20 @@ class AdminController
                 $image = self::uploadImage();
 
                 try {
-                    db()->prepare("
-                        INSERT INTO events 
-                        (title, title_ru, title_en, excerpt, excerpt_ru, excerpt_en, full_text, full_text_ru, full_text_en, category, image_url, author, event_date, is_published)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    ")->execute([
+                    $ec = events_excerpt_column_names();
+                    $img = events_image_column_name();
+                    $pub = events_published_column_name();
+                    $e1 = $ec['excerpt'];
+                    $e2 = $ec['excerpt_ru'];
+                    $e3 = $ec['excerpt_en'];
+                    $cols = [
+                        'title', 'title_ru', 'title_en',
+                        $e1, $e2, $e3,
+                        'full_text', 'full_text_ru', 'full_text_en',
+                        'category',
+                        $img,
+                    ];
+                    $vals = [
                         $data['title'],
                         $data['title_ru'] ?? '',
                         $data['title_en'] ?? '',
@@ -526,10 +544,20 @@ class AdminController
                         $data['full_text_en'] ?? '',
                         $data['category'],
                         $image,
-                        $data['author'],
-                        $data['event_date'] ?: date('Y-m-d'),
-                        $data['is_published'],
-                    ]);
+                    ];
+                    if (events_has_column('author')) {
+                        $cols[] = 'author';
+                        $vals[] = $data['author'];
+                    }
+                    $cols[] = 'event_date';
+                    $vals[] = $data['event_date'] ?: date('Y-m-d');
+                    $cols[] = $pub;
+                    $vals[] = $data['is_published'];
+                    $quoted = array_map(static function ($c) {
+                        return '`' . str_replace('`', '``', $c) . '`';
+                    }, $cols);
+                    $sql = 'INSERT INTO events (' . implode(',', $quoted) . ') VALUES (' . implode(',', array_fill(0, count($cols), '?')) . ')';
+                    db()->prepare($sql)->execute($vals);
 
                     flash('success', 'Xəbər uğurla əlavə edildi!');
                     header('Location: /admin/events');
@@ -564,6 +592,8 @@ class AdminController
             exit;
         }
 
+        $event = normalize_event_row($event);
+
         $old = [];
         $errors = [];
 
@@ -574,15 +604,20 @@ class AdminController
                 $image = self::uploadImage() ?? ($event['image_url'] ?? $event['image'] ?? '');
 
                 try {
-                    db()->prepare("
-                        UPDATE events SET
-                        title = ?, title_ru = ?, title_en = ?,
-                        excerpt = ?, excerpt_ru = ?, excerpt_en = ?,
-                        full_text = ?, full_text_ru = ?, full_text_en = ?,
-                        category = ?, image_url = ?, author = ?,
-                        event_date = ?, is_published = ?
-                        WHERE id = ?
-                    ")->execute([
+                    $ec = events_excerpt_column_names();
+                    $img = events_image_column_name();
+                    $pub = events_published_column_name();
+                    $e1 = $ec['excerpt'];
+                    $e2 = $ec['excerpt_ru'];
+                    $e3 = $ec['excerpt_en'];
+                    $sets = [
+                        'title = ?', 'title_ru = ?', 'title_en = ?',
+                        "`$e1` = ?", "`$e2` = ?", "`$e3` = ?",
+                        'full_text = ?', 'full_text_ru = ?', 'full_text_en = ?',
+                        'category = ?',
+                        "`$img` = ?",
+                    ];
+                    $vals = [
                         $data['title'],
                         $data['title_ru'] ?? '',
                         $data['title_en'] ?? '',
@@ -594,11 +629,18 @@ class AdminController
                         $data['full_text_en'] ?? '',
                         $data['category'],
                         $image,
-                        $data['author'],
-                        $data['event_date'] ?: date('Y-m-d'),
-                        $data['is_published'],
-                        $id,
-                    ]);
+                    ];
+                    if (events_has_column('author')) {
+                        $sets[] = 'author = ?';
+                        $vals[] = $data['author'];
+                    }
+                    $sets[] = 'event_date = ?';
+                    $vals[] = $data['event_date'] ?: date('Y-m-d');
+                    $sets[] = "`$pub` = ?";
+                    $vals[] = $data['is_published'];
+                    $vals[] = $id;
+                    $sql = 'UPDATE events SET ' . implode(', ', $sets) . ' WHERE id = ?';
+                    db()->prepare($sql)->execute($vals);
 
                     flash('success', 'Xəbər yeniləndi!');
                     header('Location: /admin/events');
@@ -622,12 +664,13 @@ class AdminController
         $id = (int) ($_POST['id'] ?? 0);
 
         try {
-            $stmt = db()->prepare("SELECT image_url FROM events WHERE id = ?");
+            $imgCol = events_image_column_name();
+            $stmt = db()->prepare("SELECT `$imgCol` AS img FROM events WHERE id = ?");
             $stmt->execute([$id]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($row && !empty($row['image_url'])) {
-                $imgPath = base_path('public' . $row['image_url']);
+            if ($row && !empty($row['img'])) {
+                $imgPath = base_path('public' . $row['img']);
                 if (file_exists($imgPath)) {
                     unlink($imgPath);
                 }
@@ -647,8 +690,9 @@ class AdminController
         $id = (int) ($_POST['id'] ?? 0);
 
         try {
-            db()->prepare("UPDATE events SET is_published = NOT is_published WHERE id = ?")->execute([$id]);
-            $stmt = db()->prepare("SELECT is_published FROM events WHERE id = ?");
+            $pub = events_published_column_name();
+            db()->prepare("UPDATE events SET `$pub` = NOT `$pub` WHERE id = ?")->execute([$id]);
+            $stmt = db()->prepare("SELECT `$pub` FROM events WHERE id = ?");
             $stmt->execute([$id]);
             $published = (bool) $stmt->fetchColumn();
 

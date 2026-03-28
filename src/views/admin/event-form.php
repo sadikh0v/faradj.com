@@ -159,9 +159,9 @@ $includeQuill = true;
 
         <div class="sidebar-card">
           <h4>Şəkil</h4>
-          <?php if (!empty($event['image_url'])): ?>
+          <?php if (!empty($event['image_url'] ?? $event['image'] ?? '')): ?>
             <div class="current-image">
-              <img src="<?= htmlspecialchars($event['image_url']) ?>" alt="Cari şəkil">
+              <img src="<?= htmlspecialchars($event['image_url'] ?? $event['image'] ?? '') ?>" alt="Cari şəkil">
               <span>Cari şəkil</span>
             </div>
           <?php endif; ?>

@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../helpers/events_schema.php';
+
 class EventModel
 {
     private PDO $pdo;
@@ -11,24 +13,28 @@ class EventModel
 
     public function getAll(): array
     {
+        $pub = events_published_column_name();
         $stmt = $this->pdo->prepare("
             SELECT * FROM events 
-            WHERE is_published = 1 
+            WHERE `$pub` = 1 
             ORDER BY event_date DESC, created_at DESC
         ");
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map('normalize_event_row', $rows);
     }
 
     public function getByCategory(string $category): array
     {
+        $pub = events_published_column_name();
         $stmt = $this->pdo->prepare("
             SELECT * FROM events 
-            WHERE is_published = 1 AND category = ?
+            WHERE `$pub` = 1 AND category = ?
             ORDER BY event_date DESC, created_at DESC
         ");
         $stmt->execute([$category]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array_map('normalize_event_row', $rows);
     }
 
     public function getById(int $id): ?array
@@ -36,7 +42,7 @@ class EventModel
         $stmt = $this->pdo->prepare("SELECT * FROM events WHERE id = ?");
         $stmt->execute([$id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row ?: null;
+        return $row ? normalize_event_row($row) : null;
     }
 
     public function create(array $data): int
