@@ -33,15 +33,6 @@
                     </div>
                     <p><?= t('home.doms.desc') ?></p>
                 </div>
-                <div class="doms-instagram-embed">
-                    <iframe
-                        src="https://www.instagram.com/doms.azerbaijan_/embed"
-                        frameborder="0"
-                        scrolling="no"
-                        allowtransparency="true"
-                        class="instagram-iframe"
-                    ></iframe>
-                </div>
             </div>
         </div>
     </section>

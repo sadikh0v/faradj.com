@@ -551,10 +551,10 @@ ul {
 .doms-wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   position: relative;
   overflow: hidden;
-  gap: 30px;
+  padding: 24px 32px;
 }
 
 .doms-info {
@@ -586,28 +586,10 @@ ul {
 }
 
 .doms-info p {
-  max-width: 500px;
+  max-width: 640px;
   margin: 0 auto;
   color: var(--text-dark);
-}
-
-.doms-instagram-embed {
-  flex: 1;
-  height: 500px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.instagram-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 15px;
+  line-height: 1.65;
 }
 
 .marquee-section {
