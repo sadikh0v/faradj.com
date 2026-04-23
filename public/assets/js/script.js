@@ -1,6 +1,4 @@
-/* =========================================
-   ПЕРСОНАЛИЗАЦИЯ ПО ПОВЕДЕНИЮ
-   ========================================= */
+
 (function initPersonalization() {
   const STORAGE_KEY = "faradj_behavior";
   const path = window.location.pathname;
@@ -93,9 +91,7 @@
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
-  /* =========================================
-     1. МОБИЛЬНОЕ МЕНЮ (БУРГЕР) + OVERLAY
-     ========================================= */
+  
   (function() {
     const burgerBtn = document.getElementById("burgerBtn");
     const mobileNav = document.getElementById("mobileNav");
@@ -138,18 +134,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   })();
 
-  /* =========================================
-       3. МАГНИТНОЕ ОТТАЛКИВАНИЕ (JS)
-       ========================================= */
+  
   const wrappers = document.querySelectorAll(".floating-wrapper");
 
-  // Настройки физики
   const ACTIVATION_RADIUS = 300; // Радиус реакции (px). Ближе этого мышь начинает толкать.
   const MAX_DISPLACEMENT = 150; // На сколько максимум может отлететь предмет (px).
   const SMOOTHING = 0.1; // Плавность движения (0.05 - очень плавно, 0.2 - резко).
 
-  // Храним текущие позиции для плавности (Lerp)
-  // Map связывает HTML-элемент с его координатами X и Y
   const positions = new Map();
 
   wrappers.forEach((wrapper) => {
@@ -166,12 +157,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function animateMagnetic() {
     wrappers.forEach((wrapper) => {
-      // 1. Получаем центр предмета
+
       const rect = wrapper.getBoundingClientRect();
       const itemCenterX = rect.left + rect.width / 2;
       const itemCenterY = rect.top + rect.height / 2;
 
-      // 2. Считаем расстояние до мыши
       const distX = itemCenterX - mouseX;
       const distY = itemCenterY - mouseY;
       const distance = Math.sqrt(distX * distX + distY * distY);
@@ -179,23 +169,18 @@ document.addEventListener("DOMContentLoaded", () => {
       let targetX = 0;
       let targetY = 0;
 
-      // 3. Если мышь внутри радиуса - вычисляем отталкивание
       if (distance < ACTIVATION_RADIUS) {
-        // Сила отталкивания (чем ближе, тем ближе к 1)
+
         const force = (ACTIVATION_RADIUS - distance) / ACTIVATION_RADIUS;
 
-        // Вектор отталкивания (нормализуем и умножаем на силу и макс. дистанцию)
-        // Мы хотим толкать ОТ мыши, поэтому используем distX/distance
         targetX = (distX / distance) * force * MAX_DISPLACEMENT;
         targetY = (distY / distance) * force * MAX_DISPLACEMENT;
       }
 
-      // 4. Плавное движение к цели (Linear Interpolation)
       const currentPos = positions.get(wrapper);
       currentPos.x += (targetX - currentPos.x) * SMOOTHING;
       currentPos.y += (targetY - currentPos.y) * SMOOTHING;
 
-      // 5. Применяем стиль
       wrapper.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px)`;
     });
 
@@ -206,17 +191,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-/* =========================================
-     Бесконечность / Авто-ход / Интерактивность
-     ========================================= */
-
 function initMarquee(containerSelector, trackSelector, speedValue) {
   const container = document.querySelector(containerSelector);
   const track = document.querySelector(trackSelector);
 
   if (!container || !track) return;
 
-  // Функция для инициализации после загрузки всех ресурсов
   const start = () => {
     let isDragging = false;
     let startX;
@@ -224,7 +204,6 @@ function initMarquee(containerSelector, trackSelector, speedValue) {
     let xPosition = 0;
     let blockWidth = 0;
 
-    // 1. Клонируем содержимое (оригинал + 2 клона)
     const originalContent = track.innerHTML;
     track.innerHTML = originalContent + originalContent + originalContent;
 
@@ -232,12 +211,10 @@ function initMarquee(containerSelector, trackSelector, speedValue) {
       const items = track.querySelectorAll("img");
       if (items.length === 0) return;
 
-      // Считаем ширину одного блока по смещению первой картинки второго клона
       const firstItem = items[0];
       const duplicateItem = items[Math.floor(items.length / 3)];
       blockWidth = duplicateItem.offsetLeft - firstItem.offsetLeft;
 
-      // Если мы только начали, ставим в центр
       if (xPosition === 0) {
         xPosition = -blockWidth;
       }
@@ -247,7 +224,7 @@ function initMarquee(containerSelector, trackSelector, speedValue) {
     track.style.transform = `translate3d(${xPosition}px, 0, 0)`;
 
     function checkBounds() {
-      // Плавный сброс без transition в CSS не виден глазу
+
       if (xPosition <= -(blockWidth * 2)) {
         xPosition += blockWidth;
       } else if (xPosition >= 0) {
@@ -266,7 +243,6 @@ function initMarquee(containerSelector, trackSelector, speedValue) {
 
     animate();
 
-    // Drag & Drop
     const onStart = (e) => {
       isDragging = true;
       container.style.cursor = "grabbing";
@@ -299,7 +275,6 @@ function initMarquee(containerSelector, trackSelector, speedValue) {
     window.addEventListener("resize", updateDimensions);
   };
 
-  // Ждем загрузки всех картинок внутри трека
   const images = track.querySelectorAll("img");
   let loadedCount = 0;
   if (images.length === 0) start();
@@ -321,7 +296,6 @@ function initMarquee(containerSelector, trackSelector, speedValue) {
   });
 }
 
-// Запуск (пропускаем, если marquee на CSS — data-marquee="css")
 const brandsEl = document.querySelector("#brandsMarquee");
 const clientsEl = document.querySelector("#clientsMarquee");
 if (brandsEl && brandsEl.dataset.marquee !== "css") {
@@ -331,9 +305,6 @@ if (clientsEl && clientsEl.dataset.marquee !== "css") {
   initMarquee("#clientsMarquee", "#clientsMarquee .marquee-track", -0.8);
 }
 
-/* =========================================
-   ИСПРАВЛЕННАЯ РАКЕТА (JS)
-   ========================================= */
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("backToTop");
   if (!btn) return;
@@ -421,8 +392,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
-/* Scroll Progress Bar */
 window.addEventListener("scroll", () => {
   const progress = document.getElementById("scrollProgress");
   if (!progress) return;
@@ -432,7 +401,6 @@ window.addEventListener("scroll", () => {
   progress.style.width = scrolled + "%";
 });
 
-/* Animate on Scroll */
 const animateObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -451,9 +419,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-/* =========================================
-   1. ЧЕРНИЛЬНЫЕ БРЫЗГИ ПРИ КЛИКЕ
-   ========================================= */
 (function initInkSplash() {
   const colors = [
     "#6c63ff", "#ff6584", "#22c55e",
@@ -528,7 +493,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 })();
 
-/* Testimonials carousel */
 (function () {
   const track = document.getElementById("testimonialsTrack");
   if (!track) return;
@@ -599,7 +563,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 50);
 })();
 
-/* Smooth scroll for anchor links */
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll('a[href^="#"]').forEach((a) => {
     a.addEventListener("click", function (e) {
@@ -611,11 +574,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-/* Cookie Consent */
 (function() {
   const consent = localStorage.getItem('cookieConsent');
+  const consentBanner = document.getElementById('cookieConsent');
   if (!consent) {
-    document.getElementById('cookieConsent')?.classList.remove('hidden');
+    consentBanner?.classList.remove('hidden');
   }
 
   function saveConsent(analytics, marketing) {
@@ -625,7 +588,7 @@ document.addEventListener("DOMContentLoaded", () => {
       marketing: marketing,
       date: new Date().toISOString()
     }));
-    document.getElementById('cookieConsent')?.classList.add('hidden');
+    consentBanner?.classList.add('hidden');
     document.dispatchEvent(new Event('cookieConsentSaved'));
   }
 
@@ -644,7 +607,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 })();
 
-/* Analytics — load only after consent */
 (function() {
   const cfg = window._faradjAnalytics || {};
   let analyticsLoaded = false;
@@ -702,7 +664,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener('cookieConsentSaved', loadAnalytics);
 })();
 
-/* Suppliers Map (partners page) */
 if (document.getElementById('suppliersMap') && typeof L !== 'undefined') {
     const isMobile = window.innerWidth <= 768;
     const map = L.map('suppliersMap', {
@@ -758,19 +719,15 @@ if (document.getElementById('suppliersMap') && typeof L !== 'undefined') {
         return `https://flagcdn.com/24x18/${iso}.png`;
     }
 
-    // Полукруглые кривые линии
     suppliers.forEach(s => {
         const color = s.type === 'distributor' ? DISTRIBUTOR_COLOR : LINE_COLOR;
 
-        // Вычислить контрольную точку для кривой Безье
         const lat1 = s.coords[0], lon1 = s.coords[1];
         const lat2 = baku[0], lon2 = baku[1];
 
-        // Середина + смещение вверх для дуги
         const midLat = (lat1 + lat2) / 2 + Math.abs(lon2 - lon1) * 0.15;
         const midLon = (lon1 + lon2) / 2;
 
-        // Создать кривую через промежуточные точки
         const curvePoints = [];
         for (let t = 0; t <= 1; t += 0.05) {
             const lat = (1-t)*(1-t)*lat1 + 2*(1-t)*t*midLat + t*t*lat2;
@@ -786,7 +743,6 @@ if (document.getElementById('suppliersMap') && typeof L !== 'undefined') {
         }).addTo(map);
     });
 
-    // Анимированная точка вдоль кривой
     function animateDot(curvePoints, color, delay) {
         const dot = L.circleMarker(curvePoints[0], {
             radius: 4,
@@ -810,7 +766,6 @@ if (document.getElementById('suppliersMap') && typeof L !== 'undefined') {
         return dot;
     }
 
-    // Запустить анимацию для каждой линии
     suppliers.forEach((s, idx) => {
         const color = s.type === 'distributor' ? DISTRIBUTOR_COLOR : LINE_COLOR;
 
@@ -829,7 +784,6 @@ if (document.getElementById('suppliersMap') && typeof L !== 'undefined') {
         animateDot(curvePoints, color, idx * 600);
     });
 
-    // Маркеры поставщиков
     suppliers.forEach(s => {
         const color = s.type === 'distributor' ? DISTRIBUTOR_COLOR : PARTNER_COLOR;
 
@@ -867,7 +821,6 @@ if (document.getElementById('suppliersMap') && typeof L !== 'undefined') {
         marker.on('mouseout', function() { this.closePopup(); });
     });
 
-    // Пульсирующий круг вокруг Баку (добавляем до маркера, чтобы был сзади)
     const pulseIcon = L.divIcon({
         className: '',
         html: '<div class="baku-pulse"></div>',
@@ -876,7 +829,6 @@ if (document.getElementById('suppliersMap') && typeof L !== 'undefined') {
     });
     L.marker(baku, { icon: pulseIcon, interactive: false }).addTo(map);
 
-    // Главный маркер Баку
     const bakuMarker = L.circleMarker(baku, {
         radius: 12,
         fillColor: '#1a1a2e',

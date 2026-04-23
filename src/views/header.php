@@ -26,13 +26,16 @@ $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis 
 <!DOCTYPE html>
 <html lang="<?= currentLang() ?>">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18105611821"></script>
+    <!-- Delay GTM to reduce initial main-thread work -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'AW-18105611821');
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          var s = document.createElement('script');
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18105611821';
+          s.async = true;
+          document.head.appendChild(s);
+        }, 3000);
+      });
     </script>
     <meta charset="UTF-8" />
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
@@ -76,9 +79,23 @@ $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis 
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500;600&display=swap"></noscript>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
+    <style>
+    @font-face {
+      font-family: 'Font Awesome 6 Free';
+      src: local('Font Awesome 6 Free');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Font Awesome 6 Brands';
+      src: local('Font Awesome 6 Brands');
+      font-display: swap;
+    }
+    </style>
     <?php if (($currentPage ?? '') === 'partners'): ?>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <?php endif; ?>
@@ -154,7 +171,7 @@ $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis 
     <header class="main-header glass-effect">
         <div class="container header-wrapper">
             <div class="logo">
-                <a href="<?= $baseUrl ?>"><img src="/assets/img/logo/faradj_logo.png" alt="Faradj MMC" /></a>
+                <a href="<?= $baseUrl ?>"><img src="/assets/img/logo/faradj_logo.png" alt="Faradj MMC" width="140" height="140" /></a>
             </div>
 
             <nav class="nav-menu nav-menu-center" id="navMenu">

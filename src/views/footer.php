@@ -173,16 +173,22 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
     <?php if (($currentPage ?? '') === 'partners'): ?>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <?php endif; ?>
-    <script src="/assets/js/script<?= $assetSuffix ?? '' ?>.js"></script>
-    <script src="/assets/js/app<?= $assetSuffix ?? '' ?>.js"></script>
-    <script src="/assets/js/forms<?= $assetSuffix ?? '' ?>.js"></script>
+    <script defer src="/assets/js/script<?= $assetSuffix ?? '' ?>.js"></script>
+    <script defer src="/assets/js/app<?= $assetSuffix ?? '' ?>.js"></script>
+    <script defer src="/assets/js/forms<?= $assetSuffix ?? '' ?>.js"></script>
     <?php if (!empty($extraJs)): ?>
         <?php foreach ((array)$extraJs as $js): ?>
-    <script src="<?= htmlspecialchars(preg_replace('/\.(css|js)$/', ($assetSuffix ?? '') . '.$1', $js)) ?>"></script>
+    <?php
+        $compiledJs = preg_replace('/\.(css|js)$/', ($assetSuffix ?? '') . '.$1', $js);
+        $isLocalJs = is_string($compiledJs) && str_starts_with($compiledJs, '/');
+        if (!$isLocalJs || file_exists(__DIR__ . '/../../public' . $compiledJs)):
+    ?>
+    <script defer src="<?= htmlspecialchars($compiledJs) ?>"></script>
+    <?php endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
 

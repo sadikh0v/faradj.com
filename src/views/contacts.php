@@ -75,14 +75,14 @@
                     <h4><i class="fas fa-map-marker-alt"></i> <?= t('contacts.office') ?></h4>
                     <p><?= htmlspecialchars(setting('address_main') ?: t('contacts.address_street')) ?></p>
                     <div class="map-frame">
-                        <iframe title="Faradj MMC ofis xəritəsi" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.2396380311548!2d49.81967027681036!3d40.381381171445355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d00077f71f7%3A0x2f12378035dcbd24!2sFaradj%20LLC!5e0!3m2!1sru!2saz!4v1767786877376!5m2!1sru!2saz" width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe title="Faradj MMC Ofis — Xəritə" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.2396380311548!2d49.81967027681036!3d40.381381171445355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d00077f71f7%3A0x2f12378035dcbd24!2sFaradj%20LLC!5e0!3m2!1sru!2saz!4v1767786877376!5m2!1sru!2saz" width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
                 <div class="map-card glass-card">
                     <h4><i class="fas fa-store"></i> <?= t('contacts.store') ?></h4>
                     <p><?= htmlspecialchars(setting('address_store') ?: t('contacts.store_addr_street')) ?></p>
                     <div class="map-frame">
-                        <iframe title="Faradj MMC mağaza xəritəsi" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.153336051888!2d49.824619576810356!3d40.38329407144506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d00554e3d7f%3A0xa5ae3826352b2fdd!2sQelem%20stationery!5e0!3m2!1sru!2saz!4v1767786908149!5m2!1sru!2saz" width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe title="Faradj MMC Mağaza — Xəritə" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.153336051888!2d49.824619576810356!3d40.38329407144506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d00554e3d7f%3A0xa5ae3826352b2fdd!2sQelem%20stationery!5e0!3m2!1sru!2saz!4v1767786908149!5m2!1sru!2saz" width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>

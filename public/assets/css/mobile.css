@@ -170,7 +170,7 @@
     align-items: center;
     gap: 14px;
     padding: 14px 16px;
-    color: #1a1a2e;
+    color: #1a1a2e !important;
     text-decoration: none;
     font-size: 16px;
     font-weight: 600;
@@ -189,7 +189,7 @@
   .mobile-nav-link:hover,
   .mobile-nav-link.active {
     background: #f3f0ff;
-    color: #6c63ff;
+    color: #6c63ff !important;
     padding-left: 22px;
   }
 
@@ -232,12 +232,12 @@
   .mobile-lang-btn {
     width: 100%;
     padding: 10px;
-    background: #f3f4f6;
+    background: rgba(255, 255, 255, 0.9);
     border: 1.5px solid #e5e7eb;
     border-radius: 10px;
     font-size: 13px;
     font-weight: 700;
-    color: #6b7280;
+    color: #1a1a2e !important;
     cursor: pointer;
     transition: all 0.2s;
   }
@@ -245,7 +245,7 @@
   .mobile-lang-btn.active {
     background: #6c63ff;
     border-color: #6c63ff;
-    color: white;
+    color: #fff !important;
   }
 
   .mobile-nav-cta {

@@ -29,7 +29,7 @@
                 <div class="doms-info">
                     <span class="badge"><?= t('home.doms.badge') ?></span>
                     <div class="doms-logo-placeholder">
-                        <?php img_webp('/assets/img/logo/doms.png', 'DOMS', ['style' => 'max-width: 300px']); ?>
+                        <?php img_webp('/assets/img/logo/doms.png', 'DOMS', ['width' => '300', 'height' => '119', 'style' => 'max-width:300px;height:auto;']); ?>
                     </div>
                     <p><?= t('home.doms.desc') ?></p>
                 </div>
@@ -59,7 +59,7 @@ if (!function_exists('renderMarqueeItems')) {
         if (empty($items)) {
             for ($i = 0; $i < $minCount; $i++) {
                 $html .= '<div class="marquee-item marquee-placeholder">';
-                $html .= '<img src="' . htmlspecialchars($placeholder) . '" alt="Faradj">';
+                $html .= '<img src="' . htmlspecialchars($placeholder) . '" alt="Faradj MMC" width="140" height="140">';
                 $html .= '</div>';
             }
             return $html;
@@ -86,7 +86,7 @@ if (!function_exists('renderMarqueeItems')) {
     <!-- Бренды marquee -->
     <section class="marquee-section">
         <div class="marquee-header">
-            <h3><?= t('home.brands_title') ?></h3>
+            <h2><?= t('home.brands_title') ?></h2>
         </div>
         <div class="marquee-wrapper">
             <div class="marquee-track" id="brandsMarquee" data-marquee="css">
@@ -98,7 +98,7 @@ if (!function_exists('renderMarqueeItems')) {
     <!-- Клиенты marquee (обратное направление) -->
     <section id="partners" class="marquee-section">
         <div class="marquee-header">
-            <h3><?= t('home.clients_title') ?></h3>
+            <h2><?= t('home.clients_title') ?></h2>
         </div>
         <div class="marquee-wrapper">
             <div class="marquee-track marquee-reverse" id="clientsMarquee" data-marquee="css">
@@ -249,7 +249,7 @@ if (!function_exists('renderMarqueeItems')) {
                         <p class="testimonial-text"><?= htmlspecialchars($item['text']) ?></p>
                         <div class="testimonial-rating"><?= str_repeat('<i class="fas fa-star"></i>', $rating) ?></div>
                         <div class="testimonial-avatar"><?= htmlspecialchars($item['init']) ?></div>
-                        <h4><?= htmlspecialchars($item['name']) ?></h4>
+                        <h3><?= htmlspecialchars($item['name']) ?></h3>
                         <?php if ($verified): ?><span class="verified-badge">✓ <?= t('testimonials.verified') ?></span><?php endif; ?>
                     </div>
                     <?php endforeach; ?>
@@ -275,7 +275,7 @@ if (!function_exists('renderMarqueeItems')) {
                         <p><a href="mailto:<?= setting('email_sales', 'Sales@faradj.org') ?>"><?= setting('email_sales', 'Sales@faradj.org') ?></a></p>
                     </div>
                     <div class="social-links-block">
-                        <h4><?= t('contacts.social') ?></h4>
+                        <h2><?= t('contacts.social') ?></h2>
                         <div class="social-icons">
                             <a href="<?= setting('instagram', 'https://www.instagram.com/qelemstationery') ?>" target="_blank" class="social-btn insta" aria-label="Instagram səhifəmiz"><i class="fab fa-instagram"></i></a>
                             <a href="<?= setting('tiktok', 'https://www.tiktok.com/@qelemstationery') ?>" target="_blank" class="social-btn tiktok" aria-label="TikTok səhifəmiz"><i class="fab fa-tiktok"></i></a>
@@ -288,14 +288,14 @@ if (!function_exists('renderMarqueeItems')) {
                         <h4><i class="fas fa-map-marker-alt"></i><?= t('contacts.office') ?></h4>
                         <p><?= setting('address_main', 'Bakı şəhəri, İnşaatçılar pr. 106') ?></p>
                         <div class="map-frame">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.2396380311548!2d49.81967027681036!3d40.381381171445355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d00077f71f7%3A0x2f12378035dcbd24!2sFaradj%20LLC!5e0!3m2!1sru!2saz!4v1767786877376!5m2!1sru!2saz" width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe title="Faradj MMC Ofis — Xəritə" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.2396380311548!2d49.81967027681036!3d40.381381171445355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d00077f71f7%3A0x2f12378035dcbd24!2sFaradj%20LLC!5e0!3m2!1sru!2saz!4v1767786877376!5m2!1sru!2saz" width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                     <div class="map-card glass-card animate-on-scroll">
                         <h4><i class="fas fa-store"></i><?= t('contacts.store') ?></h4>
                         <p><?= setting('address_store', 'Bakı şəhəri, Murtuza Muxtarov 179') ?></p>
                         <div class="map-frame">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.153336051888!2d49.824619576810356!3d40.38329407144506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d00554e3d7f%3A0xa5ae3826352b2fdd!2sQelem%20stationery!5e0!3m2!1sru!2saz!4v1767786908149!5m2!1sru!2saz" width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe title="Faradj MMC Mağaza — Xəritə" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3039.153336051888!2d49.824619576810356!3d40.38329407144506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307d00554e3d7f%3A0xa5ae3826352b2fdd!2sQelem%20stationery!5e0!3m2!1sru!2saz!4v1767786908149!5m2!1sru!2saz" width="600" height="450" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>

@@ -175,6 +175,11 @@ switch ($path) {
         require __DIR__ . '/sitemap.php';
         break;
 
+    case '/robots.txt':
+        header('Content-Type: text/plain');
+        readfile(__DIR__ . '/robots.txt');
+        exit;
+
     case '/health':
         echo 'OK';
         exit;
