@@ -28,16 +28,27 @@ $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis 
 <head>
     <!-- Delay GTM to reduce initial main-thread work -->
     <script>
-      window.addEventListener('load', function () {
-        setTimeout(function () {
-          var s = document.createElement('script');
-          s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18105611821';
-          s.async = true;
-          document.head.appendChild(s);
-        }, 3000);
-      });
-    </script>
-    <meta charset="UTF-8" />
+(function() {
+    function loadGA() {
+        if (window._gaLoaded) return;
+        window._gaLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-ECZRD7JR0E';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', 'G-ECZRD7JR0E');
+    }
+    document.addEventListener('scroll', loadGA, {once: true});
+    document.addEventListener('click', loadGA, {once: true});
+    document.addEventListener('touchstart', loadGA, {once: true});
+    setTimeout(loadGA, 5000);
+})();
+</script>
+    <meta charset="UTF-8" />    
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
