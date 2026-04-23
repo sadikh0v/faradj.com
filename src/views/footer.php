@@ -125,7 +125,7 @@
             <span class="sticky-cta-badge">🔥 <?= t('sticky.badge') ?></span>
             <p><?= t('sticky.text') ?></p>
             <a href="/b2b.php" class="sticky-cta-btn"><?= t('sticky.btn') ?></a>
-            <button type="button" class="sticky-cta-close" id="closeStickyCta"><i class="fas fa-times"></i></button>
+            <button type="button" class="sticky-cta-close" id="closeStickyCta" aria-label="Bağla"><i class="fas fa-times"></i></button>
         </div>
     </div>
 

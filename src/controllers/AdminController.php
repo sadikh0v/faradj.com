@@ -761,6 +761,7 @@ class AdminController
                 mkdir($dir, 0755, true);
             }
             if (move_uploaded_file($_FILES['logo']['tmp_name'], $dir . $filename)) {
+                self::resizeImage($dir . $filename);
                 $logo = '/assets/img/brands/' . $filename;
             }
         }
@@ -819,6 +820,7 @@ class AdminController
                 mkdir($dir, 0755, true);
             }
             if (move_uploaded_file($_FILES['logo']['tmp_name'], $dir . $filename)) {
+                self::resizeImage($dir . $filename);
                 $logo = '/assets/img/clients/' . $filename;
             }
         }
@@ -946,6 +948,54 @@ class AdminController
             $data['today'] = (int) db()->query("SELECT COUNT(*) FROM visitors WHERE DATE(visited_at) = CURDATE()")->fetchColumn();
         } catch (PDOException $e) {}
         include base_path('src/views/admin/stats.php');
+    }
+
+    private static function resizeImage(string $path, int $maxW = 400, int $maxH = 400): void
+    {
+        $info = @getimagesize($path);
+        if (!$info) {
+            return;
+        }
+
+        [$w, $h, $type] = $info;
+        if ($w <= $maxW && $h <= $maxH) {
+            return;
+        }
+
+        $ratio = min($maxW / $w, $maxH / $h);
+        $newW = (int) ($w * $ratio);
+        $newH = (int) ($h * $ratio);
+
+        $src = match ($type) {
+            IMAGETYPE_PNG => imagecreatefrompng($path),
+            IMAGETYPE_JPEG => imagecreatefromjpeg($path),
+            IMAGETYPE_GIF => imagecreatefromgif($path),
+            default => null,
+        };
+        if (!$src) {
+            return;
+        }
+
+        $dst = imagecreatetruecolor($newW, $newH);
+
+        if ($type === IMAGETYPE_PNG) {
+            imagealphablending($dst, false);
+            imagesavealpha($dst, true);
+            $transparent = imagecolorallocatealpha($dst, 255, 255, 255, 127);
+            imagefilledrectangle($dst, 0, 0, $newW, $newH, $transparent);
+        }
+
+        imagecopyresampled($dst, $src, 0, 0, 0, 0, $newW, $newH, $w, $h);
+
+        match ($type) {
+            IMAGETYPE_PNG => imagepng($dst, $path, 8),
+            IMAGETYPE_JPEG => imagejpeg($dst, $path, 85),
+            IMAGETYPE_GIF => imagegif($dst, $path),
+            default => null,
+        };
+
+        imagedestroy($src);
+        imagedestroy($dst);
     }
 
     private static function uploadImage(): ?string

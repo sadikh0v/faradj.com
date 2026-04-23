@@ -76,7 +76,7 @@ $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis 
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <?php if (($currentPage ?? '') === 'partners'): ?>
@@ -99,13 +99,15 @@ $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis 
     <meta name="apple-mobile-web-app-title" content="Faradj MMC" />
 
     <link rel="stylesheet" href="/assets/css/style<?= $assetSuffix ?>.css" />
-    <link rel="stylesheet" href="/assets/css/tablet<?= $assetSuffix ?>.css" />
+    <link rel="preload" href="/assets/css/tablet<?= $assetSuffix ?>.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/assets/css/tablet<?= $assetSuffix ?>.css"></noscript>
     <?php if (!empty($extraCss)): ?>
         <?php foreach ((array)$extraCss as $css): ?>
     <link rel="stylesheet" href="<?= htmlspecialchars(preg_replace('/\.(css|js)$/', $assetSuffix . '.$1', $css)) ?>" />
         <?php endforeach; ?>
     <?php endif; ?>
-    <link rel="stylesheet" href="/assets/css/mobile<?= $assetSuffix ?>.css" media="(max-width: 767px)" />
+    <link rel="preload" href="/assets/css/mobile<?= $assetSuffix ?>.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/assets/css/mobile<?= $assetSuffix ?>.css"></noscript>
     <?php if ($isProduction): ?>
     <script>
     window._faradjAnalytics = {
@@ -122,28 +124,28 @@ $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis 
 
     <div id="parallax-scene" class="parallax-container">
         <div class="floating-wrapper" style="top: 60%; left: 80%">
-            <?php img_webp('/assets/img/background/notebook.png', 'Notebook', ['class' => 'floating-item']); ?>
+            <?php img_webp('/assets/img/background/notebook.png', 'Notebook', ['class' => 'floating-item', 'width' => '1000', 'height' => '660']); ?>
         </div>
         <div class="floating-wrapper" style="top: 80%; left: 15%">
-            <?php img_webp('/assets/img/background/pencil.png', 'Pencil', ['class' => 'floating-item', 'style' => 'width: 20px; height: auto']); ?>
+            <?php img_webp('/assets/img/background/pencil.png', 'Pencil', ['class' => 'floating-item', 'width' => '423', 'height' => '3500', 'style' => 'width:20px;height:auto;']); ?>
         </div>
         <div class="floating-wrapper" style="top: 25%; left: 85%">
-            <?php img_webp('/assets/img/background/eraser.png', 'Eraser', ['class' => 'floating-item']); ?>
+            <?php img_webp('/assets/img/background/eraser.png', 'Eraser', ['class' => 'floating-item', 'width' => '512', 'height' => '512']); ?>
         </div>
         <div class="floating-wrapper" style="top: 15%; left: 10%">
-            <?php img_webp('/assets/img/background/pen.png', 'Pen', ['class' => 'floating-item']); ?>
+            <?php img_webp('/assets/img/background/pen.png', 'Pen', ['class' => 'floating-item', 'width' => '1146', 'height' => '1237']); ?>
         </div>
         <div class="floating-wrapper layer-deep" style="top: 5%; left: 45%">
-            <?php img_webp('/assets/img/background/pen.png', '', ['class' => 'floating-item']); ?>
+            <?php img_webp('/assets/img/background/pen.png', '', ['class' => 'floating-item', 'width' => '1146', 'height' => '1237']); ?>
         </div>
         <div class="floating-wrapper layer-deep" style="top: 45%; left: 5%">
-            <?php img_webp('/assets/img/background/eraser.png', '', ['class' => 'floating-item']); ?>
+            <?php img_webp('/assets/img/background/eraser.png', '', ['class' => 'floating-item', 'width' => '512', 'height' => '512']); ?>
         </div>
         <div class="floating-wrapper layer-deep" style="top: 35%; right: 2%">
-            <?php img_webp('/assets/img/background/pencil.png', '', ['class' => 'floating-item', 'style' => 'width: 20px; height: auto']); ?>
+            <?php img_webp('/assets/img/background/pencil.png', '', ['class' => 'floating-item', 'width' => '423', 'height' => '3500', 'style' => 'width:20px;height:auto;']); ?>
         </div>
         <div class="floating-wrapper layer-deep" style="top: 92%; left: 55%">
-            <?php img_webp('/assets/img/background/notebook.png', '', ['class' => 'floating-item']); ?>
+            <?php img_webp('/assets/img/background/notebook.png', '', ['class' => 'floating-item', 'width' => '1000', 'height' => '660']); ?>
         </div>
     </div>
 
@@ -188,7 +190,7 @@ $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis 
 
     <nav class="mobile-nav" id="mobileNav">
         <div class="mobile-nav-header">
-            <img src="/assets/img/logo/faradj_logo.png" alt="Faradj" height="36">
+            <img src="/assets/img/logo/faradj_logo.png" alt="Faradj" width="36" height="36" style="width:auto;height:36px;">
             <button type="button" class="mobile-nav-close" id="mobileNavClose" aria-label="<?= t('common.close') ?>">
                 <i class="fas fa-times"></i>
             </button>

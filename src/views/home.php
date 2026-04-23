@@ -72,7 +72,7 @@ if (!function_exists('renderMarqueeItems')) {
         foreach ($repeated as $item) {
             $html .= '<div class="marquee-item">';
             if (!empty($item['logo'])) {
-                $html .= '<img src="' . htmlspecialchars($item['logo']) . '" alt="' . htmlspecialchars($item['name']) . '" loading="lazy">';
+                $html .= '<img src="' . htmlspecialchars($item['logo']) . '" alt="' . htmlspecialchars($item['name']) . '" width="120" height="60" loading="lazy">';
             } else {
                 $html .= '<span class="marquee-name">' . htmlspecialchars($item['name']) . '</span>';
             }
@@ -277,9 +277,9 @@ if (!function_exists('renderMarqueeItems')) {
                     <div class="social-links-block">
                         <h4><?= t('contacts.social') ?></h4>
                         <div class="social-icons">
-                            <a href="<?= setting('instagram', 'https://www.instagram.com/qelemstationery') ?>" target="_blank" class="social-btn insta"><i class="fab fa-instagram"></i></a>
-                            <a href="<?= setting('tiktok', 'https://www.tiktok.com/@qelemstationery') ?>" target="_blank" class="social-btn tiktok"><i class="fab fa-tiktok"></i></a>
-                            <a href="<?= setting('linkedin', 'https://www.linkedin.com/in/faradjmmc') ?>" target="_blank" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="<?= setting('instagram', 'https://www.instagram.com/qelemstationery') ?>" target="_blank" class="social-btn insta" aria-label="Instagram səhifəmiz"><i class="fab fa-instagram"></i></a>
+                            <a href="<?= setting('tiktok', 'https://www.tiktok.com/@qelemstationery') ?>" target="_blank" class="social-btn tiktok" aria-label="TikTok səhifəmiz"><i class="fab fa-tiktok"></i></a>
+                            <a href="<?= setting('linkedin', 'https://www.linkedin.com/in/faradjmmc') ?>" target="_blank" class="social-btn linkedin" aria-label="LinkedIn səhifəmiz"><i class="fab fa-linkedin-in"></i></a>
                         </div>
                     </div>
                 </div>

@@ -59,7 +59,7 @@ $lang = currentLang();
                 <?php foreach ($brands as $brand): ?>
                 <div class="brand-card glass-card">
                     <?php if (!empty($brand['logo'])): ?>
-                    <div class="brand-card-logo"><?php img_webp($brand['logo'], $brand['name']); ?></div>
+                    <div class="brand-card-logo"><?php img_webp($brand['logo'], $brand['name'], ['loading' => 'lazy', 'width' => '105', 'height' => '105']); ?></div>
                     <?php endif; ?>
                     <h4><?= htmlspecialchars($brand['name']) ?></h4>
                     <span class="card-badge badge-<?= ($brand['badge'] ?? 'partner') === 'distributor' ? 'distributor' : 'terefdas' ?>"><?= t('partners.' . ($brand['badge'] ?? 'partner')) ?></span>
@@ -93,7 +93,7 @@ $lang = currentLang();
                 <?php foreach ($clients as $client): ?>
                 <div class="client-card glass-card" data-client="<?= htmlspecialchars($client['slug'] ?? $client['id']) ?>">
                     <?php if (!empty($client['logo'])): ?>
-                    <div class="client-card-logo"><?php img_webp($client['logo'], $client['name']); ?></div>
+                    <div class="client-card-logo"><?php img_webp($client['logo'], $client['name'], ['loading' => 'lazy', 'width' => '105', 'height' => '105']); ?></div>
                     <?php endif; ?>
                     <h4><?= htmlspecialchars($client['name']) ?></h4>
                     <?php if (!empty($client['badge'])): ?>

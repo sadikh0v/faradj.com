@@ -28,7 +28,7 @@ function img_webp(string $src, string $alt = '', array $attrs = []): void
         $webp = preg_replace('/\.(jpg|jpeg|png)$/i', '.webp', $src);
         $safeWebp = safe_img_path($webp);
         echo '<picture>';
-        echo '<source src="' . htmlspecialchars($safeWebp) . '" type="image/webp">';
+        echo '<source srcset="' . htmlspecialchars($safeWebp) . '" type="image/webp">';
         echo '<img src="' . htmlspecialchars($safeSrc) . '" alt="' . htmlspecialchars($alt) . '"' . $attrsStr . '>';
         echo '</picture>';
         return;
