@@ -495,6 +495,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 (function () {
   const track = document.getElementById("testimonialsTrack");
+  track.style.willChange = "transform";
   if (!track) return;
 
   const origCards = Array.from(track.children);
@@ -520,11 +521,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     allCards.forEach((c, i) => c.classList.toggle("active", i === idx));
 
-    const cardW = allCards[0].offsetWidth + 24;
-    const wrapW = track.parentElement.offsetWidth;
-    const offset = idx * cardW - wrapW / 2 + cardW / 2;
-    track.style.transform = `translateX(-${offset}px)`;
-    current = idx;
+    requestAnimationFrame(() => {
+      const cardW = allCards[0].offsetWidth + 24;
+      const wrapW = track.parentElement.offsetWidth;
+      const offset = idx * cardW - wrapW / 2 + cardW / 2;
+      track.style.transform = `translateX(-${offset}px)`;
+      current = idx;
+    });
   }
 
   track.addEventListener("transitionend", () => {

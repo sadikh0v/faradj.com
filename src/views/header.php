@@ -107,6 +107,28 @@ $metaDesc = $metaDescription ?? 'Azərbaycanın aparıcı dəftərxana və ofis 
       font-display: swap;
     }
     </style>
+<style>
+/* Critical CSS to prevent CLS */
+body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+.hero-container {
+    min-height: 560px;
+    contain: layout style;
+}
+.logo img {
+    width: 140px;
+    height: 36px;
+    object-fit: contain;
+}
+header, .site-header {
+    height: 70px;
+    min-height: 70px;
+}
+main {
+    min-height: 400px;
+}
+</style>
     <?php if (($currentPage ?? '') === 'partners'): ?>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <?php endif; ?>
